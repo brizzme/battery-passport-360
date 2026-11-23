@@ -7,7 +7,6 @@ import {Tooltip} from "@/components/Tooltip";
 
 type Calce = {status: string; model_run_id?: string; train_cells?: string[]; test_cells?: string[]; test_cycles?: number;
   linear?: {mae_ah: number; rmse_ah: number}; baseline?: {mae_ah: number; rmse_ah: number}};
-const REPO = "https://github.com/brizzme/battery-passport-360/blob/main/";
 
 export default async function Research({searchParams}: {searchParams: Promise<{cell?: string; model?: string}>}) {
   const q = await searchParams;
@@ -63,7 +62,6 @@ export default async function Research({searchParams}: {searchParams: Promise<{c
           <div><dt>Run</dt><dd>{report.run_id} · {report.generated_at.slice(0, 10)}</dd></div>
           <div><dt>Limits</dt><dd>One cell type, one laboratory, 30 °C. Results describe these cells only and are not applied to fleet packs.</dd></div>
         </dl>
-        <p><a href={REPO + "docs/MODEL_CARD.md"}>Model card</a> · <a href={REPO + "docs/DATA_SOURCES.md"}>Data sources</a></p>
       </section>
     </div>
 

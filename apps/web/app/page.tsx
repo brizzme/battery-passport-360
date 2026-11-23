@@ -5,7 +5,6 @@ import {FunctionalView, TechnicalView} from "@/components/ArchDiagrams";
 
 export const dynamic = "force-dynamic";
 export const metadata = {title: "PoC summary · Battery Passport 360"};
-const REPO = "https://github.com/brizzme/battery-passport-360/blob/main/";
 const fmt = (n: number) => n.toLocaleString("en", {maximumFractionDigits: 0});
 
 const CONTENTS = [
@@ -22,7 +21,6 @@ const NEXT = [
   {item: "Access control before any hosting", detail: "Authentication, HTTPS, rate limits, logging and privacy review; restricted-access passport fields must be gated by role.", state: "Required before hosting"},
   {item: "Automated checks", detail: "CI with committed browser tests; today every check is run by hand.", state: "Deferred"},
   {item: "Verify two legal dates", detail: "Article 8 recycled-content timetable for LMT batteries (shown as unknown) and the exact responsible-sourcing start day (18 Aug 2027 used).", state: "Open"},
-  {item: "Logged minor items", detail: "Fleet status filters that match every pack, phone table semantics, three loosely classified compound guidance cells, a few weak tests; listed in PLAN.md.", state: "Open"},
   {item: "Data-to-Value Explorer", detail: "Stretch goal from the specification: profile an unfamiliar CSV and suggest AI use cases with required fields and KPIs.", state: "Not started"},
 ];
 
@@ -37,7 +35,8 @@ export default async function Summary() {
   const best = life ? Object.entries(life.models).filter(([k]) => k !== "baseline").sort((a, b) => a[1].mae - b[1].mae)[0][1] : null;
   return <div className="dash summary">
     <div className="page-head"><h1>Battery Passport 360: proof of concept</h1>
-      <p>An independent prototype showing how EU battery-passport readiness, battery-health analytics and evidence-based review support can work together for industrial battery fleets. Not an official passport service, and not affiliated with any battery manufacturer.</p></div>
+      <p>An independent prototype showing how EU battery-passport readiness, battery-health analytics and evidence-based review support can work together for industrial battery fleets. Not an official passport service, and not affiliated with any battery manufacturer.</p>
+      {contact.name && <p className="byline">Prepared by <b>{contact.name}</b>{contact.email && <> · <a href={"mailto:" + contact.email}>{contact.email}</a></>}{contact.phone && <> · <a href={"tel:" + contact.phone.replace(/\s/g, "")}>{contact.phone}</a></>}</p>}</div>
 
     <section aria-labelledby="prob-h" className="panel">
       <h2 id="prob-h">Problem statement</h2>
@@ -59,7 +58,7 @@ export default async function Summary() {
           <li>Fleet data is fictional and simulated; research data is measured public data. They never share a model.</li>
           <li>Readiness is illustrative and follows non-binding Commission guidance; nothing is called compliant or certified.</li>
           <li>The system suggests what to review; qualified specialists decide on operation, repair, reuse or recycling.</li>
-          <li>Runs locally without accounts, API keys or downloads.</li>
+          <li>Runs without accounts or downloads; the LLM chat is optional and falls back visibly to offline mode.</li>
         </ul></div>
     </section>
 
@@ -114,16 +113,14 @@ export default async function Summary() {
           <li><b>HUST LFP cells</b> (Ma et al. 2022, CC BY 4.0): 77 cells for calibration and the life model.</li>
           <li><b>Aalborg forklift-profile LFP cells</b> (Vilsen &amp; Stroe 2024, CC BY 4.0): fade per cycle and temperature.</li>
           <li><b>CALCE CS2</b>: legacy research baseline.</li>
-        </ul>
-        <p><a href={REPO + "docs/DATA_SOURCES.md"}>All sources, checksums and transformations</a></p></div>
+        </ul></div>
       <div className="panel"><h2>Limitations</h2>
         <ul className="plain">
           <li>Calibration rests on few cells; most simulated days lie outside the measured temperature range and are labelled extrapolated.</li>
           <li>Restricted-access and design-dependent passport data points are unresolved, never filled with invented evidence.</li>
           <li>The life model covers one cell type from one laboratory; the voltage feature adds no skill.</li>
           <li>Localhost only: no authentication or access control yet.</li>
-        </ul>
-        <p><a href={REPO + "docs/LIMITATIONS.md"}>Full limitations</a> · <a href={REPO + "docs/MODEL_CARD.md"}>Model card</a></p></div>
+        </ul></div>
     </section>
 
     <section aria-labelledby="next-h"><h2 id="next-h">Open points and next actions</h2>
@@ -133,7 +130,6 @@ export default async function Summary() {
         <h2 id="contact-h">Contact</h2>
         <p><b>{contact.name}</b>{contact.email && <> · <a href={"mailto:" + contact.email}>{contact.email}</a></>}{contact.phone && <> · <a href={"tel:" + contact.phone.replace(/\s/g, "")}>{contact.phone}</a></>}</p>
       </div>}
-      <p className="meta">Walkthrough: <a href={REPO + "docs/DEMO_RUNBOOK.md"}>five-minute demo runbook</a> · Plan and decisions: <a href={REPO + "PLAN.md"}>PLAN.md</a></p>
     </section>
   </div>;
 }
