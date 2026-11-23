@@ -15,6 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from fleetcal.aalborg import rate_at  # noqa: E402
 
 REFERENCE_C = 35.0
+CAPACITY_FLOOR = 0.6  # extrapolation floor beyond the measured 80 % end of the HUST curve
 
 
 @dataclass(frozen=True)
@@ -36,6 +37,7 @@ GENERATOR_ASSUMPTIONS: dict[str, float] = {
     "temp_rise_per_shift_c": 3.0,
     "pack_temp_noise_c": 1.5,
     "max_over_mean_per_shift_c": 2.5,
+    "planted_cooling_fault_offset_c": 8.0,
     "seasonal_peak_day_of_year": 201,
     "efc_noise_rel": 0.15,
     "weekend_activity_share": 0.3,
@@ -45,7 +47,7 @@ GENERATOR_ASSUMPTIONS: dict[str, float] = {
     "soc_min_mean_pct": 30,
     "soc_min_sd_pct": 10,
     "soc_min_opportunity_lift_pct": 25,
-    "over_temperature_threshold_c": 45,
+    "over_temperature_threshold_c": 50,
     "deep_discharge_threshold_pct": 10,
     "bms_comm_loss_daily_rate": 0.004,
 }
@@ -80,9 +82,11 @@ def capacity_fraction(effective_life_used: float, median_curve: np.ndarray) -> f
     curve = np.asarray(median_curve, dtype=float)
     xs = np.linspace(0, 1, len(curve))
     if effective_life_used <= 1:
-        return float(np.interp(effective_life_used, xs, curve))
+        # Early-cycle capacity gain in the cells is not credited to packs: cap at rated capacity.
+        return min(1.0, float(np.interp(effective_life_used, xs, curve)))
+    # Below 80 % the measured curve ends; extend linearly but never below CAPACITY_FLOOR.
     slope = (curve[-1] - curve[-2]) / (xs[-1] - xs[-2])
-    return float(curve[-1] + slope * (effective_life_used - 1))
+    return max(CAPACITY_FLOOR, float(curve[-1] + slope * (effective_life_used - 1)))
 
 
 def resistance_pct(cap_frac: float, growth: float | None) -> float | None:

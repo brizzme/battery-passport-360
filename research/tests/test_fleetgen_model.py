@@ -69,3 +69,11 @@ def test_idle_pack_tracks_ambient():
     rng = np.random.default_rng(1)
     mean, _ = pack_temperature(SITES[1], date(2026, 4, 20), 0, rng)
     assert abs(mean - 20) < 8
+
+
+def test_capacity_never_exceeds_rated():
+    assert capacity_fraction(0.0, np.array([1.0005, 0.9, 0.8])) == 1.0
+
+
+def test_extrapolation_beyond_curve_is_floored():
+    assert capacity_fraction(5.0, np.array([1.0, 0.9, 0.8])) == 0.6
