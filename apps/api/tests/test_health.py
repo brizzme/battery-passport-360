@@ -16,3 +16,10 @@ def test_health_reports_database_state(ready, code, status, database):
         assert response.json() == {"status": status, "database": database}
     finally:
         app.dependency_overrides.pop(database_ready)
+
+
+def test_app_imports_without_research_dependencies():
+    import subprocess
+    import sys
+    code = "import sys; sys.modules['numpy'] = None; import app.main"
+    assert subprocess.run([sys.executable, "-c", code], capture_output=True).returncode == 0

@@ -36,14 +36,22 @@ def draft_inspection_summary(request: SummaryRequest) -> PlainTextResponse:
         else:
             lines.append("Evidence: no recorded field entry for this date.")
         lines.append("")
-    if data.bench:
-        bench = data.bench
-        lines.extend(["## Simulated bench history", "",
-                      f"{bench.vehicle_id}, assigned {bench.assigned_on}.",
-                      f"Charge {bench.started_at} to {bench.ended_at}: {bench.energy_kwh} kWh.",
-                      f"BMS at {bench.sampled_at}: {bench.soc_pct}% charge, {bench.temperature_c} °C.",
-                      f"Service at {bench.serviced_at}: {bench.note}.",
-                      f"Synthetic source: {bench.source_id}, {bench.observed_at}. {bench.explanation}", ""])
+    if data.health:
+        h = data.health
+        lines.extend(["## Synthetic pack health (simulated, calibrated)", "",
+                      f"Data cut-off {h.data_cutoff}; values as of {h.as_of}. Source {h.source_id}, generator "
+                      f"{h.generator_version}, calibration {h.calibration_version}.", ""])
+        for i in h.indicators:
+            shown = f"{i.value} {i.unit or ''}".strip() if i.status == "value" else f"{i.status}: {i.reason}"
+            ref = f" ({i.passport_ref}, {i.access_class}, {i.mapping_status})" if i.passport_field else " (operational, not a passport field)"
+            extra = f" Temperature regimes: {', '.join(i.labels)}." if i.labels else ""
+            lines.append(f"- {i.label}: {shown}{ref}. Basis: {', '.join(i.calibration_refs)}.{extra}")
+        for i in h.not_applicable:
+            lines.append(f"- {i.label}: not applicable. {i.reason}")
+        lines.extend(["", "Calibration data: HUST LFP cells (Ma et al. 2022, Mendeley Data 10.17632/nsc7hnsg4s.2, "
+                      "CC BY 4.0) and the Aalborg forklift-profile LFP dataset (Vilsen & Stroe 2024, Mendeley Data "
+                      "yz4pttm73n v2, CC BY 4.0). Cell measurements are applied to fictional packs; see "
+                      "docs/LIMITATIONS.md.", ""])
     lines.extend(["## Expert review", "",
                   "Verify unresolved fields against the original model sheet and confirm the applicable legal dates. "
                   "This draft covers selected evidence checks. A qualified specialist decides any operational or lifecycle action.", ""])

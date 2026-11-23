@@ -3,7 +3,7 @@ from collections import Counter, defaultdict
 from datetime import date, datetime, timedelta
 from typing import Literal
 
-import numpy as np
+from statistics import fmean, quantiles
 from pydantic import BaseModel
 
 DATA_CUTOFF = date(2026, 10, 31)
@@ -179,7 +179,7 @@ def summarize(profile: dict, daily: list[dict], hist: list[dict], events: list[d
                      **(history or {"value": _rounded(100 * sum(r["opportunity_charges"] for r in r90) / sessions)
                                     if sessions else 0.0})),
         _operational("temp_mean_30d_c", "Mean pack temperature, last 30 days", "°C",
-                     **(history or {"value": _rounded(np.mean([r["temp_mean_c"] for r in r30]), 1)
+                     **(history or {"value": _rounded(fmean(r["temp_mean_c"] for r in r30), 1)
                                     if r30 else None})),
         _operational("temp_max_30d_c", "Maximum pack temperature, last 30 days", "°C",
                      **(history or {"value": _rounded(max(r["temp_max_c"] for r in r30), 1) if r30 else None})),
@@ -205,7 +205,7 @@ def _value(summary: HealthSummary, key: str):
 def triage(summaries: list[HealthSummary], readiness_gap_ids: set[str], as_of: date) -> list[ReviewFlag]:
     flags = []
     rates = [r for s in summaries if (r := _value(s, "fade_rate_90d_pct")) is not None]
-    p90 = float(np.percentile(rates, 90)) if len(rates) >= 10 else None
+    p90 = quantiles(rates, n=10, method="inclusive")[-1] if len(rates) >= 10 else None
     window = as_of - timedelta(days=30)
     for s in summaries:
         fade = _value(s, "capacity_fade_pct")
@@ -225,3 +225,22 @@ def triage(summaries: list[HealthSummary], readiness_gap_ids: set[str], as_of: d
                                 reason=f"Passport evidence gaps when assessed at {MILESTONE} "
                                        "(prospective placement scenario)"))
     return flags
+
+
+def fleet_summary(summaries: list[HealthSummary], flags: list[ReviewFlag], as_of: date) -> FleetHealth:
+    bands = {"95-100": 0, "90-95": 0, "80-90": 0, "below 80": 0, "unknown": 0}
+    window = as_of - timedelta(days=30)
+    events: Counter = Counter()
+    efc = 0.0
+    for s in summaries:
+        fade = _value(s, "capacity_fade_pct")
+        if fade is None:
+            bands["unknown"] += 1
+        else:
+            capacity = 100 - fade
+            bands["95-100" if capacity >= 95 else "90-95" if capacity >= 90 else "80-90" if capacity >= 80
+                  else "below 80"] += 1
+        efc += _value(s, "cycle_count_efc") or 0.0
+        events.update(e.kind for e in s.events if e.observed_at.date() > window)
+    return FleetHealth(as_of=as_of, packs=len(summaries), capacity_bands=bands, efc_total=round(efc, 1),
+                       events_30d=dict(sorted(events.items())), review=flags)
