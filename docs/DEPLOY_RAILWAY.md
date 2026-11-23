@@ -54,10 +54,13 @@ Name the services exactly `db`, `api` and `web`: the variables below refer to th
    ```
    PORT=3000
    API_BASE_URL=http://${{api.RAILWAY_PRIVATE_DOMAIN}}:8000
-   DEMO_USER=<user name to share>
-   DEMO_PASSWORD=<long random password>
+   DEMO_USER=<user name to share>        # optional
+   DEMO_PASSWORD=<long random password>  # optional
+   CONTACT_NAME=...                      # optional contact panel on /summary
+   CONTACT_EMAIL=...
+   CONTACT_PHONE=...
    ```
-   With `DEMO_USER` and `DEMO_PASSWORD` set, every page and API route asks for the sign-in (only `/health` stays open for Railway's health check).
+   With `DEMO_USER` and `DEMO_PASSWORD` set, every page and API route asks for the sign-in (only `/health` and `/robots.txt` stay open). Leave both out for an open link: anyone with the URL can view the synthetic demo; pages are marked noindex and LLM calls stay capped by `LLM_CALLS_PER_MINUTE`.
 4. Settings → Networking → **Generate Domain** (target port `3000`). Deploy.
 
 ## 4. Check it
