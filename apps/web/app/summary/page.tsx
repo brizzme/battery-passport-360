@@ -27,6 +27,8 @@ const NEXT = [
 ];
 
 export default async function Summary() {
+  // Contact details come from server-side settings, never from the repository.
+  const contact = {name: process.env.CONTACT_NAME, email: process.env.CONTACT_EMAIL, phone: process.env.CONTACT_PHONE};
   const fleet = await read<FleetHealth>("/api/fleet/health-summary");
   const life = await read<LifeReport>("/api/research/hust/report");
   const pack = await read<Inspection>("/api/batteries/BAT-DEMO-024/passport-readiness?as_of=2027-02-18");
@@ -127,6 +129,10 @@ export default async function Summary() {
     <section aria-labelledby="next-h"><h2 id="next-h">Open points and next actions</h2>
       <table className="summary-table"><thead><tr><th scope="col">Item</th><th scope="col">Detail</th><th scope="col">Status</th></tr></thead>
         <tbody>{NEXT.map(n => <tr key={n.item}><th scope="row">{n.item}</th><td>{n.detail}</td><td><span className="badge">{n.state}</span></td></tr>)}</tbody></table>
+      {contact.name && <div className="panel contact" aria-labelledby="contact-h">
+        <h2 id="contact-h">Contact</h2>
+        <p><b>{contact.name}</b>{contact.email && <> · <a href={"mailto:" + contact.email}>{contact.email}</a></>}{contact.phone && <> · <a href={"tel:" + contact.phone.replace(/\s/g, "")}>{contact.phone}</a></>}</p>
+      </div>}
       <p className="meta">Walkthrough: <a href={REPO + "docs/DEMO_RUNBOOK.md"}>five-minute demo runbook</a> · Plan and decisions: <a href={REPO + "PLAN.md"}>PLAN.md</a></p>
     </section>
   </div>;
