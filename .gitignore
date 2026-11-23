@@ -13,3 +13,7 @@ downloads/
 data/raw/
 models/
 .cache/
+.superpowers/
+.impeccable/mocks/
+.impeccable/review/
+.taste-skill/

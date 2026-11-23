@@ -1,12 +1,17 @@
-import type { Metadata } from "next";
-import "@fontsource-variable/geist";
+import type {Metadata} from "next";
+import "@fontsource/barlow/400.css";
+import "@fontsource/barlow/500.css";
+import "@fontsource/barlow/600.css";
+import "@fontsource/barlow-condensed/500.css";
+import "@fontsource/barlow-condensed/600.css";
 import "./globals.css";
+import {Shell} from "@/components/Shell";
 
 export const metadata: Metadata = {
-  title: "Workspace · Battery Passport 360",
-  description: "Local workspace for the independent Battery Passport 360 prototype.",
+  title: "Fleet health · Battery Passport 360",
+  description: "Independent prototype: synthetic industrial battery fleet health, passport evidence readiness and measured cell research.",
 };
 
 export default function Layout({children}: Readonly<{children: React.ReactNode}>) {
-  return <html lang="en"><body>{children}</body></html>;
+  return <html lang="en"><body><Shell>{children}</Shell></body></html>;
 }

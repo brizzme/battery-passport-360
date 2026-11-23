@@ -41,6 +41,7 @@ fleet = get("/fleet/health-summary")
 assert fleet["packs"] == 100 and fleet["data_cutoff"] == "2026-10-31" and fleet["source_type"] == "synthetic"
 flagged = {f["battery_id"] for f in fleet["review"]}
 assert {"BAT-DEMO-024", "BAT-DEMO-007", "BAT-DEMO-013"} <= flagged, flagged
+assert len(fleet["pack_points"]) == 100 and abs(sum(fleet["regime_share"].values()) - 1) < 1e-6
 lead = {i["key"]: i for i in get("/batteries/BAT-DEMO-005/health-summary")["indicators"]}
 assert lead["capacity_fade_pct"]["status"] == "unknown"
 h = get("/batteries/BAT-DEMO-024/health-summary?as_of=2027-02-18")

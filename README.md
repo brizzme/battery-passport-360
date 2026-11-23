@@ -12,7 +12,7 @@ docker compose ps -a
 curl --fail http://127.0.0.1:8000/health
 ```
 
-Open the [workspace](http://127.0.0.1:3000), [API reference](http://127.0.0.1:8000/docs), or [OpenAPI schema](http://127.0.0.1:8000/openapi.json). A healthy stack returns `{"status":"ok","database":"ready"}`. The first build downloads dependencies. All application services run locally without accounts, API keys, or research downloads.
+Open the [fleet health dashboard](http://127.0.0.1:3000), [API reference](http://127.0.0.1:8000/docs), or [OpenAPI schema](http://127.0.0.1:8000/openapi.json). A healthy stack returns `{"status":"ok","database":"ready"}`. The first build downloads dependencies. All application services run locally without accounts, API keys, or research downloads.
 
 The migration container exits successfully after applying the SQL files. Inspect startup problems with `docker compose logs migrate api web db`. Stop the stack with `docker compose down`. The named PostgreSQL volume persists across restarts. To replay the idempotent migrations on a running database, use `docker compose run --rm migrate`.
 
@@ -24,7 +24,7 @@ With uv, Python 3.12 and Node.js 22.13+:
 
 ```sh
 (cd apps/api && uv run --locked pytest -q)
-(cd apps/web && npm ci && npm run lint && npm run typecheck && npm run build)
+(cd apps/web && npm ci && npm test && npm run lint && npm run typecheck && npm run build)
 ```
 
 See [architecture](docs/ARCHITECTURE.md), [data sources](docs/DATA_SOURCES.md), [limitations](docs/LIMITATIONS.md), and the [milestone checklist](PLAN.md).
