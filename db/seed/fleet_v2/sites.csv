@@ -1,0 +1,4 @@
+site_id,name,ambient_mean_c,seasonal_amp_c
+SITE-COLD,Cold store,5,2
+SITE-AMB,Ambient warehouse,20,5
+SITE-HOT,Hot dock,30,6

@@ -9,6 +9,7 @@ from .copilot import router as copilot_router
 from .research import router as research_router
 from .db import connect
 from .fleet import router as fleet_router
+from .fleet_health import router as fleet_health_router
 
 
 class Health(BaseModel):
@@ -30,6 +31,7 @@ app = FastAPI(title="Battery Passport 360", version="0.1.0")
 
 
 app.include_router(fleet_router)
+app.include_router(fleet_health_router)
 app.include_router(research_router)
 app.include_router(copilot_router)
 app.include_router(summary_router)

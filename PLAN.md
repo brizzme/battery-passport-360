@@ -70,6 +70,15 @@
 
 **M4 exit gate:** Product demonstration is usable, honest, traceable and repeatable.
 
+## Expansion part 1 — Calibrated synthetic fleet and health summary
+Design: docs/superpowers/specs/2026-11-23-calibrated-fleet-design.md · Plan: docs/superpowers/plans/2026-11-23-calibrated-fleet.md
+- [x] Migration runner skips applied files.
+- [x] Calibration from pinned HUST and Aalborg LFP data (CC BY 4.0), HUST pickles opened only in an isolated container.
+- [x] Deterministic 24-month synthetic fleet seed with planted cases; byte-identical regeneration tested.
+- [x] Migration 005: identities v2, history tables, seed load.
+- [x] Health summary, history and fleet triage API; draft summary and pack page show labelled health.
+- [ ] Part 2: dashboard redesign. Part 3: rule refresh against Commission guidance v3.2. Part 4: HUST-based research model.
+
 ## Follow-up decisions
 - Expand rule coverage after verifying additional sources and amendments.
 - Validate research results on more cells and independent batches.
@@ -85,3 +94,4 @@
 | 2026-11-23 | M2 | Parsed four checksum-verified CALCE archives, deduplicated overlapping exports, fitted OLS on three whole cells and evaluated on CS2_38. | research/verify.py reproduced metrics on 1,025 held-out observations. API served all four cell series and the local research page rendered. | One test cell; raw and per-cycle data local only. |
 | 2026-11-23 | M3 | Indexed seven public OJ passages in pgvector. Bounded read-only queries, attributed excerpts, explicit deterministic offline mode and optional field prioritization. | Actual retrieval returned EU-77, EU-XIII-B and EU-XIII-G for BAT-DEMO-024. Tested unsupported questions, untrusted passage handling, abstention and provider response validation. | No live LLM provider exercised. |
 | 2026-11-23 | M4 | Downloadable dated investigation draft, five-minute walkthrough, data dictionary, limitations and model card. | 21 pytest tests passed (one test-client deprecation warning); frontend lint, typecheck and production build passed; clean clone and fresh volume passed docker compose up --build -d and scripts/check-demo.sh. Browser tests at 375 and 1280 px verified search, assessment date, cited answer, abstention, measured chart and draft download. | Local only. Fresh workstations run research preparation for per-cycle charts. |
+| 2026-11-23 | Expansion part 1 | Calibrated synthetic fleet: HUST (77 cells, median life 1,706 cycles) and Aalborg (3 cells, Arrhenius Ea/R 2,581 K) calibration; 100 packs × 24 months seed; migration runner and 005; health, history and fleet triage API; labelled health on pack page and draft. | Research tests 51 passed; API pytest 40 passed (1 test-client deprecation warning); web lint, typecheck, build passed; existing volume applied 005 once then skipped; fresh clone with no downloads applied 001–005 and passed check-fleet.sh and check-demo.sh; pack pages checked at 375 and 1280 px. | Dashboard visuals are part 2. Most simulated days lie below the calibrated temperature range (labelled). |

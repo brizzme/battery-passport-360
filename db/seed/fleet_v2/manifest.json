@@ -1,0 +1,49 @@
+{
+  "generator_version": "fleet-gen-v1",
+  "calibration_version": "fleet-calib-v1-a2b5d9bd74df",
+  "seed": 20261123,
+  "window": [
+    "2024-11-01",
+    "2026-10-31"
+  ],
+  "assumptions": {
+    "reference_shifts_for_aalborg_profile": 3,
+    "temp_rise_per_shift_c": 3.0,
+    "pack_temp_noise_c": 1.5,
+    "max_over_mean_per_shift_c": 2.5,
+    "planted_cooling_fault_offset_c": 8.0,
+    "seasonal_peak_day_of_year": 201,
+    "efc_noise_rel": 0.15,
+    "weekend_activity_share": 0.3,
+    "opportunity_propensity_min": 0.1,
+    "opportunity_propensity_max": 0.8,
+    "soc_max_pct": 100,
+    "soc_min_mean_pct": 30,
+    "soc_min_sd_pct": 10,
+    "soc_min_opportunity_lift_pct": 25,
+    "over_temperature_threshold_c": 50,
+    "deep_discharge_threshold_pct": 10,
+    "bms_comm_loss_daily_rate": 0.004
+  },
+  "planted": {
+    "BAT-DEMO-007": "Fast fader: hot site, 3 shifts, HUST 5th-percentile life multiplier",
+    "BAT-DEMO-013": "Fictional cooling fault in October 2026: repeated over-temperature events",
+    "BAT-DEMO-042": "Idle (parked) August-September 2026",
+    "BAT-DEMO-024": "Ordinary health; passport evidence gaps unchanged"
+  },
+  "rows": {
+    "sites.csv": 3,
+    "profiles.csv": 100,
+    "daily.csv.gz": 69284,
+    "histograms.csv.gz": 17607,
+    "events.csv.gz": 2092
+  },
+  "sha256": {
+    "sites.csv": "c4697a7b63fe5e25cfc701ab445a18507974fedd310ea3bb8827b5919b164cbe",
+    "profiles.csv": "43b67dab3af1c501fb6c2d6e2de5f8a04f5707f8d17eb2b412ccd0ca1d295cf3",
+    "daily.csv.gz": "4dde06b189f5f45a7e6abea520dcd299647ae62835a7acfb82e5bc4066efd3ab",
+    "histograms.csv.gz": "4c1eeaf41d0bfe471e117390b4d2ce01ea01567ba4a55387582a8edf90546d14",
+    "events.csv.gz": "122e26446726c1fb110c99f83a4c2482f2cc0e5462aa32f81542b067aad40000"
+  },
+  "digest": "d9b4dc94a3a37051c220200bb3f99b2bb56ecd0f46e22ccb859f8a6e7031c1c9"
+}

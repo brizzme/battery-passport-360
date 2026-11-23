@@ -6,7 +6,7 @@ export default async function Detail({params,searchParams}:{params:Promise<{id:s
   const path="/fleet/"+encodeURIComponent(id);
   const data=await read<Inspection>("/api/batteries/"+encodeURIComponent(id)+"/passport-readiness"+(day?"?as_of="+day:""));
   if(!data) notFound();
-  const {battery:b,bench}=data;
+  const {battery:b,health}=data;
   return <main className="desk"><Link href="/fleet">← Fleet register</Link><div className="hero"><div><small>SYNTHETIC · INDUSTRIAL PACK</small><h1>{b.battery_id}</h1><p>{b.chemistry} · {b.rated_kwh} kWh rated energy</p></div></div>
   <p className="meta">{b.source_id} · {b.observed_at} · {b.explanation}</p>
   <section><h2>Passport evidence</h2><p>{data.scenario} Illustrative data readiness. Missing evidence calls for review.</p>
@@ -15,6 +15,8 @@ export default async function Detail({params,searchParams}:{params:Promise<{id:s
   <p className="meta">As of {data.as_of} · Earliest date {r.effective_from} · Public model field · <a href={r.source_url}>{r.section}</a></p>
   {r.evidence && <p className="meta">Synthetic entry “{r.evidence.value_text}” · {r.evidence.evidence_ref ?? "No evidence reference"} · {r.evidence.source_id} · {r.evidence.observed_at} · {r.evidence.explanation}</p>}</article>)}</section>
   <p><Link href={"/assistant?id="+id+"&as_of="+data.as_of}>Ask the evidence assistant</Link> · <a download href={"/api/draft?id="+id+"&as_of="+data.as_of}>Download draft summary</a></p>
-  <section><h2>Simulated bench history</h2>{bench ? <article><h3>{bench.vehicle_id}</h3><p>Assigned {bench.assigned_on}. Charge session {bench.started_at} to {bench.ended_at} delivered {bench.energy_kwh} kWh.</p>
-  <p>At {bench.sampled_at}: {bench.soc_pct}% charge, {bench.temperature_c} °C. {bench.serviced_at}: {bench.note}.</p><p className="meta">Synthetic · {bench.source_id} · {bench.observed_at} · {bench.explanation}</p></article>:<p>No bench records available on this date.</p>}</section></main>;
+  <section><h2>Synthetic pack health</h2>{health ? <article><p className="meta">Simulated · {health.source_id} · data cut-off {health.data_cutoff} · values as of {health.as_of} · {health.chemistry==="LFP" ? `calibration ${health.calibration_version} (HUST and Aalborg LFP measurements, CC BY 4.0)` : "no calibration source for this chemistry; operational values are generator assumptions"}</p>
+  <ul>{health.indicators.map(i=><li key={i.key}><b>{i.label}</b>: {i.status==="value" ? `${i.value} ${i.unit ?? ""}` : `${i.status.replaceAll("_"," ")} — ${i.reason}`}<br/><small>{i.passport_field ? `${i.passport_ref} · restricted access · ${i.mapping_status}` : "Operational indicator, not a passport field"} · basis {i.calibration_refs.join(", ")}{i.labels.length ? " · " + i.labels.join(", ") : ""}</small></li>)}</ul>
+  {health.not_applicable.map(i=><p key={i.key} className="meta">{i.label}: not applicable. {i.reason}</p>)}
+  <p className="meta">{health.events.length} synthetic events recorded up to {health.as_of}.</p></article> : <p>No synthetic pack history available.</p>}</section></main>;
 }

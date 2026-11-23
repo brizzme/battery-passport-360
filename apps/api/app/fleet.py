@@ -1,4 +1,4 @@
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from contextlib import contextmanager
 from typing import Literal
 
@@ -8,6 +8,7 @@ from psycopg.rows import dict_row
 from pydantic import BaseModel
 
 from .db import connect
+from .health import DATA_CUTOFF, HealthSummary, effective_date
 from .readiness import Evidence, Result, Status, assess
 
 router = APIRouter(prefix="/api/batteries", tags=["Synthetic fleet"])
@@ -92,29 +93,12 @@ def battery_detail(battery_id: str) -> DemoBattery:
         return identity(cursor, battery_id)
 
 
-class BenchSnapshot(BaseModel):
-    vehicle_id: str
-    assigned_on: date
-    started_at: datetime
-    ended_at: datetime
-    energy_kwh: float
-    sampled_at: datetime
-    soc_pct: int
-    temperature_c: int
-    serviced_at: datetime
-    note: str
-    source_id: str
-    source_type: Literal["synthetic"]
-    observed_at: datetime
-    explanation: str
-
-
 class Inspection(BaseModel):
     battery: DemoBattery
     as_of: date
     scenario: str = "Prospective first EU market placement on the assessment date."
     results: list[Result]
-    bench: BenchSnapshot | None
+    health: HealthSummary | None
 
 
 @router.get("/{battery_id}/passport-readiness")
@@ -123,25 +107,31 @@ def inspect(battery_id: str, as_of: date | None = None) -> Inspection:
     with fleet_cursor() as cursor:
         battery = identity(cursor, battery_id)
         fields = fields_for(cursor, [battery_id]).get(battery_id, {})
-        # All four fixture records share one provenance record and one bench run.
-        cursor.execute("""
-            SELECT v.vehicle_id, v.assigned_on, c.started_at, c.ended_at, c.energy_kwh,
-                   t.observed_at AS sampled_at, t.soc_pct, t.temperature_c,
-                   e.observed_at AS serviced_at, e.note, s.*
-            FROM vehicle_assignments v JOIN charge_sessions c USING(battery_id,source_id)
-            JOIN telemetry_samples t USING(battery_id,source_id)
-            JOIN service_events e USING(battery_id,source_id)
-            JOIN source_records s USING(source_id)
-            WHERE v.battery_id = %s AND s.source_type = 'synthetic'
-              AND s.observed_at < (%s::date + 1)::timestamp AT TIME ZONE 'UTC'
-            ORDER BY c.ended_at DESC, t.observed_at DESC, e.observed_at DESC LIMIT 1
-        """, (battery_id, when))
-        bench = cursor.fetchone()
-    return Inspection(battery=battery, as_of=when, bench=bench,
+    return Inspection(battery=battery, as_of=when, health=load_summary(battery_id, effective_date(when, when)),
                       results=assess(battery.category, battery.rated_kwh, when, fields))
 
 
+def load_summary(battery_id: str, as_of: date) -> HealthSummary:
+    from .fleet_health import summary_for
+    return summary_for(battery_id, as_of)
+
+
+def load_history(battery_id: str, start: date, end: date) -> dict:
+    from .fleet_health import history_for
+    return history_for(battery_id, start, end)
+
+
 @router.get("/{battery_id}/health-summary")
-def get_health_summary(battery_id: str, as_of: date | None = None) -> BenchSnapshot | None:
-    """Synthetic bench observations for a qualified reviewer."""
-    return inspect(battery_id, as_of).bench
+def get_health_summary(battery_id: str, as_of: date | None = None) -> HealthSummary:
+    """Synthetic, calibration-labelled pack health indicators for a qualified reviewer."""
+    return load_summary(battery_id, effective_date(as_of, datetime.now(timezone.utc).date()))
+
+
+@router.get("/{battery_id}/history")
+def history(battery_id: str, start: date | None = Query(None, alias="from"),
+            end: date | None = Query(None, alias="to")) -> dict:
+    end = min(end or DATA_CUTOFF, DATA_CUTOFF)
+    start = start or end - timedelta(days=364)
+    if start > end or (end - start).days > 365:
+        raise HTTPException(422, "Range must run forwards and span at most 366 days")
+    return load_history(battery_id, start, end)

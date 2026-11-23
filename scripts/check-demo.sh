@@ -30,12 +30,21 @@ else:
 with post("/inspection-summaries",sample) as response:
     assert "attachment" in response.headers["Content-Disposition"]
     body = response.read().decode()
-    assert all(s in body for s in ("Draft investigation","Synthetic","missing_evidence","Annex XIII","demo-inspection-v1","2027-02-18","Expert review"))
+    assert all(s in body for s in ("Draft investigation","Synthetic","missing_evidence","Annex XIII","demo-inspection-v1","2027-02-18","Expert review","HUST","Aalborg"))
 report = get("/research/model-report")
 assert report["status"] == "trained" and set(report["train_cells"]).isdisjoint(report["test_cells"])
 for cell in get("/research/cells"):
     if cell["cycles_available"]:
         series=get("/research/cells/"+cell["cell_id"]+"/cycles")
         assert len(series["points"])==report["sources"][cell["cell_id"]]["cycles"]
-print("Retrieved references, abstention, export and research report verified.")
+fleet = get("/fleet/health-summary")
+assert fleet["packs"] == 100 and fleet["data_cutoff"] == "2026-10-31" and fleet["source_type"] == "synthetic"
+flagged = {f["battery_id"] for f in fleet["review"]}
+assert {"BAT-DEMO-024", "BAT-DEMO-007", "BAT-DEMO-013"} <= flagged, flagged
+lead = {i["key"]: i for i in get("/batteries/BAT-DEMO-005/health-summary")["indicators"]}
+assert lead["capacity_fade_pct"]["status"] == "unknown"
+h = get("/batteries/BAT-DEMO-024/health-summary?as_of=2027-02-18")
+assert h["data_cutoff"] == "2026-10-31" and h["as_of"] == "2026-10-31"
+assert len(get("/batteries/BAT-DEMO-024/history")["points"]) == 365
+print("Retrieved references, abstention, export, research report and fleet health verified.")
 PY
