@@ -19,7 +19,7 @@ export function CapacityScatter({points}: {points: PackPoint[]}) {
   const x = linearScale([0, xt.at(-1)!], [M.l, W - M.r]), y = linearScale([60, 100], [H - M.b, M.t]);
   return <figure className="chart" aria-labelledby="scatter-h">
     <figcaption><h2 id="scatter-h">Capacity vs cumulative cycles <small>{lfp.length} LFP packs · synthetic · lead-acid omitted (no calibration source)</small></h2></figcaption>
-    <div className="chart-scroll"><svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Scatter of ${lfp.length} LFP packs: capacity percent against cumulative equivalent full cycles`}>
+    <div className="chart-scroll"><svg viewBox={`0 0 ${W} ${H}`} style={{"--w": `${W}px`} as React.CSSProperties} role="img" aria-label={`Scatter of ${lfp.length} LFP packs: capacity percent against cumulative equivalent full cycles`}>
       <HatchDefs id="scatter-hatch"/>
       <rect x={M.l} y={y(80)} width={W - M.l - M.r} height={y(60) - y(80)} fill="url(#scatter-hatch)"/>
       <text x={W - M.r - 4} y={y(80) + 16} textAnchor="end" className="axis-note">Below 80 %: beyond the measured curve, extrapolated</text>

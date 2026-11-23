@@ -195,3 +195,13 @@ figure.chart, .dash-main > *, .dash-pair > *, .pack-grid > * { min-width: 0 }
   .chart-scroll svg { min-width: 560px }
   .bar nav ul::after { content: ""; flex: 0 0 var(--s4) }
 }
+
+/* Finish-review round 2 */
+.reasons li, .review td.num { white-space: nowrap }
+.num small { white-space: normal }
+
+@media (max-width: 720px) {
+  .chart-scroll svg { min-width: var(--w, 560px) }
+  .bar nav { mask-image: linear-gradient(90deg, #000 85%, transparent); -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent) }
+  .reasons li { white-space: normal }
+}
