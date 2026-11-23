@@ -42,3 +42,8 @@ describe("packLabel", () => {
     expect(packLabel({battery_id: "BAT-DEMO-005", site_id: "SITE-COLD", chemistry: "lead-acid", capacity_pct: null, efc: 869, review_rules: []}))
       .toBe("BAT-DEMO-005, Cold store, capacity unknown (lead-acid)"));
 });
+import {regimeLabel} from "./sites";
+describe("regimeLabel", () => {
+  it("humanises regime shares", () => expect(regimeLabel("clamped_low 34%")).toBe("clamped below 20 °C: 34 %"));
+  it("humanises bare labels", () => expect(regimeLabel("extrapolated_beyond_measured_curve")).toBe("below 80 %: beyond measured curve"));
+});

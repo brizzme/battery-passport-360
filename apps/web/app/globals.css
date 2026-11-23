@@ -162,3 +162,21 @@ figure { margin: var(--s3) 0 }
 .reasons li { cursor: help; text-decoration: underline dotted var(--ink-2); text-underline-offset: 3px; width: fit-content }
 .chart-scroll { overflow-x: auto }
 @media (max-width: 720px) { .chart-scroll svg { min-width: 640px } }
+
+/* Pack page */
+.pack { display: grid; gap: var(--s5) }
+.pack .page-head { margin-bottom: 0 }
+.furniture { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); margin: 0; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule) }
+.furniture div { padding: var(--s3) var(--s3) var(--s3) 0 }
+.furniture dt { font-size: var(--t-xs); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2) }
+.furniture dd { margin: 4px 0 0; font-weight: 500 }
+.pack h2 small, .pack h3 small { font-weight: 400; margin-left: var(--s2); font-size: var(--t-xs); color: var(--ink-2) }
+.pack-health { display: grid; gap: var(--s5) }
+.pack-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--s5); align-items: start }
+.pack-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+.pack .chart svg, .chart.small svg { background: var(--surface) }
+.indicators table th[scope="row"] { text-transform: none; letter-spacing: 0; font-size: var(--t-sm); font-weight: 500; color: var(--ink); border-bottom: 1px solid var(--rule); padding-top: 10px; vertical-align: top }
+.indicators h3, .chart h3 { margin-bottom: var(--s2) }
+.empty { background: var(--surface); padding: var(--s4); color: var(--ink-2) }
+@media (max-width: 1100px) { .furniture { grid-template-columns: repeat(3, minmax(0, 1fr)) } .pack-grid, .pack-grid.three { grid-template-columns: 1fr } }
+@media (max-width: 720px) { .furniture { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
