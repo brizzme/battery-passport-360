@@ -1,0 +1,24 @@
+# Public entry point for the shared demo: automatic HTTPS, one sign-in, security headers, access log.
+# Only the web app is exposed; it forwards to the API internally. Database and API stay on the private network.
+{$DOMAIN} {
+	encode zstd gzip
+	request_body {
+		max_size 64KB
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy strict-origin-when-cross-origin
+		X-Robots-Tag "noindex, nofollow"
+		-Server
+	}
+	basic_auth {
+		{$DEMO_USER} {$DEMO_PASSWORD_HASH}
+	}
+	log {
+		output stdout
+		format console
+	}
+	reverse_proxy web:3000
+}

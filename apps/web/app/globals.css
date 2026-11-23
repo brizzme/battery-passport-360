@@ -256,3 +256,88 @@ figure.chart, .dash-main > *, .dash-pair > *, .pack-grid > * { min-width: 0 }
   .cmp { font-size: var(--t-xs) }
   .research .kpi-num { font-size: 1.75rem; overflow-wrap: anywhere }
 }
+
+/* PoC summary */
+.summary .page-head p { max-width: 80ch }
+.summary h2 small { font-weight: 400; font-size: var(--t-xs); color: var(--ink-2); margin-left: var(--s2) }
+.summary-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5); align-items: start }
+.panel p + p, .panel ul + p { margin-top: var(--s3) }
+ul.plain, ol.plain { margin: 0; padding-left: 1.1em; display: grid; gap: var(--s2) }
+.summary-table th[scope="row"] { text-transform: none; letter-spacing: 0; font-size: var(--t-sm); font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--rule); padding-top: 10px; vertical-align: top; width: 24% }
+.arch { margin: 0; background: var(--surface); padding: var(--s4) }
+.arch h3 { margin-bottom: var(--s3) }
+.arch h3 small { font-weight: 400; font-size: var(--t-xs); color: var(--ink-2); margin-left: var(--s2) }
+.arch-flow { display: grid; gap: 0 }
+.arch-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3) }
+.arch-node { border: 1px solid var(--ink); padding: var(--s3); text-align: center; background: var(--surface) }
+.arch-node a { color: inherit; text-decoration: none; display: block }
+.arch-node a:hover h4 { text-decoration: underline }
+.arch-node h4 { margin: 0 0 4px; font-size: var(--t-sm); font-weight: 600 }
+.arch-node p { margin: 0 auto; font-size: var(--t-xs); color: var(--ink-2) }
+.arch-node.ink { background: var(--ink); border-color: var(--ink) }
+.arch-node.ink h4, .arch-node.ink p { color: var(--ground) }
+.arch-node.dashed { border-style: dashed; background: var(--ground) }
+.arch-arrow { display: flex; flex-direction: column; align-items: center; padding: 4px 0; color: var(--ink-2); font-size: var(--t-md); line-height: 1 }
+.arch-arrow small { font-size: var(--t-xs) }
+.arch-tech { display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: var(--s3); align-items: start }
+.lane { display: grid; gap: 0; background: var(--ground); padding: var(--s2) }
+.lane-h { margin: 0 0 var(--s2); font-size: var(--t-xs); text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2); font-weight: 600 }
+@media (max-width: 1100px) { .summary-grid { grid-template-columns: 1fr } }
+@media (max-width: 720px) { .arch-row, .arch-tech { grid-template-columns: 1fr } .summary-table th[scope="row"] { width: auto } }
+.arch-stack { display: grid; gap: var(--s5) }
+.arch-stack .arch:first-child .arch-flow { max-width: 920px; margin: 0 auto }
+.claude-brief { border-left: 0; background: var(--surface); padding: var(--s4); margin: var(--s3) 0 }
+.claude-brief ol { margin: var(--s2) 0 0; padding-left: 1.2em; display: grid; gap: var(--s1) }
+
+.summary-dl{display:grid;gap:.6rem;margin:0}
+.summary-dl>div{display:grid;grid-template-columns:minmax(9rem,11rem) 1fr;gap:.75rem;align-items:baseline}
+.summary-dl dt{font-weight:600}
+.summary-dl dd{margin:0}
+@media (max-width:600px){.summary-dl>div{grid-template-columns:1fr;gap:.1rem}}
+
+/* Summary motion: staged entrance, then reveal-on-scroll where supported. Reduced motion is disabled globally above. */
+@keyframes bp-rise { from { opacity: 0; transform: translateY(14px) } }
+@keyframes bp-fade { from { opacity: 0 } }
+.summary > * { animation: bp-rise .6s cubic-bezier(.2,.7,.2,1) both }
+.summary > :nth-child(2) { animation-delay: .08s }
+.summary > :nth-child(3) { animation-delay: .16s }
+.summary > :nth-child(4) { animation-delay: .24s }
+.summary .arch-node { animation: bp-rise .5s cubic-bezier(.2,.7,.2,1) both; animation-delay: .35s }
+.summary .lane:nth-child(2) .arch-node, .summary .arch-row > :nth-child(2) .arch-node { animation-delay: .5s }
+.summary .lane:nth-child(3) .arch-node, .summary .arch-row > :nth-child(3) .arch-node { animation-delay: .65s }
+.summary .lane:nth-child(4) .arch-node, .summary .arch-row > :nth-child(4) .arch-node { animation-delay: .8s }
+.summary .arch-arrow { animation: bp-fade .4s ease-out both; animation-delay: .6s }
+.summary .kpi { animation: bp-rise .55s cubic-bezier(.2,.7,.2,1) both }
+.summary .kpi:nth-child(2) { animation-delay: .08s } .summary .kpi:nth-child(3) { animation-delay: .16s }
+.summary .kpi:nth-child(4) { animation-delay: .24s } .summary .kpi:nth-child(5) { animation-delay: .32s }
+@supports (animation-timeline: view()) {
+  .summary > :nth-child(n+5), .summary .kpi { animation-timeline: view(); animation-range: entry 0% entry 40%; animation-delay: 0s }
+}
+.summary .contact { margin-top: var(--s4, 1.5rem) }
+
+/* Summary: centred title block with byline; panel text uses the full panel width. */
+.summary > .page-head { justify-items: center; text-align: center }
+.summary > .page-head p { max-width: 80ch }
+.summary > .page-head .byline { font-size: var(--t-sm, .95rem); color: var(--ink); padding-top: var(--s2); border-top: 1px solid currentColor; border-top-color: var(--rule, #c9cdc6) }
+.summary .panel p, .summary .panel li { max-width: none }
+
+/* Open points: three stages with icons; the label always accompanies the colour. */
+.stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s4) }
+.stage { background: var(--surface); padding: var(--s4); border-top: 4px solid var(--ink) }
+.stage.done { border-top-color: var(--ambient, #256b3a) }
+.stage.next { border-top-color: var(--cold, #2f7fc1) }
+.stage.later { border-top-color: var(--rule) }
+.stage-h { display: flex; align-items: center; gap: var(--s2); margin: 0 0 var(--s3); font-size: var(--t-md) }
+.stage-h small { color: var(--ink-2); font-weight: 400 }
+.stage-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s3) }
+.stage-list li { display: grid; grid-template-columns: 22px 1fr; gap: var(--s2); align-items: start }
+.stage-list p { color: var(--ink-2); max-width: none; margin-top: 2px }
+.stage-list .stage-note { font-size: var(--t-xs); color: var(--ink); margin-top: 4px }
+.stage-icon { flex: none }
+.stage-icon.done circle { fill: var(--ambient, #256b3a) }
+.stage-icon.done path { stroke: #fff }
+.stage-icon.next circle, .stage-icon.next path { stroke: var(--cold, #2f7fc1) }
+.stage-icon.later circle, .stage-icon.later path { stroke: var(--ink-2) }
+.summary .stage-list li { animation: bp-rise .5s cubic-bezier(.2,.7,.2,1) both }
+.summary .stage-list li:nth-child(2) { animation-delay: .08s } .summary .stage-list li:nth-child(3) { animation-delay: .16s }
+@media (max-width: 900px) { .stages { grid-template-columns: 1fr } }

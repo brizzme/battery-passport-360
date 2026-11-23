@@ -1,3 +1,4 @@
+import logging
 from typing import Annotated, Literal
 
 import psycopg
@@ -7,7 +8,7 @@ from pydantic import BaseModel
 from .summary import router as summary_router
 from .copilot import router as copilot_router
 from .research import router as research_router
-from .db import connect
+from .db import Settings, connect
 from .fleet import router as fleet_router
 from .fleet_health import router as fleet_health_router
 
@@ -17,13 +18,21 @@ class Health(BaseModel):
     database: Literal["ready", "unavailable"]
 
 
+log = logging.getLogger("uvicorn.error")
+
+
 def database_ready() -> bool:
     try:
         with connect() as conn:
-            return conn.execute(
+            ready = conn.execute(
                 "SELECT 1 FROM pg_extension WHERE extname = 'vector'"
             ).fetchone() is not None
-    except psycopg.Error:
+        if not ready:
+            log.warning("health: connected to %s but the vector extension is missing (migrations not applied?)", Settings().pghost)
+        return ready
+    except psycopg.Error as exc:
+        # Host and error class/message only; psycopg never includes the password.
+        log.warning("health: database unavailable at host=%s: %s: %s", Settings().pghost, type(exc).__name__, str(exc).strip()[:300])
         return False
 
 
