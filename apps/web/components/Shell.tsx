@@ -3,9 +3,9 @@ import Link from "next/link";
 import {usePathname} from "next/navigation";
 
 const NAV = [
-  {href: "/summary", label: "PoC summary", match: (p: string) => p.startsWith("/summary")},
-  {href: "/", label: "Fleet health", match: (p: string) => p === "/"},
-  {href: "/fleet", label: "Passport inspector", match: (p: string) => p.startsWith("/fleet")},
+  {href: "/", label: "PoC summary", match: (p: string) => p === "/"},
+  {href: "/fleet-health", label: "Fleet health", match: (p: string) => p.startsWith("/fleet-health")},
+  {href: "/fleet", label: "Passport inspector", match: (p: string) => p === "/fleet" || p.startsWith("/fleet/")},
   {href: "/research", label: "Cell research", match: (p: string) => p.startsWith("/research")},
   {href: "/assistant?id=BAT-DEMO-024&as_of=2027-02-18", label: "Evidence assistant", match: (p: string) => p.startsWith("/assistant")},
 ];

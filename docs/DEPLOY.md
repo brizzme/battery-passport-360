@@ -28,8 +28,8 @@ Goal: give a small audience a private HTTPS link to the PoC. The data is synthet
    docker compose -f compose.yaml -f compose.prod.yaml up -d --build
    ```
    Caddy obtains the HTTPS certificate on first request.
-5. Check: `https://bp360.example.com/summary` asks for the sign-in, then shows the PoC summary. Run `./scripts/check-demo.sh` on the server for the API checks.
-6. Send the link `https://bp360.example.com/summary` and the credentials through separate channels.
+5. Check: `https://bp360.example.com` asks for the sign-in, then shows the PoC summary. Run `./scripts/check-demo.sh` on the server for the API checks.
+6. Send the link `https://bp360.example.com` and the credentials through separate channels.
 
 ## What this setup provides
 - HTTPS with automatic certificates, HSTS, `noindex`, no framing, 64 KB request-body limit.

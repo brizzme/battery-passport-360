@@ -17,7 +17,7 @@ export function FunctionalView() {
         <Node title="Battery health" items={["synthetic fleet health calibrated on public LFP cells", "measured cell research: life from the first 100 cycles"]} href="/research"/>
       </div>
       <Down/>
-      <div role="listitem"><Node tone="ink" title="Review support" items={["fleet review list", "evidence assistant with cited passages", "downloadable investigation draft", "suggests what a specialist should check; never decides use, repair, reuse or recycling"]} href="/"/></div>
+      <div role="listitem"><Node tone="ink" title="Review support" items={["fleet review list", "evidence assistant with cited passages", "downloadable investigation draft", "suggests what a specialist should check; never decides use, repair, reuse or recycling"]} href="/fleet-health"/></div>
       <Down label="hypotheses to validate"/>
       <div role="listitem"><Node tone="dashed" title="Customer and business value" items={["faster investigation preparation", "fewer information gaps before Feb 2027", "better-prepared service planning"]}/></div>
     </div>

@@ -1,6 +1,6 @@
 # Deploying the demo on Railway
 
-Result: a private HTTPS link such as `https://bp360-web-production.up.railway.app/summary`, behind one sign-in. All data is synthetic; do not load real customer, employee or manufacturer data.
+Result: a private HTTPS link such as `https://bp360-web-production.up.railway.app`, behind one sign-in. All data is synthetic; do not load real customer, employee or manufacturer data.
 
 Three Railway services, all built from this repository:
 
@@ -56,7 +56,7 @@ Name the services exactly `db`, `api` and `web`: the variables below refer to th
    API_BASE_URL=http://${{api.RAILWAY_PRIVATE_DOMAIN}}:8000
    DEMO_USER=<user name to share>        # optional
    DEMO_PASSWORD=<long random password>  # optional
-   CONTACT_NAME=...                      # optional contact panel on /summary
+   CONTACT_NAME=...                      # optional contact panel on the PoC summary (home page)
    CONTACT_EMAIL=...
    CONTACT_PHONE=...
    ```
@@ -64,9 +64,9 @@ Name the services exactly `db`, `api` and `web`: the variables below refer to th
 4. Settings → Networking → **Generate Domain** (target port `3000`). Deploy.
 
 ## 4. Check it
-1. Open `https://<web domain>/summary`. The browser asks for the sign-in; after it, the PoC summary shows 100 packs, 14 suggested for review and 72 data points.
+1. Open `https://<web domain>`. The browser asks for the sign-in; after it, the PoC summary shows 100 packs, 14 suggested for review and 72 data points.
 2. Open `/fleet/BAT-DEMO-024?as_of=2027-02-18`, ask the assistant "What is missing?", and download the draft.
-3. Send the link `https://<web domain>/summary` and the sign-in through separate channels.
+3. Send the link `https://<web domain>` and the sign-in through separate channels.
 
 ## Troubleshooting
 | Symptom | Likely cause |

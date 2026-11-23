@@ -8,7 +8,7 @@ import "./globals.css";
 import {Shell} from "@/components/Shell";
 
 export const metadata: Metadata = {
-  title: "Fleet health · Battery Passport 360",
+  title: "Battery Passport 360",
   description: "Independent prototype: synthetic industrial battery fleet health, passport evidence readiness and measured cell research.",
   robots: {index: false, follow: false},  // demo link: keep out of search engines
 };

@@ -35,7 +35,7 @@ export default async function Detail({params, searchParams}: {params: Promise<{i
   const fade = health?.indicators.find(i => i.key === "capacity_fade_pct");
   const floored = fade?.status === "value" && Number(fade.value) >= 39.99;
   return <div className="desk pack">
-    <div className="page-head"><p className="crumb"><Link href="/">Fleet health</Link> / <Link href="/fleet">Passport inspector</Link></p>
+    <div className="page-head"><p className="crumb"><Link href="/fleet-health">Fleet health</Link> / <Link href="/fleet">Passport inspector</Link></p>
       <h1>{b.battery_id}</h1></div>
 
     <dl className="furniture">
