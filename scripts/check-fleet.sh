@@ -4,7 +4,13 @@ set -eu
 docker compose exec -T db psql -v ON_ERROR_STOP=1 -U passport <<'SQL'
 DO $$
 BEGIN
-    IF (SELECT count(*) FROM batteries WHERE source_id = 'demo-identities-v1') <> 100
+    IF (SELECT count(*) FROM batteries WHERE source_id = 'demo-identities-v2') <> 100
+       OR (SELECT count(*) FROM batteries WHERE chemistry = 'LFP') <> 80
+       OR EXISTS (SELECT FROM batteries WHERE (chemistry = 'lead-acid') <> (substr(battery_id, 10)::int % 5 = 0))
+       OR (SELECT count(DISTINCT battery_id) FROM pack_daily) <> 100
+       OR (SELECT max(day) FROM pack_daily) <> '2026-10-31'
+       OR to_regclass('vehicle_assignments') IS NOT NULL
+       OR (SELECT count(*) FROM fleet_seed_manifest) <> 1
        OR EXISTS (
            SELECT FROM generate_series(1, 100) AS seed(i)
            LEFT JOIN batteries b ON b.battery_id = 'BAT-DEMO-' || lpad(i::text, 3, '0')
@@ -26,9 +32,9 @@ with urlopen(url + 'BAT-DEMO-024', timeout=5) as response:
     battery = json.load(response)
 assert battery == {
     'battery_id': 'BAT-DEMO-024', 'category': 'industrial', 'chemistry': 'LFP',
-    'rated_kwh': 16, 'source_type': 'synthetic', 'source_id': 'demo-identities-v1',
-    'observed_at': '2026-01-01T00:00:00Z',
-    'explanation': 'Fictional seed snapshot. Chemistry and rated capacity are assigned by battery index.'
+    'rated_kwh': 16, 'source_type': 'synthetic', 'source_id': 'demo-identities-v2',
+    'observed_at': '2026-11-23T00:00:00Z',
+    'explanation': 'Fictional identities v2: lead-acid when index divisible by 5, otherwise LFP; rated energy 16 + 4 × (index mod 8) kWh.'
 }
 try:
     urlopen(url + 'BAT-DEMO-101', timeout=5)
@@ -47,7 +53,7 @@ def get(path):
         return json.load(response)
 data = get("/BAT-DEMO-024/passport-readiness?as_of=2027-02-18")
 assert [r["status"] for r in data["results"]] == ["missing_evidence","invalid","present","not_applicable","not_yet_effective"]
-assert data["bench"]["vehicle_id"] == "TRUCK-DEMO-024"
+assert data["health"]["battery_id"] == "BAT-DEMO-024"
 assert get("?status=invalid&as_of=2027-02-18")["total"] == 1
 assert get("?query=BAT-DEMO-101")["total"] == 0
 assert get("?page=9")["total"] == 100
