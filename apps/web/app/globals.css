@@ -212,7 +212,7 @@ figure.chart, .dash-main > *, .dash-pair > *, .pack-grid > * { min-width: 0 }
 
 /* Finish-review round 3 */
 .reasons li { white-space: normal }
-.dash-main { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) }
+@media (min-width: 1101px) { .dash-main { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) } }
 .review td.num { min-width: 7.5em }
 /* Wide charts open at their most recent / highest end; content continues to the left. */
 .chart-scroll { direction: rtl }
@@ -237,4 +237,22 @@ figure.chart, .dash-main > *, .dash-pair > *, .pack-grid > * { min-width: 0 }
   .dp-table tr { display: grid; grid-template-columns: 1fr auto; padding: var(--s2) 0; border-bottom: 1px solid var(--rule) }
   .dp-table th[scope="row"], .dp-table td { border: 0; padding: 2px 0; max-width: none }
   .dp-table td:nth-child(3), .dp-table td:nth-child(4), .dp-table td:nth-child(5) { grid-column: 1 / -1 }
+}
+
+/* Research */
+.research .pack-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+.cmp th[scope="row"] { text-transform: none; letter-spacing: 0; font-size: var(--t-sm); font-weight: 500; color: var(--ink); border-bottom: 1px solid var(--rule); padding-top: 10px }
+.cmp a[aria-current="true"] { font-weight: 700; text-decoration-thickness: 2px }
+.cmp tr.is-selected th, .cmp tr.is-selected td { background: var(--surface) }
+.bar-cell { display: flex; align-items: center; gap: var(--s2); min-width: 160px }
+.bar-cell .bar { display: block; height: 14px; background: var(--ink) }
+.provenance p + p { margin-top: var(--s2) }
+@media (max-width: 1100px) { .research .pack-grid.two { grid-template-columns: 1fr } }
+.research figure.chart[aria-labelledby="sc-h"] { max-width: 860px }
+.cmp td.num { white-space: nowrap }
+@media (max-width: 720px) {
+  .bar-cell { min-width: 0 }
+  .bar-cell .bar { max-width: 60px }
+  .cmp { font-size: var(--t-xs) }
+  .research .kpi-num { font-size: 1.75rem; overflow-wrap: anywhere }
 }

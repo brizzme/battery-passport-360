@@ -7,3 +7,8 @@ export type FleetHealth = {
 };
 export type HistoryPoint = {day: string; capacity_pct: number | null; resistance_pct: number | null; efc: number; temp_mean_c: number; temp_max_c: number; soc_min_pct: number; soc_max_pct: number; temp_regime: string};
 export type History = {battery_id: string; source_type: "synthetic"; source_id: string; generator_version: string; calibration_version: string; data_cutoff: string; from: string; to: string; points: HistoryPoint[]};
+export type LifeModel = {label: string; kind: string; features: string[]; mae: number; rmse: number; mape: number; interval_coverage: number; interval_mean_width: number; fold_mae_range: [number, number]; batch_coverage: Record<string, number>; folds: {test_groups: number[]; mae: number}[]};
+export type LifeReport = {run_id: string; generated_at: string; source_type: "derived"; target: string; horizon_cycles: number; n_cells: number; n_batches: number; split: string; intervals: string; voltage_window_v: [number, number]; voltage_feature_note: string; life_summary: {min: number; median: number; max: number}; models: Record<string, LifeModel>; interpretation: {note: string; standardised_coefficients: Record<string, number>}; data: {dataset: string; digest: string; features: string[]}};
+export type Pred = {pred: number; lo: number; hi: number};
+export type LifeCell = {id: string; batch: number; life: number} & Record<string, Pred | number | string>;
+export type CellDetail = {id: string; batch: number; life: number; initial_ah: number; cycles: number[]; capacity_ah: number[]; delta_q_ah: number[]; delta_q_grid_v: number[]; dataset: string} & Record<string, unknown>;
