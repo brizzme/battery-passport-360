@@ -1,22 +1,76 @@
-import Link from "next/link";
 import {read} from "../fleet/api";
-type Metrics={mae_ah:number;rmse_ah:number};
-type Report={model_run_id:string;trained_at:string;train_cells:string[];test_cells:string[];train_cycles:number;test_cycles:number;linear:Metrics;baseline:Metrics;sources:Record<string,{cycles:number;url:string}>};
-type Point={cycle:number;capacity_ah:number;observed_at:string;source_cycle:number;workbook:string};
-export default async function Research({searchParams}:{searchParams:Promise<{cell?:string}>}){
-  const r=await read<Report>("/api/research/model-report");
-  if(!r?.sources)return <div className="desk"><h1>Research model unavailable</h1></div>;
-  const requested=(await searchParams).cell ?? "";
-  const id=Object.hasOwn(r.sources,requested)?requested:r.test_cells[0];
-  let points:Point[]=[];
-  try{points=(await read<{points:Point[]}>("/api/research/cells/"+id+"/cycles"))?.points??[];}catch{}
-  const upper=Math.max(1.1,...points.map(p=>p.capacity_ah));
-  const line=points.map((p,i)=>[40+i*540/Math.max(1,points.length-1),170-p.capacity_ah*145/upper].join(",")).join(" ");
-  return <div className="desk"><div className="page-head"><h1>Cell research</h1><p>Discharge capacity across repeated laboratory cycles. <small>Measured public data · University of Maryland CALCE</small></p></div>
-  <section><h2>Measured discharge</h2><nav aria-label="Research cells">{Object.keys(r.sources).map(c=><Link key={c} href={"/research?cell="+c}>{c}</Link>)}</nav>
-  <article><h3>{id}</h3>{points.length ? <><figure><svg viewBox="0 0 610 205" width="100%" role="img" aria-label={id+" discharge capacity in Ah by retained cycle order"}><path d="M40 25 V170 H580" fill="none" stroke="#7b8b83"/><polyline points={line} fill="none" stroke="#176442" strokeWidth="2"/><g fontSize="12"><text x="0" y="29">{upper.toFixed(2)}</text><text x="0" y="168">0 Ah</text><text x="40" y="190">1</text><text x="460" y="190">Retained cycle {points.length}</text></g></svg><figcaption>Counter difference during each qualifying discharge, in Ah. Tester clock times have no recorded time zone.</figcaption></figure>
-  <details><summary>Inspect measurements and original workbook references</summary><ul>{points.map(p=><li key={p.cycle}>{p.cycle} · {p.capacity_ah.toFixed(4)} Ah · {p.observed_at} · {p.workbook} / cycle {p.source_cycle}</li>)}</ul></details></>:<p>Cycle files unavailable. Run the CALCE preparation command in the README to load the measurements locally.</p>}<p><a href={r.sources[id].url}>Original CALCE archive</a></p></article></section>
-  <section><h2>Held-out cell evaluation</h2><article><p>Trained on {r.train_cells.join(", ")} ({r.train_cycles} cycles). Tested on {r.test_cells.join(", ")} ({r.test_cycles} cycles). Both estimates use only the training cells to fit their parameters.</p>
-  {[["Linear fit",r.linear],["Training mean",r.baseline]].map(([name,m])=><p key={String(name)}><b>{String(name)}</b> · MAE {(m as Metrics).mae_ah.toFixed(4)} Ah · RMSE {(m as Metrics).rmse_ah.toFixed(4)} Ah</p>)}
-  <p className="meta">Derived · {r.model_run_id} · {r.trained_at}. Single held-out laboratory cell. The fit estimates discharge capacity from retained cycle order.</p></article></section></div>;
+import type {CellDetail, LifeCell, LifeReport} from "@/lib/types";
+import {ModelComparison} from "@/components/ModelComparison";
+import {LifeScatter} from "@/components/LifeScatter";
+import {CellCurves} from "@/components/CellCurves";
+import {Tooltip} from "@/components/Tooltip";
+
+type Calce = {status: string; model_run_id?: string; train_cells?: string[]; test_cells?: string[]; test_cycles?: number;
+  linear?: {mae_ah: number; rmse_ah: number}; baseline?: {mae_ah: number; rmse_ah: number}};
+const REPO = "https://github.com/brizzme/battery-passport-360/blob/main/";
+
+export default async function Research({searchParams}: {searchParams: Promise<{cell?: string; model?: string}>}) {
+  const q = await searchParams;
+  const report = await read<LifeReport>("/api/research/hust/report");
+  const cells = await read<LifeCell[]>("/api/research/hust/cells");
+  if (!report || !cells) throw Error("Research results unavailable");
+  const model = q.model && q.model in report.models ? q.model : "capacity";
+  const median = [...cells].sort((a, b) => Math.abs(a.life - report.life_summary.median) - Math.abs(b.life - report.life_summary.median))[0];
+  const cellId = cells.some(c => c.id === q.cell) ? q.cell! : median.id;
+  const cell = await read<CellDetail>(`/api/research/hust/cells/${encodeURIComponent(cellId)}`);
+  const calce = await read<Calce>("/api/research/model-report");
+  const m = report.models, best = m.capacity, base = m.baseline;
+  return <div className="dash research">
+    <div className="page-head compact"><h1>Cell research</h1>
+      <p>Measured laboratory cells (HUST LFP, CC BY 4.0) · not the fictional fleet · predictions are derived</p></div>
+
+    <dl className="kpis">
+      <div className="kpi"><dt>Cells</dt><dd><span className="kpi-num">{report.n_cells}</span></dd><dd className="kpi-detail">LFP/graphite 1.1 Ah, {report.n_batches} test batches</dd></div>
+      <div className="kpi"><dt>Measured life</dt><dd><span className="kpi-num">{report.life_summary.min.toLocaleString("en")}–{report.life_summary.max.toLocaleString("en")}</span></dd><dd className="kpi-detail">cycles to 80 % of initial capacity</dd></div>
+      <div className="kpi"><dt>Baseline error</dt><dd><span className="kpi-num">{base.mae.toFixed(0)}</span><span className="kpi-unit">cycles MAE</span></dd><dd className="kpi-detail">predicting the training mean</dd></div>
+      <div className="kpi"><dt>Best held-out error</dt><dd><span className="kpi-num">{best.mae.toFixed(0)}</span><span className="kpi-unit">cycles MAE</span></dd><dd className="kpi-detail">capacity features, first 100 cycles</dd></div>
+      <div className="kpi"><dt>Interval coverage</dt><dd><span className="kpi-num">{(100 * best.interval_coverage).toFixed(0)} %</span></dd><dd className="kpi-detail">of cells inside their 80 % interval</dd></div>
+    </dl>
+
+    <div className="dash-main">
+      <ModelComparison report={report} selected={model} cell={cellId}/>
+      <section aria-labelledby="find-h" className="provenance">
+        <h2 id="find-h">What the comparison shows</h2>
+        <p>Capacity features from the first 100 cycles cut the error from {base.mae.toFixed(0)} to {best.mae.toFixed(0)} cycles against the training-mean baseline.</p>
+        <p>The voltage-curve feature, adapted from Severson et al. (2019), adds no skill here: alone it matches the baseline ({m.voltage_variance.mae.toFixed(0)} cycles), and adding it to the capacity features gives {m.full.mae.toFixed(0)} cycles. This null result is reported as measured.</p>
+        <p className="meta">{report.voltage_feature_note}</p>
+      </section>
+    </div>
+
+    <LifeScatter cells={cells} model={model} label={m[model].label} selected={cellId}/>
+    {cell && <CellCurves cell={cell} model={model}/>}
+
+    <div className="dash-pair">
+      <section aria-labelledby="method-h" className="provenance">
+        <h2 id="method-h">Method and leakage guards</h2>
+        <dl>
+          <div><dt>Target</dt><dd>{report.target}.</dd></div>
+          <div><dt>Split</dt><dd>{report.split}.</dd></div>
+          <div><dt>Intervals</dt><dd>{report.intervals}.</dd></div>
+          <div><dt>Guards</dt><dd>Features read cycles ≤ {report.horizon_cycles} only; no batch appears in both training and test; model strength and intervals are chosen inside the training batches. <code>research/verify_life.py</code> recomputes every number from the per-cell predictions.</dd></div>
+        </dl>
+      </section>
+      <section aria-labelledby="src-h" className="provenance">
+        <h2 id="src-h">Data and limits</h2>
+        <dl>
+          <div><dt>Dataset</dt><dd>{report.data.dataset}. Per-cell protocols from Microsoft BatteryML (MIT).</dd></div>
+          <div><dt>Run</dt><dd>{report.run_id} · {report.generated_at.slice(0, 10)}</dd></div>
+          <div><dt>Limits</dt><dd>One cell type, one laboratory, 30 °C. Results describe these cells only and are not applied to fleet packs.</dd></div>
+        </dl>
+        <p><a href={REPO + "docs/MODEL_CARD.md"}>Model card</a> · <a href={REPO + "docs/DATA_SOURCES.md"}>Data sources</a></p>
+      </section>
+    </div>
+
+    {calce?.status === "trained" && <details className="dp-group">
+      <summary>Legacy baseline: CALCE CS2 capacity trend <small>superseded</small></summary>
+      <p>Linear fit of capacity on retained cycle order, trained on {calce.train_cells?.join(", ")}, tested on {calce.test_cells?.join(", ")} ({calce.test_cycles} cycles): MAE {calce.linear?.mae_ah.toFixed(4)} Ah against {calce.baseline?.mae_ah.toFixed(4)} Ah for the training mean. Kept for reference; one held-out cell cannot support a general claim.</p>
+      <p className="meta">Derived · {calce.model_run_id}</p>
+    </details>}
+    <Tooltip/>
+  </div>;
 }
