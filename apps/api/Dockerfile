@@ -4,4 +4,5 @@ WORKDIR /srv
 COPY pyproject.toml uv.lock ./
 RUN uv sync --locked --no-dev
 COPY app app
-CMD [".venv/bin/uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# HOST=:: for IPv6 private networks (Railway); defaults suit Docker Compose.
+CMD ["sh", "-c", "exec .venv/bin/uvicorn app.main:app --host ${HOST:-0.0.0.0} --port ${PORT:-8000}"]

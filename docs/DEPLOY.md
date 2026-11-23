@@ -1,4 +1,6 @@
-# Sharing the demo by link
+# Sharing the demo by link (own server)
+
+For the managed option, see [DEPLOY_RAILWAY.md](DEPLOY_RAILWAY.md). The web app also has its own optional sign-in (`DEMO_USER`, `DEMO_PASSWORD`), used on Railway; with Caddy below it is not needed.
 
 Goal: give a small audience a private HTTPS link to the PoC. The data is synthetic; nothing here is meant for real customer data.
 
