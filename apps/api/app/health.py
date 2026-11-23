@@ -70,6 +70,18 @@ class ReviewFlag(BaseModel):
     reason: str
 
 
+class PackPoint(BaseModel):
+    battery_id: str
+    site_id: str | None
+    chemistry: str
+    capacity_pct: float | None
+    efc: float | None
+    review_rules: list[str]
+
+
+REGIMES = ("calibrated", "extrapolated_below_calibrated_range", "clamped_low", "clamped_high")
+
+
 class FleetHealth(BaseModel):
     as_of: date
     data_cutoff: date = DATA_CUTOFF
@@ -82,6 +94,8 @@ class FleetHealth(BaseModel):
     efc_total: float
     events_30d: dict[str, int]
     review: list[ReviewFlag]
+    pack_points: list[PackPoint] = []
+    regime_share: dict[str, float] = {}
 
 
 def effective_date(as_of: date | None, today: date) -> date:
@@ -231,7 +245,8 @@ def triage(summaries: list[HealthSummary], readiness_gap_ids: set[str], as_of: d
     return flags
 
 
-def fleet_summary(summaries: list[HealthSummary], flags: list[ReviewFlag], as_of: date) -> FleetHealth:
+def fleet_summary(summaries: list[HealthSummary], flags: list[ReviewFlag], as_of: date,
+                  regime_days: dict[str, int] | None = None) -> FleetHealth:
     bands = {"95-100": 0, "90-95": 0, "80-90": 0, "below 80": 0, "unknown": 0}
     window = as_of - timedelta(days=30)
     events: Counter = Counter()
@@ -246,5 +261,18 @@ def fleet_summary(summaries: list[HealthSummary], flags: list[ReviewFlag], as_of
                   else "below 80"] += 1
         efc += _value(s, "cycle_count_efc") or 0.0
         events.update(e.kind for e in s.events if e.observed_at.date() > window)
+    rules: dict[str, list[str]] = {}
+    for f in flags:
+        rules.setdefault(f.battery_id, []).append(f.rule)
+    points = []
+    for s in summaries:
+        fade = _value(s, "capacity_fade_pct")
+        points.append(PackPoint(battery_id=s.battery_id, site_id=s.site_id, chemistry=s.chemistry,
+                                capacity_pct=None if fade is None else round(100 - fade, 2),
+                                efc=_value(s, "cycle_count_efc"), review_rules=rules.get(s.battery_id, [])))
+    days = regime_days or {}
+    total = sum(days.get(k, 0) for k in REGIMES)
+    share = {k: (days.get(k, 0) / total if total else 0.0) for k in REGIMES}
     return FleetHealth(as_of=as_of, packs=len(summaries), capacity_bands=bands, efc_total=round(efc, 1),
-                       events_30d=dict(sorted(events.items())), review=flags)
+                       events_30d=dict(sorted(events.items())), review=flags, pack_points=points,
+                       regime_share=share)

@@ -58,7 +58,7 @@ def history_payload(battery_id: str, start: date, end: date, points: list[dict],
             "data_cutoff": DATA_CUTOFF, "from": start, "to": end, "points": points}
 
 
-def load_fleet(as_of: date) -> tuple[list[HealthSummary], set[str]]:
+def load_fleet(as_of: date) -> tuple[list[HealthSummary], set[str], dict[str, int]]:
     with fleet_cursor() as cursor:
         meta = _meta(cursor)
         cursor.execute(PROFILE + " ORDER BY battery_id")
@@ -73,15 +73,18 @@ def load_fleet(as_of: date) -> tuple[list[HealthSummary], set[str]]:
         for row in cursor:
             events[row.pop("battery_id")].append(row)
         fields = fields_for(cursor, [p["battery_id"] for p in profiles])
+        cursor.execute("""SELECT d.temp_regime, count(*) AS n FROM pack_daily d JOIN batteries b USING (battery_id)
+                          WHERE b.chemistry = 'LFP' AND d.day <= %s GROUP BY 1""", (as_of,))
+        regime_days = {row["temp_regime"]: row["n"] for row in cursor}
     summaries = [summarize(p, daily[p["battery_id"]], [], events[p["battery_id"]], meta, as_of) for p in profiles]
     gaps = {p["battery_id"] for p in profiles
             if any(r.status in GAPS for r in assess(p["category"], p["rated_kwh"], MILESTONE,
                                                     fields.get(p["battery_id"], {})))}
-    return summaries, gaps
+    return summaries, gaps, regime_days
 
 
 @router.get("/health-summary")
 def fleet_health(as_of: date | None = None) -> FleetHealth:
     when = effective_date(as_of, datetime.now(timezone.utc).date())
-    summaries, gaps = load_fleet(when)
-    return fleet_summary(summaries, triage(summaries, gaps, when), when)
+    summaries, gaps, regime_days = load_fleet(when)
+    return fleet_summary(summaries, triage(summaries, gaps, when), when, regime_days)
