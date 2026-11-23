@@ -2,6 +2,7 @@ import Link from "next/link";
 import type {FleetHealth} from "@/lib/types";
 import {siteOf} from "@/lib/sites";
 import {Pictogram} from "./Pictogram";
+import {capacityText} from "@/lib/geometry";
 
 const SHORT: Record<string, string> = {
   capacity_below_80: "Capacity below 80 %",
@@ -26,9 +27,9 @@ function Rows({rows}: {rows: ReturnType<typeof reviewRows>}) {
     const cap = r.point?.capacity_pct;
     return <tr key={r.id}>
       <th scope="row"><Link href={`/fleet/${r.id}?as_of=2027-02-18`}>{r.id}</Link></th>
-      <td><span className="site-tag" style={{color: site.color}}><Pictogram site={r.point?.site_id}/></span> {site.short}</td>
+      <td><span className="site-tag"><Pictogram site={r.point?.site_id}/></span> {site.short}</td>
       <td><ul className="reasons">{r.flags.map(f => <li key={f.rule} data-tip={f.reason} tabIndex={0} aria-label={`${SHORT[f.rule] ?? f.rule}. ${f.reason}`}>{SHORT[f.rule] ?? f.rule}</li>)}</ul></td>
-      <td className="num">{cap === null || cap === undefined ? "unknown" : `${cap.toFixed(1)} %`}{cap !== null && cap !== undefined && cap < 80 && <small className="block">extrapolated</small>}</td>
+      <td className="num">{cap === null || cap === undefined ? "unknown" : capacityText(cap)}{cap !== null && cap !== undefined && cap < 80 && <small className="block">extrapolated</small>}</td>
     </tr>;
   })}</>;
 }
@@ -43,7 +44,7 @@ export function ReviewTable({data}: {data: FleetHealth}) {
       <tbody><Rows rows={first}/></tbody>
     </table>
     {rest.length > 0 && <details className="more"><summary>Show all {rows.length} packs</summary>
-      <table><tbody><Rows rows={rest}/></tbody></table></details>}
+      <table><thead><tr><th scope="col">Pack</th><th scope="col">Site</th><th scope="col">Reason</th><th scope="col" className="num">Capacity</th></tr></thead><tbody><Rows rows={rest}/></tbody></table></details>}
     <p className="note">{data.triage_note} Qualified specialists decide.</p>
   </section>;
 }

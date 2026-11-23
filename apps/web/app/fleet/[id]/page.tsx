@@ -9,8 +9,16 @@ import {Histogram} from "@/components/Histogram";
 import {EventTimeline} from "@/components/EventTimeline";
 import {Tooltip} from "@/components/Tooltip";
 
-const show = (i: {status: string; value: number | string | null; unit: string | null; reason: string | null}) =>
-  i.status === "value" ? `${i.value}${i.unit ? " " + i.unit : ""}` : i.status.replaceAll("_", " ");
+type Ind = {key: string; status: string; value: number | string | null; unit: string | null; reason: string | null};
+const num = (v: number) => v.toLocaleString("en", {maximumFractionDigits: Math.abs(v) >= 100 ? 0 : 1});
+function show(i: Ind, floored: boolean) {
+  if (i.status !== "value") return i.status.replaceAll("_", " ");
+  if (floored && i.key === "capacity_fade_pct") return `≥ ${num(Number(i.value))} % (model floor)`;
+  if (floored && i.key === "fade_rate_90d_pct") return "not measurable at model floor";
+  if (i.key === "resistance_increase_pct") return `+${num(Number(i.value))} % vs initial`;
+  const v = typeof i.value === "number" ? num(i.value) : String(i.value);
+  return `${v}${i.unit ? " " + i.unit : ""}`;
+}
 
 export default async function Detail({params, searchParams}: {params: Promise<{id: string}>; searchParams: Promise<{as_of?: string}>}) {
   const {id} = await params;
@@ -23,6 +31,8 @@ export default async function Detail({params, searchParams}: {params: Promise<{i
   const site = siteOf(health?.site_id);
   const passportFields = health?.indicators.filter(i => i.passport_field) ?? [];
   const operational = health?.indicators.filter(i => !i.passport_field) ?? [];
+  const fade = health?.indicators.find(i => i.key === "capacity_fade_pct");
+  const floored = fade?.status === "value" && Number(fade.value) >= 39.99;
   return <div className="desk pack">
     <div className="page-head"><p className="crumb"><Link href="/">Fleet health</Link> / <Link href="/fleet">Passport inspector</Link></p>
       <h1>{b.battery_id}</h1></div>
@@ -45,7 +55,7 @@ export default async function Detail({params, searchParams}: {params: Promise<{i
           <h3>Passport health fields <small>restricted access · provisional mapping</small></h3>
           <table><tbody>{passportFields.map(i => <tr key={i.key}>
             <th scope="row">{i.label}<small className="block">{i.passport_ref?.replace(" per Commission guidance v3.2 (non-binding)", "")}</small></th>
-            <td className="num"><b>{show(i)}</b>{i.status !== "value" && <small className="block">{i.reason}</small>}{i.labels.length > 0 && <small className="block">{i.labels.map(regimeLabel).join(" · ")}</small>}</td>
+            <td className="num"><b>{show(i, floored)}</b>{i.status !== "value" && <small className="block">{i.reason}</small>}{i.labels.length > 0 && <small className="block">{i.labels.map(regimeLabel).join(" · ")}</small>}</td>
           </tr>)}</tbody></table>
           {health.not_applicable.map(i => <p key={i.key} className="note">{i.label}: not applicable. {i.reason}</p>)}
         </div>
@@ -54,7 +64,7 @@ export default async function Detail({params, searchParams}: {params: Promise<{i
         <Histogram title="Temperature exposure" unit="°C" bins={health.temperature_histogram} color={site.color}/>
         <Histogram title="State of charge" unit="% SoC" bins={health.soc_histogram} color="var(--ink-2)"/>
         <div className="indicators"><h3>Operational indicators <small>not passport fields</small></h3>
-          <table><tbody>{operational.map(i => <tr key={i.key}><th scope="row">{i.label}</th><td className="num">{show(i)}</td></tr>)}</tbody></table></div>
+          <table><tbody>{operational.map(i => <tr key={i.key}><th scope="row">{i.label}</th><td className="num">{show(i, floored)}</td></tr>)}</tbody></table></div>
       </div>
       <figure className="chart"><figcaption><h3>Idle spans and events, last 365 days <small>bars drawn to exact day length</small></h3></figcaption>
         {history ? <EventTimeline points={history.points} events={health.events}/> : <p className="empty">History unavailable.</p>}</figure>
@@ -65,8 +75,8 @@ export default async function Detail({params, searchParams}: {params: Promise<{i
       <h2 id="passport-h">Passport evidence</h2>
       <p>{data.scenario} Illustrative data readiness; missing evidence calls for review.</p>
       <form className="filters"><label>Assessment date<input type="date" name="as_of" defaultValue={data.as_of} required/></label><button>Apply date</button><Link href={path}>Today</Link><Link href={path + "?as_of=" + preset}>18 Feb 2027 preset</Link></form>
-      {data.results.map(r => <article key={r.rule_id}><p className="meta">Derived · {r.rule_id} v{r.version}</p><h3>{r.label} <span className="badge">{r.status.replaceAll("_", " ")}</span></h3><p>{r.reason}</p>
-        <p className="meta">As of {data.as_of} · Earliest date {r.effective_from} · Public model field · <a href={r.source_url}>{r.section}</a></p>
+      {data.results.map(r => <article key={r.rule_id}><h3>{r.label} <span className="badge">{r.status.replaceAll("_", " ")}</span></h3><p>{r.reason}</p>
+        <p className="meta">Derived · {r.rule_id} v{r.version} · As of {data.as_of} · Earliest date {r.effective_from} · Public model field · <a href={r.source_url}>{r.section}</a></p>
         {r.evidence && <p className="meta">Synthetic entry “{r.evidence.value_text}” · {r.evidence.evidence_ref ?? "No evidence reference"} · {r.evidence.source_id} · {r.evidence.observed_at} · {r.evidence.explanation}</p>}</article>)}
       <p><Link href={"/assistant?id=" + id + "&as_of=" + data.as_of}>Ask the evidence assistant</Link> · <a download href={"/api/draft?id=" + id + "&as_of=" + data.as_of}>Download draft summary</a></p>
     </section>

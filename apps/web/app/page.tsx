@@ -18,8 +18,8 @@ export default async function FleetHealthPage() {
   const ev = data.events_30d;
   const events = Object.values(ev).reduce((a, b) => a + b, 0);
   return <div className="dash">
-    <div className="page-head"><h1>Fleet health</h1>
-      <p>Which packs a specialist should look at, and why. Values as of {data.as_of}. Every figure is simulated; LFP fade is calibrated on public cell measurements, lead-acid values are generator assumptions.</p></div>
+    <div className="page-head compact"><h1>Fleet health</h1>
+      <p>As of {data.as_of} · all simulated: LFP fade calibrated on public cell data, lead-acid values are generator assumptions</p></div>
     <KpiStrip items={[
       {label: "Packs", value: fmt(data.packs), detail: "fictional, 3 sites"},
       {label: "Suggested for review", value: String(reviewRows(data).length), unit: "packs", detail: `${data.review.length} reasons`},

@@ -181,3 +181,17 @@ figure { margin: var(--s3) 0 }
 @media (max-width: 1100px) { .furniture { grid-template-columns: repeat(3, minmax(0, 1fr)) } .pack-grid, .pack-grid.three { grid-template-columns: 1fr } }
 @media (max-width: 720px) { .furniture { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
 .site-tab.hot { color: var(--ink) }
+
+/* Finish-review fixes */
+.dash, .pack, .pack-health { grid-template-columns: minmax(0, 1fr) }
+figure.chart, .dash-main > *, .dash-pair > *, .pack-grid > * { min-width: 0 }
+.note { border-left: 0; padding-left: 0; padding-top: var(--s2); border-top: 1px solid var(--rule) }
+.tile-fill { box-shadow: inset 0 1px 0 var(--ink) }
+.page-head.compact { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s2) var(--s4) }
+.page-head.compact p { font-size: var(--t-xs) }
+.chart.small svg { max-height: 220px }
+.bar nav { scrollbar-width: thin; scrollbar-color: #8fa0a6 transparent }
+@media (max-width: 720px) {
+  .chart-scroll svg { min-width: 560px }
+  .bar nav ul::after { content: ""; flex: 0 0 var(--s4) }
+}

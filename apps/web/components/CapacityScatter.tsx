@@ -1,6 +1,6 @@
 import type {PackPoint} from "@/lib/types";
 import {SITE_ORDER, SITES, type SiteId} from "@/lib/sites";
-import {linearScale, niceTicks, packLabel} from "@/lib/geometry";
+import {capacityText, linearScale, niceTicks, packLabel} from "@/lib/geometry";
 import {HatchDefs} from "./Hatch";
 
 const W = 960, H = 340, M = {l: 56, r: 16, t: 16, b: 44};
@@ -9,7 +9,7 @@ function Mark({site, x, y}: {site: SiteId; x: number; y: number}) {
   const c = SITES[site].color;
   if (site === "SITE-COLD") return <circle cx={x} cy={y} r={5} fill={c} stroke="var(--surface)" strokeWidth={2}/>;
   if (site === "SITE-AMB") return <rect x={x - 5} y={y - 5} width={10} height={10} fill={c} stroke="var(--surface)" strokeWidth={2}/>;
-  return <path d={`M${x} ${y - 6}L${x + 6} ${y + 5}H${x - 6}Z`} fill={c} stroke="var(--surface)" strokeWidth={2}/>;
+  return <path d={`M${x} ${y - 6}L${x + 6} ${y + 5}H${x - 6}Z`} fill={c} stroke="var(--ink)" strokeWidth={1}/>;
 }
 
 export function CapacityScatter({points}: {points: PackPoint[]}) {
@@ -33,6 +33,6 @@ export function CapacityScatter({points}: {points: PackPoint[]}) {
     </svg></div>
     <ul className="legend">{SITE_ORDER.map(id => <li key={id}><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><Mark site={id} x={7} y={7}/></svg>{SITES[id].label}</li>)}</ul>
     <details><summary>View as table</summary><table><thead><tr><th>Pack</th><th>Site</th><th className="num">EFC</th><th className="num">Capacity</th></tr></thead>
-      <tbody>{lfp.map(p => <tr key={p.battery_id}><td>{p.battery_id}</td><td>{SITES[p.site_id].label}</td><td className="num">{p.efc.toFixed(0)}</td><td className="num">{p.capacity_pct.toFixed(1)} %</td></tr>)}</tbody></table></details>
+      <tbody>{lfp.map(p => <tr key={p.battery_id}><td>{p.battery_id}</td><td>{SITES[p.site_id].label}</td><td className="num">{p.efc.toFixed(0)}</td><td className="num">{capacityText(p.capacity_pct)}</td></tr>)}</tbody></table></details>
   </figure>;
 }

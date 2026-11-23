@@ -1,7 +1,7 @@
 import type {HistoryPoint} from "@/lib/types";
 import {idleSpans, linearScale} from "@/lib/geometry";
 
-const W = 1200, H = 112, M = {l: 190, r: 12};
+const W = 960, H = 112, M = {l: 170, r: 12};
 const KINDS = [
   {key: "over_temperature", label: "Over-temperature"},
   {key: "deep_discharge", label: "Deep discharge"},

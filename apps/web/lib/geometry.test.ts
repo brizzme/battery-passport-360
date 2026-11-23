@@ -36,8 +36,8 @@ describe("bandCounts", () => {
 });
 describe("packLabel", () => {
   it("describes an extrapolated pack under review", () =>
-    expect(packLabel({battery_id: "BAT-DEMO-007", site_id: "SITE-HOT", chemistry: "LFP", capacity_pct: 60, efc: 1942, review_rules: ["capacity_below_80"]}))
-      .toBe("BAT-DEMO-007, Hot dock, capacity 60.0 %, extrapolated, suggested for review"));
+    expect(packLabel({battery_id: "BAT-DEMO-007", site_id: "SITE-HOT", chemistry: "LFP", capacity_pct: 70, efc: 1942, review_rules: ["capacity_below_80"]}))
+      .toBe("BAT-DEMO-007, Hot dock, capacity 70.0 %, extrapolated, suggested for review"));
   it("describes a lead-acid pack", () =>
     expect(packLabel({battery_id: "BAT-DEMO-005", site_id: "SITE-COLD", chemistry: "lead-acid", capacity_pct: null, efc: 869, review_rules: []}))
       .toBe("BAT-DEMO-005, Cold store, capacity unknown (lead-acid)"));
@@ -46,4 +46,13 @@ import {regimeLabel} from "./sites";
 describe("regimeLabel", () => {
   it("humanises regime shares", () => expect(regimeLabel("clamped_low 34%")).toBe("clamped below 20 °C: 34 %"));
   it("humanises bare labels", () => expect(regimeLabel("extrapolated_beyond_measured_curve")).toBe("below 80 %: beyond measured curve"));
+});
+import {capacityText, atFloor} from "./geometry";
+describe("model floor labels", () => {
+  it("detects the 60 % floor", () => { expect(atFloor(60)).toBe(true); expect(atFloor(60.5)).toBe(false); expect(atFloor(null)).toBe(false); });
+  it("writes floored capacity as an upper bound", () => expect(capacityText(60)).toBe("≤ 60.0 % (model floor)"));
+  it("writes ordinary capacity plainly", () => expect(capacityText(74.31)).toBe("74.3 %"));
+  it("labels floored packs in the accessible name", () =>
+    expect(packLabel({battery_id: "BAT-DEMO-007", site_id: "SITE-HOT", chemistry: "LFP", capacity_pct: 60, efc: 1942, review_rules: ["capacity_below_80"]}))
+      .toBe("BAT-DEMO-007, Hot dock, capacity ≤ 60.0 % (model floor), extrapolated, suggested for review"));
 });

@@ -47,10 +47,16 @@ export function bandCounts(bands: Record<string, number>) {
   return BAND_ORDER.map(key => ({key, count: bands[key] ?? 0, share: total ? (bands[key] ?? 0) / total : 0}));
 }
 
+export const MODEL_FLOOR = 60;
+export const atFloor = (cap: number | null | undefined) => cap !== null && cap !== undefined && cap <= MODEL_FLOOR + 0.01;
+export function capacityText(cap: number): string {
+  return atFloor(cap) ? `≤ ${MODEL_FLOOR.toFixed(1)} % (model floor)` : `${cap.toFixed(1)} %`;
+}
+
 export function packLabel(p: PackPoint): string {
   const site = siteOf(p.site_id).label;
   if (p.capacity_pct === null) return `${p.battery_id}, ${site}, capacity unknown (${p.chemistry})`;
-  const parts = [p.battery_id, site, `capacity ${p.capacity_pct.toFixed(1)} %`];
+  const parts = [p.battery_id, site, `capacity ${capacityText(p.capacity_pct)}`];
   if (p.capacity_pct < 80) parts.push("extrapolated");
   if (p.review_rules.length) parts.push("suggested for review");
   return parts.join(", ");
