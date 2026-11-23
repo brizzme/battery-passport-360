@@ -16,4 +16,4 @@ export function proxy(request: NextRequest) {
 }
 
 // Everything except the health endpoint used by the hosting platform's health check.
-export const config = {matcher: ["/((?!health$).*)"]};
+export const config = {matcher: ["/((?!health$|robots\\.txt$).*)"]};
