@@ -57,3 +57,15 @@ def test_uninformative_features_reduce_to_intercept_without_crashing():
     g = np.repeat(np.arange(1, 7), 6)
     r = evaluate(x, y, g, "enet")
     assert np.all(np.isfinite(r["pred"]))
+
+
+def test_conformal_quantile_is_kth_order_statistic():
+    from lifemodel.evaluate import conformal_quantile
+    res = np.arange(1, 70, dtype=float)  # n = 69, k = ceil(70 * 0.8) = 56
+    assert conformal_quantile(res, 0.2) == 56.0
+    assert conformal_quantile(np.array([1.0, 2.0]), 0.2) == np.inf  # k = 3 > n
+
+
+def test_alpha_search_reaches_near_zero():
+    from lifemodel.evaluate import ALPHA_GRID
+    assert min(ALPHA_GRID) <= 1e-6 and max(ALPHA_GRID) >= 1.0

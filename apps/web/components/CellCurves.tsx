@@ -6,8 +6,8 @@ const W = 480, H = 260, M = {l: 56, r: 12, t: 12, b: 40};
 export function CellCurves({cell, model}: {cell: CellDetail; model: string}) {
   const p = cell[model] as Pred;
   const caps = cell.capacity_ah, cyc = cell.cycles;
-  const initial = caps[Math.min(2, caps.length - 1)];
-  const xt = niceTicks(0, cyc.at(-1)!, 5), x = linearScale([0, xt.at(-1)!], [M.l, W - M.r]);
+  const initial = cell.initial_ah;
+  const xt = niceTicks(0, Math.max(cyc.at(-1)!, p.hi), 5), x = linearScale([0, xt.at(-1)!], [M.l, W - M.r]);
   const yMin = Math.floor(Math.min(...caps) * 20) / 20, yMax = Math.ceil(Math.max(...caps) * 20) / 20;
   const y = linearScale([yMin, yMax], [H - M.b, M.t]);
   const path = cyc.map((c, i) => `${i ? "L" : "M"}${x(c).toFixed(1)} ${y(caps[i]).toFixed(1)}`).join("");

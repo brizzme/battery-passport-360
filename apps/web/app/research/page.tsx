@@ -14,12 +14,13 @@ export default async function Research({searchParams}: {searchParams: Promise<{c
   const report = await read<LifeReport>("/api/research/hust/report");
   const cells = await read<LifeCell[]>("/api/research/hust/cells");
   if (!report || !cells) throw Error("Research results unavailable");
-  const model = q.model && q.model in report.models ? q.model : "capacity";
+  const model = q.model && q.model in report.models ? q.model : Object.entries(report.models).filter(([k]) => k !== "baseline").sort((a, b) => a[1].mae - b[1].mae)[0][0];
   const median = [...cells].sort((a, b) => Math.abs(a.life - report.life_summary.median) - Math.abs(b.life - report.life_summary.median))[0];
   const cellId = cells.some(c => c.id === q.cell) ? q.cell! : median.id;
   const cell = await read<CellDetail>(`/api/research/hust/cells/${encodeURIComponent(cellId)}`);
   const calce = await read<Calce>("/api/research/model-report");
-  const m = report.models, best = m.capacity, base = m.baseline;
+  const m = report.models, base = m.baseline;
+  const [, best] = Object.entries(m).filter(([k]) => k !== "baseline").sort((a, b) => a[1].mae - b[1].mae)[0];
   return <div className="dash research">
     <div className="page-head compact"><h1>Cell research</h1>
       <p>Measured laboratory cells (HUST LFP, CC BY 4.0) · not the fictional fleet · predictions are derived</p></div>
@@ -28,15 +29,15 @@ export default async function Research({searchParams}: {searchParams: Promise<{c
       <div className="kpi"><dt>Cells</dt><dd><span className="kpi-num">{report.n_cells}</span></dd><dd className="kpi-detail">LFP/graphite 1.1 Ah, {report.n_batches} test batches</dd></div>
       <div className="kpi"><dt>Measured life</dt><dd><span className="kpi-num">{report.life_summary.min.toLocaleString("en")}–{report.life_summary.max.toLocaleString("en")}</span></dd><dd className="kpi-detail">cycles to 80 % of initial capacity</dd></div>
       <div className="kpi"><dt>Baseline error</dt><dd><span className="kpi-num">{base.mae.toFixed(0)}</span><span className="kpi-unit">cycles MAE</span></dd><dd className="kpi-detail">predicting the training mean</dd></div>
-      <div className="kpi"><dt>Best held-out error</dt><dd><span className="kpi-num">{best.mae.toFixed(0)}</span><span className="kpi-unit">cycles MAE</span></dd><dd className="kpi-detail">capacity features, first 100 cycles</dd></div>
-      <div className="kpi"><dt>Interval coverage</dt><dd><span className="kpi-num">{(100 * best.interval_coverage).toFixed(0)} %</span></dd><dd className="kpi-detail">of cells inside their 80 % interval</dd></div>
+      <div className="kpi"><dt>Best held-out error</dt><dd><span className="kpi-num">{best.mae.toFixed(0)}</span><span className="kpi-unit">cycles MAE</span></dd><dd className="kpi-detail">{best.label.toLowerCase()}, first 100 cycles</dd></div>
+      <div className="kpi"><dt>Interval coverage</dt><dd><span className="kpi-num">{(100 * best.interval_coverage).toFixed(0)} %</span></dd><dd className="kpi-detail">of cells inside their 80 % interval; varies by batch</dd></div>
     </dl>
 
     <div className="dash-main">
       <ModelComparison report={report} selected={model} cell={cellId}/>
       <section aria-labelledby="find-h" className="provenance">
         <h2 id="find-h">What the comparison shows</h2>
-        <p>Capacity features from the first 100 cycles cut the error from {base.mae.toFixed(0)} to {best.mae.toFixed(0)} cycles against the training-mean baseline.</p>
+        <p>{best.label} from the first 100 cycles cut the error from {base.mae.toFixed(0)} to {best.mae.toFixed(0)} cycles against the training-mean baseline (per-fold range {best.fold_mae_range[0].toFixed(0)}–{best.fold_mae_range[1].toFixed(0)}). Model strength selection settled at effectively no regularisation.</p>
         <p>The voltage-curve feature, adapted from Severson et al. (2019), adds no skill here: alone it matches the baseline ({m.voltage_variance.mae.toFixed(0)} cycles), and adding it to the capacity features gives {m.full.mae.toFixed(0)} cycles. This null result is reported as measured.</p>
         <p className="meta">{report.voltage_feature_note}</p>
       </section>

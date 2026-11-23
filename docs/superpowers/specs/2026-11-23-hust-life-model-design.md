@@ -22,7 +22,7 @@ HUST (Ma et al. 2022, CC BY 4.0, already pinned): 77 LFP/graphite 1.1 Ah cells, 
   - capacity: discharge capacity at cycle 2; maximum minus cycle-2 capacity; slope and intercept of a linear fit over cycles 91–100.
 - **Models compared:** (1) training-mean baseline; (2) variance-only linear model; (3) capacity-only regularised linear model; (4) full model (voltage + capacity). Regularised = elastic net (scikit-learn, pinned in the research group); its strength is chosen by grouped cross-validation inside the training folds only.
 - **Evaluation:** leave-one-batch-out over the 10 cell-id batches (outer folds). Every cell is predicted exactly once by a model that never saw its batch; every cell also has a unique protocol, so no test protocol occurs in training. Report pooled MAE, RMSE and MAPE in cycles, plus per-fold spread. The comparison that matters is against our own training-mean baseline under the same split; published numbers are not used as targets (see calls).
-- **Uncertainty:** split-conformal 80 % intervals from inner-fold residuals of the training data; report empirical coverage on the outer folds.
+- **Uncertainty:** 80 % CV-residual, conformal-style intervals from inner out-of-fold residuals of the training batches (not split conformal; no finite-sample guarantee under batch shift); report pooled and per-batch empirical coverage on the outer folds.
 - **Leakage guards (tested):** no feature reads a cycle > 100; no group appears in both train and test of a fold; hyper-parameters selected without outer-test cells; the report records feature definitions and the dataset digest.
 
 ## Outputs

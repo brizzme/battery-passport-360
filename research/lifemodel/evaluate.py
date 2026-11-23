@@ -14,6 +14,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 L1_RATIOS = [0.1, 0.5, 0.9, 1.0]
+ALPHA_GRID = list(np.logspace(-7, 0.5, 60))  # reaches effectively unregularised fits and strong shrinkage
 ALPHA = 0.2  # 80 % intervals
 
 
@@ -39,20 +40,29 @@ def _fit(kind: str, x, y, groups):
     if kind == "enet":
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", ConvergenceWarning)
-            model = make_pipeline(StandardScaler(), ElasticNetCV(l1_ratio=L1_RATIOS, cv=_inner_splits(x, groups),
-                                                                 max_iter=20000))
+            model = make_pipeline(StandardScaler(), ElasticNetCV(l1_ratio=L1_RATIOS, alphas=ALPHA_GRID,
+                                                                 cv=_inner_splits(x, groups), max_iter=50000))
             return model.fit(x, y)
     raise ValueError(kind)
 
 
+def conformal_quantile(residuals, alpha: float) -> float:
+    """k-th smallest absolute residual, k = ceil((n + 1)(1 - alpha)); infinite when k > n."""
+    r = np.sort(np.asarray(residuals, dtype=float))
+    k = math.ceil((len(r) + 1) * (1 - alpha))
+    return float("inf") if k > len(r) else float(r[k - 1])
+
+
 def _conformal_halfwidth(kind: str, x, y, groups) -> float:
-    """Split-conformal quantile of absolute inner out-of-fold residuals (training data only)."""
+    """CV-residual, conformal-style half-width from inner out-of-fold residuals (training batches only).
+
+    Not split conformal: residuals come from inner refits and exchangeability holds at most at batch level,
+    so there is no finite-sample coverage guarantee; empirical coverage is reported instead.
+    """
     residuals = np.empty(len(y))
     for tr, te in _inner_splits(x, groups):
         residuals[te] = np.abs(y[te] - _fit(kind, x[tr], y[tr], groups[tr]).predict(x[te]))
-    n = len(residuals)
-    level = min(1.0, math.ceil((n + 1) * (1 - ALPHA)) / n)
-    return float(np.quantile(residuals, level, method="higher"))
+    return conformal_quantile(residuals, ALPHA)
 
 
 def evaluate(x, y_log, groups, kind: str) -> dict:

@@ -66,8 +66,8 @@ The research page compares early-cycle life models on 77 measured HUST LFP cells
 
 ## Five-minute local demo
 
-Start at the [workspace](http://127.0.0.1:3000). The [demo runbook](docs/DEMO_RUNBOOK.md) covers the fleet, the evidence inspector, measured cell research, the evidence assistant and a downloadable Markdown draft. The research preparation command above enables the measured chart. All other demo steps work from a fresh Compose boot.
+Start at the [fleet health dashboard](http://127.0.0.1:3000). The [demo runbook](docs/DEMO_RUNBOOK.md) covers fleet health, a pack's health and passport coverage, the evidence assistant, cell research and the downloadable Markdown draft. Every step works from a fresh Compose boot; downloads are only needed to re-derive committed artifacts.
 
-The assistant runs deterministically without credentials. Optional server-only settings in .env.example configure a chat-completions endpoint to prioritize already verified findings. Only synthetic field IDs and statuses are sent. Provider failures and invalid selections fall back visibly to offline mode. Independent research verification: `python3 research/verify.py` after preparation.
+The assistant runs deterministically without credentials. Optional server-only settings in .env.example configure a chat-completions endpoint to prioritize already verified findings. Only synthetic field IDs and statuses are sent. Provider failures and invalid selections fall back visibly to offline mode. Independent research verification: `python3 research/verify_life.py` (committed HUST results) and `python3 research/verify.py` (legacy CALCE, after preparation).
 
 Run the full local API smoke check with `./scripts/check-demo.sh`. It covers fleet consistency, real retrieval, unsupported questions, report downloads and research availability.
