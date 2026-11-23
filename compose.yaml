@@ -26,7 +26,7 @@ services:
       PGDATABASE: passport
       PGUSER: passport
       PGPASSWORD: ${POSTGRES_PASSWORD:-local-demo}
-    command: ["sh", "-ec", "for file in /migrations/*.sql; do psql -v ON_ERROR_STOP=1 -f \"$$file\"; done"]
+    command: ["/migrate.sh"]
 
   api:
     build: ./apps/api
