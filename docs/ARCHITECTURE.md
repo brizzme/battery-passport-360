@@ -10,7 +10,7 @@ Python dependencies resolve through uv.lock and frontend dependencies through pa
 
 Migration 002 creates the first two fleet tables and seeds fictional identities. GET /api/batteries/{battery_id} joins the identity to its source and returns HTTP 404 for an unknown ID. This first M1 slice is available through the API reference.
 
-The inspector reads linked model-sheet fields and the synthetic pack health summary, then evaluates five versioned Python rules. The fleet status filter uses the same evaluator as the inspector. Reports and offline assistant findings therefore use the same date, scope checks, field values and evidence references.
+The inspector reads linked model-sheet fields and the synthetic pack health summary, then evaluates every data point of the committed guidance catalogue (`apps/api/app/readiness.py`, fixed precedence documented in the part 3 design). The fleet status filter uses the same evaluator as the inspector. Reports and offline assistant findings therefore use the same date, scope checks, field values and evidence references.
 
 The CALCE pipeline runs outside the server and emits an aggregate model artifact plus ignored local observation files. The research router has its own cell namespace with no pack identifier mapping. Empty local research storage leaves the aggregate report available.
 

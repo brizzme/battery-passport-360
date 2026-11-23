@@ -14,3 +14,10 @@ The stack is intended for a single developer on localhost. Public hosting requir
 - Below 80 % capacity the measured HUST curve ends. The generator extends it linearly with a 60 % floor; packs at the floor are not distinguishable.
 - Lead-acid packs have no calibration source, so their capacity and resistance indicators are reported as unknown. Power fade and expected lifetime are not modelled.
 - Review flags use demo thresholds. They are not safety, warranty or end-of-life limits, and the passport mapping is provisional until the rules are refreshed.
+
+## Passport data-point catalogue
+
+- The rules follow non-binding Commission guidance (v3.2). Adopted acts or later guidance versions may change applicability; the catalogue must be regenerated and overrides re-checked for a new version.
+- Readiness assumes first placement on the assessment date. In-use data points (Annex XIII 4(a), 4(c), 4(d)) are therefore not yet effective; synthetic in-use values appear only in the pack health section.
+- Restricted-access data points and those whose applicability depends on battery design ("only some industrial batteries", "if applicable") are reported as unresolved, never as gaps or as present: no evidence for them is modelled.
+- Evidence checks are format checks (positive number with matching unit, web link, yes/no, month-year, non-empty text). They do not verify that a value is true.
