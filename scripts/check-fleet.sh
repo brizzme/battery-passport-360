@@ -52,9 +52,12 @@ def get(path):
     with urlopen(url + path, timeout=10) as response:
         return json.load(response)
 data = get("/BAT-DEMO-024/passport-readiness?as_of=2027-02-18")
-assert [r["status"] for r in data["results"]] == ["missing_evidence","invalid","present","not_applicable","not_yet_effective"]
+gaps = {r["rule_id"]: r["status"] for r in data["results"] if r["status"] in ("missing_evidence", "invalid")}
+assert gaps == {"DP-12": "missing_evidence", "DP-11": "invalid"}, gaps
+assert len(data["results"]) == 72 and {r["rule_id"]: r["status"] for r in data["results"]}["DP-25"] == "not_applicable"
 assert data["health"]["battery_id"] == "BAT-DEMO-024"
-assert get("?status=invalid&as_of=2027-02-18")["total"] == 1
+assert get("?status=invalid&as_of=2027-02-18")["total"] == 2
+assert get("?status=missing_evidence&as_of=2027-02-18")["total"] == 3
 assert get("?query=BAT-DEMO-101")["total"] == 0
 assert get("?page=9")["total"] == 100
 print("Inspector, operational joins and fleet filters passed")

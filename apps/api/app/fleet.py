@@ -32,7 +32,7 @@ FROM batteries b JOIN source_records s USING (source_id)
 WHERE s.source_type = 'synthetic'
 """
 FIELDS = """
-SELECT f.battery_id, f.field_code, f.value_text, f.evidence_ref, s.*
+SELECT f.battery_id, f.field_code, f.value_text, f.unit, f.evidence_ref, s.*
 FROM passport_fields f JOIN source_records s USING(source_id)
 WHERE s.source_type = 'synthetic' AND f.battery_id = ANY(%s)
 """
