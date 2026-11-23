@@ -50,7 +50,7 @@ export function TechnicalView() {
       </section>
       <section className="lane narrow" aria-label="Optional">
         <h4 className="lane-h">Optional (needs API key)</h4>
-        <Node tone="dashed" title="Claude API · Sonnet 5.5" items={["server-side key only", "synthetic findings and public passages sent", "cited briefing, validated by the API", "visible offline fallback"]}/>
+        <Node tone="dashed" title="LLM chat" items={["LLM API called from the server only", "synthetic findings and public passages sent", "cited briefing, validated by the API", "visible offline fallback"]}/>
       </section>
     </div>
   </figure>;
