@@ -256,3 +256,33 @@ figure.chart, .dash-main > *, .dash-pair > *, .pack-grid > * { min-width: 0 }
   .cmp { font-size: var(--t-xs) }
   .research .kpi-num { font-size: 1.75rem; overflow-wrap: anywhere }
 }
+
+/* PoC summary */
+.summary .page-head p { max-width: 80ch }
+.summary h2 small { font-weight: 400; font-size: var(--t-xs); color: var(--ink-2); margin-left: var(--s2) }
+.summary-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5); align-items: start }
+.panel p + p, .panel ul + p { margin-top: var(--s3) }
+ul.plain { margin: 0; padding-left: 1.1em; display: grid; gap: var(--s2) }
+.summary-table th[scope="row"] { text-transform: none; letter-spacing: 0; font-size: var(--t-sm); font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--rule); padding-top: 10px; vertical-align: top; width: 24% }
+.arch { margin: 0; background: var(--surface); padding: var(--s4) }
+.arch h3 { margin-bottom: var(--s3) }
+.arch h3 small { font-weight: 400; font-size: var(--t-xs); color: var(--ink-2); margin-left: var(--s2) }
+.arch-flow { display: grid; gap: 0 }
+.arch-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3) }
+.arch-node { border: 1px solid var(--ink); padding: var(--s3); text-align: center; background: var(--surface) }
+.arch-node a { color: inherit; text-decoration: none; display: block }
+.arch-node a:hover h4 { text-decoration: underline }
+.arch-node h4 { margin: 0 0 4px; font-size: var(--t-sm); font-weight: 600 }
+.arch-node p { margin: 0 auto; font-size: var(--t-xs); color: var(--ink-2) }
+.arch-node.ink { background: var(--ink); border-color: var(--ink) }
+.arch-node.ink h4, .arch-node.ink p { color: var(--ground) }
+.arch-node.dashed { border-style: dashed; background: var(--ground) }
+.arch-arrow { display: flex; flex-direction: column; align-items: center; padding: 4px 0; color: var(--ink-2); font-size: var(--t-md); line-height: 1 }
+.arch-arrow small { font-size: var(--t-xs) }
+.arch-tech { display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: var(--s3); align-items: start }
+.lane { display: grid; gap: 0; background: var(--ground); padding: var(--s2) }
+.lane-h { margin: 0 0 var(--s2); font-size: var(--t-xs); text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2); font-weight: 600 }
+@media (max-width: 1100px) { .summary-grid { grid-template-columns: 1fr } }
+@media (max-width: 720px) { .arch-row, .arch-tech { grid-template-columns: 1fr } .summary-table th[scope="row"] { width: auto } }
+.arch-stack { display: grid; gap: var(--s5) }
+.arch-stack .arch:first-child .arch-flow { max-width: 920px; margin: 0 auto }
