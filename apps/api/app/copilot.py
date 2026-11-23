@@ -1,6 +1,9 @@
 """Read-only retrieval and constrained optional model selection for synthetic records."""
 import json
 import re
+import threading
+import time
+from collections import deque
 from datetime import date
 from typing import Literal
 
@@ -94,6 +97,23 @@ class Provider(BaseSettings):
     """Optional Claude adapter, server-side only. An empty key keeps the labelled offline mode."""
     anthropic_api_key: SecretStr = SecretStr("")
     claude_model: str = "claude-sonnet-5-5"
+    llm_calls_per_minute: int = 20
+
+
+_calls: deque[float] = deque()
+_calls_lock = threading.Lock()
+
+
+def _allow_call(limit: int, now: float | None = None) -> bool:
+    """Process-wide sliding one-minute window; caps LLM spend if a shared demo link is hammered."""
+    now = time.monotonic() if now is None else now
+    with _calls_lock:
+        while _calls and now - _calls[0] >= 60:
+            _calls.popleft()
+        if len(_calls) >= limit:
+            return False
+        _calls.append(now)
+        return True
 
 
 class Priority(BaseModel):
@@ -127,6 +147,9 @@ def explain(answer: Answer, provider: Provider, client=None) -> None:
     """Ask Claude for a cited briefing over already-verified findings; validate it or fall back visibly."""
     if not answer.supported or not answer.findings or not provider.anthropic_api_key.get_secret_value():
         return
+    if not _allow_call(provider.llm_calls_per_minute):
+        answer.mode = "offline deterministic retrieval (LLM rate limit reached, try again in a minute)"
+        return
     import anthropic
     client = client or anthropic.Anthropic(api_key=provider.anthropic_api_key.get_secret_value(),
                                            timeout=30.0, max_retries=1)
@@ -140,7 +163,7 @@ def explain(answer: Answer, provider: Provider, client=None) -> None:
             output_config={"effort": "low", "format": {"type": "json_schema", "schema": SCHEMA}},
             messages=[{"role": "user", "content": json.dumps(payload)}])
     except anthropic.APIError:
-        answer.mode = "offline deterministic retrieval (Claude unavailable)"
+        answer.mode = "offline deterministic retrieval (LLM unavailable)"
         return
     try:
         if response.stop_reason != "end_turn":
@@ -154,13 +177,13 @@ def explain(answer: Answer, provider: Provider, client=None) -> None:
         if any(word in text.lower() for word in BANNED):
             raise ValueError("certifying language")
     except (ValueError, StopIteration, AttributeError, TypeError) as exc:
-        answer.mode = f"offline deterministic retrieval (Claude response rejected: {type(exc).__name__})"
+        answer.mode = f"offline deterministic retrieval (LLM response rejected: {type(exc).__name__})"
         return
     order = [p.field for p in result.priorities]
     answer.findings.sort(key=lambda f: order.index(f.field) if f.field in order else len(order))
     result.model = getattr(response, "model", provider.claude_model)
     answer.explanation = result
-    answer.mode = f"Claude-assisted explanation ({provider.claude_model}) over offline retrieval"
+    answer.mode = f"LLM-assisted explanation ({provider.claude_model}) over offline retrieval"
 
 
 @router.post("/copilot/query")

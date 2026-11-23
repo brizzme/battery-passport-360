@@ -3,11 +3,11 @@ import Link from "next/link";
 import {usePathname} from "next/navigation";
 
 const NAV = [
+  {href: "/summary", label: "PoC summary", match: (p: string) => p.startsWith("/summary")},
   {href: "/", label: "Fleet health", match: (p: string) => p === "/"},
   {href: "/fleet", label: "Passport inspector", match: (p: string) => p.startsWith("/fleet")},
   {href: "/research", label: "Cell research", match: (p: string) => p.startsWith("/research")},
   {href: "/assistant?id=BAT-DEMO-024&as_of=2027-02-18", label: "Evidence assistant", match: (p: string) => p.startsWith("/assistant")},
-  {href: "/summary", label: "PoC summary", match: (p: string) => p.startsWith("/summary")},
 ];
 
 export function Shell({children}: {children: React.ReactNode}) {
@@ -22,7 +22,7 @@ export function Shell({children}: {children: React.ReactNode}) {
     <main id="main" tabIndex={-1}>{children}</main>
     <footer className="foot">
       <p>Battery Passport 360 is an independent prototype. Fleet data is fictional and simulated; it does not describe real batteries, customers or certifications.</p>
-      <p><a href="http://127.0.0.1:8000/docs">API reference</a> · <a href="http://127.0.0.1:8000/health">Service health (JSON)</a></p>
+      <p><a href="/docs">API reference</a> · <a href="/health">Service health (JSON)</a></p>
     </footer>
   </>;
 }

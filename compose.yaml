@@ -39,6 +39,7 @@ services:
       <<: *pgclient
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       CLAUDE_MODEL: ${CLAUDE_MODEL:-claude-sonnet-5-5}
+      LLM_CALLS_PER_MINUTE: ${LLM_CALLS_PER_MINUTE:-20}
     ports:
       - "127.0.0.1:${API_PORT:-8000}:8000"
     healthcheck:

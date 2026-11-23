@@ -46,7 +46,7 @@ def test_valid_explanation_is_attached_and_reorders_findings():
     copilot.explain(a, CFG, client=client)
     assert a.explanation.summary.startswith("Two passport entries")
     assert [f.field for f in a.findings] == ["DP-12", "DP-11"]
-    assert a.mode == "Claude-assisted explanation (claude-sonnet-5-5) over offline retrieval"
+    assert a.mode == "LLM-assisted explanation (claude-sonnet-5-5) over offline retrieval"
     sent = client.calls[0]
     assert sent["model"] == "claude-sonnet-5-5" and sent["fallbacks"] == "default"
     assert "BAT-DEMO-024" in json.dumps(sent["messages"]) and sent["output_config"]["format"]["type"] == "json_schema"
@@ -81,3 +81,11 @@ def test_unsupported_answer_never_calls_claude():
     a.supported = False
     copilot.explain(a, CFG, client=client)
     assert client.calls == []
+
+
+def test_rate_limit_falls_back_visibly(monkeypatch):
+    from app import copilot
+    monkeypatch.setattr(copilot, "_calls", copilot.deque())
+    assert copilot._allow_call(2, now=0) and copilot._allow_call(2, now=1)
+    assert not copilot._allow_call(2, now=2)
+    assert copilot._allow_call(2, now=61)

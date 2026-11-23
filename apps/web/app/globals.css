@@ -294,3 +294,22 @@ ul.plain, ol.plain { margin: 0; padding-left: 1.1em; display: grid; gap: var(--s
 .summary-dl dt{font-weight:600}
 .summary-dl dd{margin:0}
 @media (max-width:600px){.summary-dl>div{grid-template-columns:1fr;gap:.1rem}}
+
+/* Summary motion: staged entrance, then reveal-on-scroll where supported. Reduced motion is disabled globally above. */
+@keyframes bp-rise { from { opacity: 0; transform: translateY(14px) } }
+@keyframes bp-fade { from { opacity: 0 } }
+.summary > * { animation: bp-rise .6s cubic-bezier(.2,.7,.2,1) both }
+.summary > :nth-child(2) { animation-delay: .08s }
+.summary > :nth-child(3) { animation-delay: .16s }
+.summary > :nth-child(4) { animation-delay: .24s }
+.summary .arch-node { animation: bp-rise .5s cubic-bezier(.2,.7,.2,1) both; animation-delay: .35s }
+.summary .lane:nth-child(2) .arch-node, .summary .arch-row > :nth-child(2) .arch-node { animation-delay: .5s }
+.summary .lane:nth-child(3) .arch-node, .summary .arch-row > :nth-child(3) .arch-node { animation-delay: .65s }
+.summary .lane:nth-child(4) .arch-node, .summary .arch-row > :nth-child(4) .arch-node { animation-delay: .8s }
+.summary .arch-arrow { animation: bp-fade .4s ease-out both; animation-delay: .6s }
+.summary .kpi { animation: bp-rise .55s cubic-bezier(.2,.7,.2,1) both }
+.summary .kpi:nth-child(2) { animation-delay: .08s } .summary .kpi:nth-child(3) { animation-delay: .16s }
+.summary .kpi:nth-child(4) { animation-delay: .24s } .summary .kpi:nth-child(5) { animation-delay: .32s }
+@supports (animation-timeline: view()) {
+  .summary > :nth-child(n+5), .summary .kpi { animation-timeline: view(); animation-range: entry 0% entry 40%; animation-delay: 0s }
+}
