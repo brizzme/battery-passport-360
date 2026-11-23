@@ -13,7 +13,7 @@ Scope: `/` (fleet health landing) plus the shared shell for all routes, and the 
 
 THESIS: The fleet as a colour-coded signage system in the Ulm tradition: every site, state and source has one fixed colour, pictogram and position. Refuses the category default of a sidebar, four KPI cards and a generic line chart.
 
-OWN-WORLD: Ground #f2f3ef, ink #1d2b33 (also the top bar), site colours cold store #2f7fc1, ambient #3d9a4b, hot dock #e8742a, neutral #b9c0c2. Barlow for UI, Barlow Condensed for numerals. Strict 8px modular grid, square corners, rules only where a table or strip needs them. Geometric pictograms per site. Hatch = extrapolated, clamped or unknown. Dark corner marker = suggested for review.
+OWN-WORLD: Ground #f2f3ef, ink #1d2b33 (also the top bar), site colours cold store #2f7fc1, ambient #256b3a, hot dock #f0a030 (re-stepped after colour-blind validation), neutral #b9c0c2. Barlow for UI, Barlow Condensed for numerals. Strict 8px modular grid, square corners, rules only where a table or strip needs them. Geometric pictograms per site. Hatch = extrapolated, clamped or unknown. Dark corner marker = suggested for review.
 
 STORY: The reviewer reads the KPI strip, sees which packs are suggested for review and why, sees where wear concentrates (hot dock) on the fleet floor, opens a pack, and finds every value labelled synthetic with its calibration basis.
 

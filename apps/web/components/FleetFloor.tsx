@@ -11,7 +11,7 @@ export function FleetFloor({points}: {points: PackPoint[]}) {
     <h2 id="floor-h">Fleet floor <small>capacity as fill · 60 % empty to 100 % full</small></h2>
     <div className="floor-grid" style={{gridTemplateColumns: groups.map(g => `minmax(150px, ${Math.max(g.packs.length, 1)}fr)`).join(" ")}}>
       {groups.map(g => <div key={g.id} className="floor-col">
-        <h3 className="site-tab" style={{background: g.site.color}}><Pictogram site={g.id}/>{g.site.label}<span>{g.packs.length}</span></h3>
+        <h3 className={"site-tab" + (g.id === "SITE-HOT" ? " hot" : "")} style={{background: g.site.color}}><Pictogram site={g.id}/>{g.site.label}<span>{g.packs.length}</span></h3>
         <ul className="tiles">{g.packs.map(p => {
           const {fill, hatched} = tileFill(p.capacity_pct);
           const label = packLabel(p);
