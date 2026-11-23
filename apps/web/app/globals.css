@@ -216,3 +216,4 @@ figure.chart, .dash-main > *, .dash-pair > *, .pack-grid > * { min-width: 0 }
 @media (max-width: 720px) {
   .chart-scroll { mask-image: linear-gradient(90deg, transparent, #000 12%); -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%) }
 }
+.site-tab { font-size: 1.2rem }

@@ -77,7 +77,14 @@ Design: docs/superpowers/specs/2026-11-23-calibrated-fleet-design.md · Plan: do
 - [x] Deterministic 24-month synthetic fleet seed with planted cases; byte-identical regeneration tested.
 - [x] Migration 005: identities v2, history tables, seed load.
 - [x] Health summary, history and fleet triage API; draft summary and pack page show labelled health.
-- [ ] Part 2: dashboard redesign. Part 3: rule refresh against Commission guidance v3.2. Part 4: HUST-based research model.
+- [x] Part 2: fleet health dashboard (see below).
+- [ ] Part 3: rule refresh against Commission guidance v3.2. Part 4: HUST-based research model.
+
+## Expansion part 2 — Fleet health dashboard
+Design: docs/superpowers/specs/2026-11-23-fleet-dashboard-design.md · Plan: docs/superpowers/plans/2026-11-23-fleet-dashboard.md · Direction: Ulm signage program (.impeccable/surfaces/apps-web-app-page-tsx.md)
+- [x] Shared shell, tokens, self-hosted Barlow; `/` dashboard (KPI strip, review table, fleet floor, capacity bands, scatter, temperature-regime strip, provenance).
+- [x] Pack page charts (capacity history, temperature and SoC histograms, idle/event timeline) with model-floor labelling.
+- [x] Colour-blind-validated site palette; Impeccable finish review (3 rounds) and code review fixes.
 
 ## Follow-up decisions
 - Expand rule coverage after verifying additional sources and amendments.
@@ -95,3 +102,4 @@ Design: docs/superpowers/specs/2026-11-23-calibrated-fleet-design.md · Plan: do
 | 2026-11-23 | M3 | Indexed seven public OJ passages in pgvector. Bounded read-only queries, attributed excerpts, explicit deterministic offline mode and optional field prioritization. | Actual retrieval returned EU-77, EU-XIII-B and EU-XIII-G for BAT-DEMO-024. Tested unsupported questions, untrusted passage handling, abstention and provider response validation. | No live LLM provider exercised. |
 | 2026-11-23 | M4 | Downloadable dated investigation draft, five-minute walkthrough, data dictionary, limitations and model card. | 21 pytest tests passed (one test-client deprecation warning); frontend lint, typecheck and production build passed; clean clone and fresh volume passed docker compose up --build -d and scripts/check-demo.sh. Browser tests at 375 and 1280 px verified search, assessment date, cited answer, abstention, measured chart and draft download. | Local only. Fresh workstations run research preparation for per-cycle charts. |
 | 2026-11-23 | Expansion part 1 | Calibrated synthetic fleet: HUST (77 cells, median life 1,706 cycles) and Aalborg (3 cells, Arrhenius Ea/R 2,581 K) calibration; 100 packs × 24 months seed; migration runner and 005; health, history and fleet triage API; labelled health on pack page and draft. | Research tests 51 passed; API pytest 40 passed (1 test-client deprecation warning); web lint, typecheck, build passed; existing volume applied 005 once then skipped; fresh clone with no downloads applied 001–005 and passed check-fleet.sh and check-demo.sh; pack pages checked at 375 and 1280 px. | Dashboard visuals are part 2. Most simulated days lie below the calibrated temperature range (labelled). |
+| 2026-11-23 | Expansion part 2 | Ulm-signage fleet health dashboard and charted pack page; API adds pack points, regime share and versions to fleet health. | API pytest 46 passed; web Vitest 22 passed; lint, typecheck, build passed; palette validator pass after re-step; impeccable detect no findings; screenshots at 1440/768/390; finish reviewer rounds 1–2 resolved all 8 material fixes, round-3 regressions fixed and verified by screenshot; code review: 4 important fixed, 10 minor deferred. | Footer API links assume localhost; minor a11y items deferred. |

@@ -1,0 +1,411 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-23T09:53:24+00:00",
+  "title": "Design System: Battery Passport 360",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Paper Ground",
+        "canonical": "#f2f3ef",
+        "oklch": "oklch(96.2% 0.005 117.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454544",
+          "#666665",
+          "#898987",
+          "#adaeac",
+          "#d0d1ce",
+          "#eeefed"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Plate White",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Signal Ink",
+        "canonical": "#1d2b33",
+        "oklch": "oklch(28.0% 0.024 233.8)",
+        "tonalRamp": [
+          "#080c0e",
+          "#1b2930",
+          "#3b474e",
+          "#5d686e",
+          "#828b90",
+          "#a9afb2",
+          "#ced1d3",
+          "#eceff0"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Slate Text",
+        "canonical": "#4a5961",
+        "oklch": "oklch(45.4% 0.023 231.2)",
+        "tonalRamp": [
+          "#080c0e",
+          "#1e282d",
+          "#3a474e",
+          "#5a6970",
+          "#7f8b92",
+          "#a6b0b5",
+          "#cbd2d6",
+          "#eaeff2"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline Grey",
+        "canonical": "#c9cec9",
+        "oklch": "oklch(84.6% 0.009 145.5)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262726",
+          "#444544",
+          "#646764",
+          "#878a87",
+          "#abafab",
+          "#ced2ce",
+          "#edefed"
+        ]
+      },
+      "slate-mid": {
+        "role": "neutral",
+        "displayName": "Slate Mid",
+        "canonical": "#8a979c",
+        "oklch": "oklch(66.8% 0.017 222.8)",
+        "tonalRamp": [
+          "#090c0d",
+          "#232729",
+          "#3f4649",
+          "#5e686c",
+          "#7f8b90",
+          "#a4b0b5",
+          "#c9d3d7",
+          "#eaeff1"
+        ]
+      },
+      "cold": {
+        "role": "secondary",
+        "displayName": "Cold Store Blue",
+        "canonical": "#2f7fc1",
+        "oklch": "oklch(58.0% 0.127 247.4)",
+        "tonalRamp": [
+          "#000c1d",
+          "#002847",
+          "#0f4874",
+          "#236aa4",
+          "#478ecd",
+          "#7bb4e8",
+          "#a9d6ff",
+          "#d8f2ff"
+        ]
+      },
+      "ambient": {
+        "role": "secondary",
+        "displayName": "Ambient Green",
+        "canonical": "#256b3a",
+        "oklch": "oklch(47.1% 0.105 150.2)",
+        "tonalRamp": [
+          "#010f04",
+          "#003011",
+          "#155229",
+          "#367647",
+          "#64976f",
+          "#91ba99",
+          "#bcdac1",
+          "#dff6e3"
+        ]
+      },
+      "hot": {
+        "role": "secondary",
+        "displayName": "Hot Dock Amber",
+        "canonical": "#f0a030",
+        "oklch": "oklch(76.8% 0.151 69.9)",
+        "tonalRamp": [
+          "#110903",
+          "#35220b",
+          "#5d3d14",
+          "#895b1d",
+          "#b87a26",
+          "#e99b2f",
+          "#ffc16a",
+          "#ffe9c9"
+        ]
+      },
+      "neutral": {
+        "role": "neutral",
+        "displayName": "Unassigned Grey",
+        "canonical": "#b9c0c2",
+        "oklch": "oklch(80.3% 0.008 216.6)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252727",
+          "#434546",
+          "#636768",
+          "#858a8c",
+          "#a9afb1",
+          "#ccd2d4",
+          "#eceff0"
+        ]
+      },
+      "focus": {
+        "role": "secondary",
+        "displayName": "Focus Ring (cold)",
+        "canonical": "#2f7fc1",
+        "tonalRamp": [
+          "#000c1d",
+          "#002847",
+          "#0f4874",
+          "#236aa4",
+          "#478ecd",
+          "#7bb4e8",
+          "#a9d6ff",
+          "#d8f2ff"
+        ]
+      },
+      "nav-muted": {
+        "role": "neutral",
+        "displayName": "Bar Text Grey",
+        "canonical": "#cfd6d8",
+        "note": "Literal in globals.css, not a custom property; top bar only."
+      },
+      "bar-rule": {
+        "role": "neutral",
+        "displayName": "Bar Rule Grey",
+        "canonical": "#8fa0a6",
+        "note": "Literal in globals.css; synthetic-label outline and nav scrollbar in the top bar only."
+      },
+      "ink-hover": {
+        "role": "primary",
+        "displayName": "Ink Hover",
+        "canonical": "#33454f",
+        "note": "Literal in globals.css; primary button hover."
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "One page title per route; 2rem below 720px."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles with a trailing meta qualifier."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Sub-sections, chart captions, wordmark."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Tables, prose, controls; tabular numerals; 72ch cap."
+      },
+      "label": {
+        "displayName": "Field Label",
+        "purpose": "Uppercase column headers and KPI/furniture terms only, directly naming the value below."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Captions, units, legends, provenance lines, tooltip; ink-2."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "KPI figures in Barlow Condensed; 2.25rem below 720px."
+      },
+      "numeral-sm": {
+        "displayName": "Numeral Small",
+        "purpose": "Pack counts on site tabs."
+      }
+    },
+    "shadows": [
+      {
+        "name": "hairline-inset",
+        "value": "inset 0 0 0 1px var(--rule)",
+        "purpose": "Border substitute on tiles and legend swatches; not elevation."
+      },
+      {
+        "name": "tile-active",
+        "value": "inset 0 0 0 2px var(--ink)",
+        "purpose": "Tile hover and focus."
+      },
+      {
+        "name": "fill-edge",
+        "value": "inset 0 1px 0 var(--ink)",
+        "purpose": "Top edge of a tile's capacity fill."
+      }
+    ],
+    "textures": [
+      {
+        "name": "hatch",
+        "value": "repeating-linear-gradient(135deg, rgb(29 43 51 / .38) 0 1.5px, transparent 1.5px 6px)",
+        "purpose": "Extrapolated, clamped or unknown values in HTML. SVG charts use the HatchDefs pattern (6px, 45deg, ink stroke 1.5px at .4 opacity)."
+      }
+    ],
+    "focus": {
+      "value": "outline: 3px solid var(--focus); outline-offset: 2px",
+      "purpose": "Global :focus-visible; chart marks get a 3px cold stroke instead."
+    },
+    "motion": [
+      {
+        "name": "none",
+        "value": "no transitions or animations",
+        "purpose": "The build is static; prefers-reduced-motion forces transition and animation off globally."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact",
+        "value": "1100px"
+      },
+      {
+        "name": "mobile",
+        "value": "720px"
+      }
+    ],
+    "layout": {
+      "maxWidth": "1480px",
+      "gutter": "clamp(16px, 3vw, 32px)",
+      "wideChartScroll": "Charts keep native width (--w) in an rtl overflow scroller so they open at the recent/highest end; 12% left fade cue below 720px."
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink-filled square button for form actions such as Apply date.",
+      "html": "<button class=\"ds-btn\">Apply date</button>",
+      "css": ":host{--ground:#f2f3ef;--surface:#fff;--ink:#1d2b33;--ink-2:#4a5961;--rule:#c9cec9;--cold:#2f7fc1;--ambient:#256b3a;--hot:#f0a030;--neutral:#b9c0c2;--focus:#2f7fc1;--hatch:repeating-linear-gradient(135deg,rgb(29 43 51 / .38) 0 1.5px,transparent 1.5px 6px);--ui:'Barlow',system-ui,sans-serif;--num:'Barlow Condensed','Barlow',system-ui,sans-serif}.ds-btn{font:600 .9375rem/1.5 var(--ui);background:var(--ink);color:var(--ground);padding:8px 12px;border:1px solid var(--ink);border-radius:0;cursor:pointer}.ds-btn:hover{background:#33454f}.ds-btn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}.ds-btn:disabled{opacity:.5;cursor:not-allowed}"
+    },
+    {
+      "name": "Date Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Square ink-stroked field with meta label above, inside a white filter bar.",
+      "html": "<div class=\"ds-filters\"><label class=\"ds-label\">Assessment date<input class=\"ds-input\" type=\"date\" value=\"2027-02-18\"></label></div>",
+      "css": ":host{--ground:#f2f3ef;--surface:#fff;--ink:#1d2b33;--ink-2:#4a5961;--rule:#c9cec9;--cold:#2f7fc1;--ambient:#256b3a;--hot:#f0a030;--neutral:#b9c0c2;--focus:#2f7fc1;--hatch:repeating-linear-gradient(135deg,rgb(29 43 51 / .38) 0 1.5px,transparent 1.5px 6px);--ui:'Barlow',system-ui,sans-serif;--num:'Barlow Condensed','Barlow',system-ui,sans-serif}.ds-filters{background:var(--surface);padding:16px;display:flex;gap:16px}.ds-label{display:grid;gap:6px;font:500 .8125rem var(--ui);color:var(--ink)}.ds-input{font:400 .9375rem/1.5 var(--ui);color:var(--ink);padding:8px 12px;border:1px solid var(--ink);border-radius:0;background:var(--surface)}.ds-input:focus-visible{outline:3px solid var(--focus);outline-offset:2px}"
+    },
+    {
+      "name": "Top Bar",
+      "kind": "nav",
+      "refersTo": "top-bar",
+      "description": "Ink bar with wordmark, four nav links (3px underline on the active one) and the outlined synthetic-data label.",
+      "html": "<header class=\"ds-bar\"><a class=\"ds-wm\" href=\"#\"><svg width=\"22\" height=\"14\" viewBox=\"0 0 22 14\" aria-hidden=\"true\"><rect x=\"1\" y=\"1\" width=\"17\" height=\"12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"19\" y=\"4.5\" width=\"2.5\" height=\"5\" fill=\"currentColor\"/><rect x=\"4\" y=\"4\" width=\"7\" height=\"6\" fill=\"currentColor\"/></svg>Battery Passport 360</a><nav><ul class=\"ds-nav\"><li><a href=\"#\" aria-current=\"page\">Fleet health</a></li><li><a href=\"#\">Passport inspector</a></li><li><a href=\"#\">Cell research</a></li><li><a href=\"#\">Evidence assistant</a></li></ul></nav><p class=\"ds-synth\">Synthetic fleet · calibrated · data cut-off 31 Oct 2026</p></header>",
+      "css": ":host{--ground:#f2f3ef;--surface:#fff;--ink:#1d2b33;--ink-2:#4a5961;--rule:#c9cec9;--cold:#2f7fc1;--ambient:#256b3a;--hot:#f0a030;--neutral:#b9c0c2;--focus:#2f7fc1;--hatch:repeating-linear-gradient(135deg,rgb(29 43 51 / .38) 0 1.5px,transparent 1.5px 6px);--ui:'Barlow',system-ui,sans-serif;--num:'Barlow Condensed','Barlow',system-ui,sans-serif}.ds-bar{background:var(--ink);color:var(--ground);display:flex;align-items:center;gap:32px;padding:0 24px;min-height:56px;flex-wrap:wrap;font:400 .9375rem/1.5 var(--ui)}.ds-bar a{color:inherit;text-decoration:none}.ds-wm{display:flex;align-items:center;gap:10px;font-weight:600;font-size:1.125rem}.ds-nav{display:flex;gap:24px;list-style:none;margin:0;padding:0}.ds-nav a{display:block;padding:17px 0 15px;border-bottom:3px solid transparent;color:#cfd6d8}.ds-nav a:hover{color:var(--ground)}.ds-nav a[aria-current=page]{color:var(--ground);border-bottom-color:var(--ground)}.ds-bar a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}.ds-synth{margin:0 0 0 auto;font-size:.8125rem;font-weight:600;border:1px solid #8fa0a6;padding:3px 10px}"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Ground-filled, ink-outlined lowercase status tag on passport evidence rules.",
+      "html": "<span class=\"ds-badge\">not yet effective</span> <span class=\"ds-badge\">missing evidence</span>",
+      "css": ":host{--ground:#f2f3ef;--surface:#fff;--ink:#1d2b33;--ink-2:#4a5961;--rule:#c9cec9;--cold:#2f7fc1;--ambient:#256b3a;--hot:#f0a030;--neutral:#b9c0c2;--focus:#2f7fc1;--hatch:repeating-linear-gradient(135deg,rgb(29 43 51 / .38) 0 1.5px,transparent 1.5px 6px);--ui:'Barlow',system-ui,sans-serif;--num:'Barlow Condensed','Barlow',system-ui,sans-serif}.ds-badge{display:inline-block;padding:1px 8px;background:var(--ground);border:1px solid var(--ink);font:600 .8125rem var(--ui);color:var(--ink);text-transform:lowercase}"
+    },
+    {
+      "name": "KPI Strip",
+      "kind": "custom",
+      "refersTo": "numeral",
+      "description": "Ruled strip of figures: uppercase field label, condensed numeral with unit, meta detail.",
+      "html": "<dl class=\"ds-kpis\"><div class=\"ds-kpi\"><dt>Packs</dt><dd><span class=\"ds-n\">100</span></dd><dd class=\"ds-d\">fictional, 3 sites</dd></div><div class=\"ds-kpi\"><dt>Suggested for review</dt><dd><span class=\"ds-n\">11</span><span class=\"ds-u\">packs</span></dd><dd class=\"ds-d\">17 reasons</dd></div><div class=\"ds-kpi\"><dt>Cumulative cycles</dt><dd><span class=\"ds-n\">79,474</span><span class=\"ds-u\">EFC</span></dd><dd class=\"ds-d\">equivalent full cycles, all packs</dd></div></dl>",
+      "css": ":host{--ground:#f2f3ef;--surface:#fff;--ink:#1d2b33;--ink-2:#4a5961;--rule:#c9cec9;--cold:#2f7fc1;--ambient:#256b3a;--hot:#f0a030;--neutral:#b9c0c2;--focus:#2f7fc1;--hatch:repeating-linear-gradient(135deg,rgb(29 43 51 / .38) 0 1.5px,transparent 1.5px 6px);--ui:'Barlow',system-ui,sans-serif;--num:'Barlow Condensed','Barlow',system-ui,sans-serif}.ds-kpis{display:grid;grid-template-columns:repeat(3,1fr);margin:0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);font-family:var(--ui);color:var(--ink);font-variant-numeric:tabular-nums}.ds-kpi{padding:16px;border-right:1px solid var(--rule);display:grid;gap:2px}.ds-kpi:last-child{border-right:0}.ds-kpi dt{font-size:.8125rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2)}.ds-kpi dd{margin:0}.ds-n{font:600 3rem/1.05 var(--num);letter-spacing:-.01em}.ds-u{font-size:.9375rem;margin-left:6px;color:var(--ink-2)}.ds-d{font-size:.8125rem;color:var(--ink-2)}"
+    },
+    {
+      "name": "Fleet Floor",
+      "kind": "custom",
+      "refersTo": "tile",
+      "description": "Signature: site tabs proportional to pack count, tiles filled to capacity against a 60-100 % budget, hatch for extrapolated or unknown, ink corner for review.",
+      "html": "<div class=\"ds-floor\"><div style=\"flex:4\"><h3 class=\"ds-tab\" style=\"background:var(--cold)\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"square\" aria-hidden=\"true\"><path d=\"M8 1v14M1.9 4.5l12.2 7M1.9 11.5l12.2-7\"/></svg>Cold store<span>4</span></h3><ul class=\"ds-tiles\"><li><a class=\"ds-tile\" href=\"#\"><span class=\"ds-fill\" style=\"height:90%;background:var(--cold)\"></span></a></li><li><a class=\"ds-tile\" href=\"#\"><span class=\"ds-fill\" style=\"height:80%;background:var(--cold)\"></span></a></li><li><a class=\"ds-tile ds-review\" href=\"#\"><span class=\"ds-fill\" style=\"height:30%;background:var(--cold)\"></span><span class=\"ds-hatch\"></span></a></li><li><a class=\"ds-tile ds-unknown\" href=\"#\"><span class=\"ds-hatch\"></span></a></li></ul></div><div style=\"flex:3\"><h3 class=\"ds-tab\" style=\"background:var(--ambient)\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"square\" aria-hidden=\"true\"><path d=\"M1.5 14.5V6.5L8 2l6.5 4.5v8M5.5 14.5v-5h5v5\"/></svg>Ambient<span>3</span></h3><ul class=\"ds-tiles\"><li><a class=\"ds-tile\" href=\"#\"><span class=\"ds-fill\" style=\"height:95%;background:var(--ambient)\"></span></a></li><li><a class=\"ds-tile\" href=\"#\"><span class=\"ds-fill\" style=\"height:70%;background:var(--ambient)\"></span></a></li><li><a class=\"ds-tile\" href=\"#\"><span class=\"ds-fill\" style=\"height:85%;background:var(--ambient)\"></span></a></li></ul></div><div style=\"flex:3\"><h3 class=\"ds-tab ds-hot\" style=\"background:var(--hot)\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"square\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"3\"/><path d=\"M8 .8v2.4M8 12.8v2.4M.8 8h2.4M12.8 8h2.4M2.9 2.9l1.7 1.7M11.4 11.4l1.7 1.7M2.9 13.1l1.7-1.7M11.4 4.6l1.7-1.7\"/></svg>Hot dock<span>3</span></h3><ul class=\"ds-tiles\"><li><a class=\"ds-tile ds-review\" href=\"#\"><span class=\"ds-fill\" style=\"height:0%;background:var(--hot)\"></span><span class=\"ds-hatch\"></span></a></li><li><a class=\"ds-tile\" href=\"#\"><span class=\"ds-fill\" style=\"height:75%;background:var(--hot)\"></span></a></li><li><a class=\"ds-tile\" href=\"#\"><span class=\"ds-fill\" style=\"height:60%;background:var(--hot)\"></span></a></li></ul></div></div>",
+      "css": ":host{--ground:#f2f3ef;--surface:#fff;--ink:#1d2b33;--ink-2:#4a5961;--rule:#c9cec9;--cold:#2f7fc1;--ambient:#256b3a;--hot:#f0a030;--neutral:#b9c0c2;--focus:#2f7fc1;--hatch:repeating-linear-gradient(135deg,rgb(29 43 51 / .38) 0 1.5px,transparent 1.5px 6px);--ui:'Barlow',system-ui,sans-serif;--num:'Barlow Condensed','Barlow',system-ui,sans-serif}.ds-floor{display:flex;gap:8px;font-family:var(--ui)}.ds-floor>div{min-width:120px}.ds-tab{display:flex;align-items:center;gap:8px;color:#fff;padding:10px 12px;margin:0 0 8px;font-size:.9375rem;font-weight:600}.ds-tab.ds-hot{color:var(--ink)}.ds-tab span{margin-left:auto;font:600 1.5rem/1 var(--num)}.ds-tiles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(30px,1fr));gap:4px}.ds-tile{position:relative;display:block;aspect-ratio:1;background:var(--surface);box-shadow:inset 0 0 0 1px var(--rule);overflow:hidden}.ds-tile:hover,.ds-tile:focus-visible{box-shadow:inset 0 0 0 2px var(--ink);outline:none}.ds-fill{position:absolute;left:0;right:0;bottom:0;box-shadow:inset 0 1px 0 var(--ink)}.ds-hatch{position:absolute;inset:0;background:var(--hatch)}.ds-unknown{background:var(--neutral)}.ds-review::after{content:'';position:absolute;top:0;right:0;border-style:solid;border-width:0 12px 12px 0;border-color:transparent var(--ink) transparent transparent}"
+    },
+    {
+      "name": "Banded Bar",
+      "kind": "custom",
+      "refersTo": "slate-mid",
+      "description": "Flex bar sized to counts on the grey ramp, hatched where extrapolated or unknown, with swatch legend.",
+      "html": "<div class=\"ds-band\"><span style=\"flex-grow:46;background:var(--ink)\"></span><span style=\"flex-grow:19;background:#4a5961\"></span><span style=\"flex-grow:11;background:#8a979c\"></span><span class=\"ds-h\" style=\"flex-grow:4;background:#c9cec9\"></span><span class=\"ds-h\" style=\"flex-grow:20;background:var(--ground)\"></span></div><ul class=\"ds-legend\"><li><i style=\"background:var(--ink)\"></i>95–100 %: <b>46</b></li><li><i class=\"ds-h\" style=\"background:#c9cec9\"></i>below 80 % (extrapolated): <b>4</b></li><li><i class=\"ds-h\" style=\"background:var(--ground)\"></i>unknown (lead-acid): <b>20</b></li></ul>",
+      "css": ":host{--ground:#f2f3ef;--surface:#fff;--ink:#1d2b33;--ink-2:#4a5961;--rule:#c9cec9;--cold:#2f7fc1;--ambient:#256b3a;--hot:#f0a030;--neutral:#b9c0c2;--focus:#2f7fc1;--hatch:repeating-linear-gradient(135deg,rgb(29 43 51 / .38) 0 1.5px,transparent 1.5px 6px);--ui:'Barlow',system-ui,sans-serif;--num:'Barlow Condensed','Barlow',system-ui,sans-serif}.ds-band{display:flex;gap:2px;height:28px}.ds-band span{min-width:3px}.ds-h{background-image:var(--hatch)!important}.ds-legend{list-style:none;padding:0;margin:16px 0 0;display:flex;flex-wrap:wrap;gap:8px 24px;font:400 .8125rem var(--ui);color:var(--ink)}.ds-legend li{display:flex;align-items:center;gap:6px}.ds-legend i{width:14px;height:14px;display:inline-block;box-shadow:inset 0 0 0 1px var(--rule)}"
+    },
+    {
+      "name": "Tooltip",
+      "kind": "custom",
+      "refersTo": "tooltip",
+      "description": "Single shared ink tooltip for every data-tip element; follows hover and keyboard focus, hides on Escape or scroll.",
+      "html": "<div class=\"ds-tipwrap\"><div role=\"tooltip\" class=\"ds-tip\">BAT-DEMO-007, Hot dock, capacity ≤ 60.0 % (model floor), extrapolated, suggested for review</div></div>",
+      "css": ":host{--ground:#f2f3ef;--surface:#fff;--ink:#1d2b33;--ink-2:#4a5961;--rule:#c9cec9;--cold:#2f7fc1;--ambient:#256b3a;--hot:#f0a030;--neutral:#b9c0c2;--focus:#2f7fc1;--hatch:repeating-linear-gradient(135deg,rgb(29 43 51 / .38) 0 1.5px,transparent 1.5px 6px);--ui:'Barlow',system-ui,sans-serif;--num:'Barlow Condensed','Barlow',system-ui,sans-serif}.ds-tipwrap{padding:8px}.ds-tip{display:inline-block;background:var(--ink);color:var(--ground);font:400 .8125rem/1.5 var(--ui);padding:6px 10px;max-width:320px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Ulm Signage Board",
+    "overview": "The fleet is read like a transit or factory signage program in the Ulm tradition: every site, state and source owns one fixed colour, one geometric pictogram and one position, and those assignments never move between views. The interface is a light ground with ink type and ink furniture; colour is spent almost entirely on the three sites, so a block of amber always means the hot dock and nothing else. Uncertainty has its own material: a diagonal ink hatch marks every extrapolated, clamped or unknown value, in tiles, bars and chart regions alike.\n\nDensity is operator-grade rather than marketing-grade. Figures sit in a ruled strip, tables carry the triage, and the signature fleet floor shows all hundred packs at once as tiles filled against a fixed budget. Charts are hand-built SVG on white plates with hairline grids, one shared tooltip, and an always-available \"View as table\" fallback. Corners are square everywhere, depth is flat, and rules appear only where a table, strip or furniture row needs them.",
+    "keyCharacteristics": [
+      "One fixed colour, pictogram and order per site: cold store, ambient warehouse, hot dock.",
+      "Hatch is the single sign for extrapolated, clamped or unknown values.",
+      "Barlow for the interface, Barlow Condensed for headline figures, tabular numerals throughout.",
+      "Square corners, flat surfaces, 8px modular spacing.",
+      "Hand-built SVG charts with a shared tooltip and a table fallback."
+    ],
+    "rules": [
+      {
+        "name": "The One Site, One Colour Rule",
+        "body": "Cold, ambient and hot are reserved for their sites. No status, link, alert or decoration may borrow them; the only shared use is cold as the focus ring.",
+        "section": "colors"
+      },
+      {
+        "name": "The Grey Ramp Rule",
+        "body": "Banded quantities that are not sites (capacity bands, temperature regimes) step through ink, ink-2, slate-mid and rule, never through a new hue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Never By Colour Alone Rule",
+        "body": "Every site colour travels with its pictogram or a distinct mark shape (circle, square, triangle) and a text label.",
+        "section": "colors"
+      },
+      {
+        "name": "The Unit Beside Every Number Rule",
+        "body": "Every figure carries its unit with a space (\"74.3 %\", \"44 kWh\", \"1,942 EFC\"); units in KPIs sit in ink-2 at body size beside the condensed figure.",
+        "section": "typography"
+      },
+      {
+        "name": "The Model Floor Rule",
+        "body": "Values at the model floor are never shown as exact: capacity reads \"≤ 60.0 % (model floor)\", fade reads \"≥ 40 % (model floor)\", a fade rate there reads \"not measurable at model floor\", and the capacity chart notes \"At the 60 % model floor\".",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Plate Rule",
+        "body": "Surfaces never lift. Hover and focus change outline weight or colour, not elevation.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do reach for the CSS custom properties in globals.css (--ink, --cold, --s3, --t-xs) for every new rule; components reference sites through `SITES[id].color`.",
+      "Do keep site order cold, ambient, hot in every legend, column and table.",
+      "Do mark every extrapolated, clamped or unknown value with the hatch (CSS `--hatch`, or the shared SVG `HatchDefs` pattern in charts) and say so in the legend.",
+      "Do put ink text on hot amber and give the hot scatter mark an ink stroke; any text on a site fill must reach 4.5:1 (3:1 only at large sizes).",
+      "Do pair each chart with a text summary and a table fallback, and open wide charts at their recent end on narrow screens.",
+      "Do label figures at the model floor as bounds (\"≤ 60.0 % (model floor)\"), never as exact values."
+    ],
+    "donts": [
+      "Don't use rounded corners, drop shadows or elevated cards.",
+      "Don't use site colours for anything except their site (the cold focus ring is the one exception).",
+      "Don't introduce a new hue for statuses or bands; use the grey ramp plus hatch.",
+      "Don't show identity by colour alone; always pair with pictogram, mark shape or text.",
+      "Don't use the hatch for anything other than extrapolated, clamped or unknown values.",
+      "Don't add a sidebar, rows of KPI cards or generic gradient line charts; figures live in the ruled strip."
+    ]
+  }
+}

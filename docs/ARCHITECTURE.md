@@ -24,3 +24,7 @@ Two offline steps produce committed artifacts, so a fresh clone boots without do
 2. research/generate_fleet.py turns that file and a fixed seed into db/seed/fleet_v2 (gzip CSV plus manifest). Regeneration is byte-identical.
 
 Migration 005 loads the seed into pack_profiles, pack_daily, pack_monthly_histograms, pack_events, fleet_sites and fleet_seed_manifest, and moves identities to demo-identities-v2. apps/api/app/health.py turns rows into labelled indicators and demo triage flags without database access. apps/api/app/fleet_health.py loads rows and serves GET /api/fleet/health-summary. The fleet router serves GET /api/batteries/{id}/health-summary and GET /api/batteries/{id}/history. Values after the 2026-10-31 data cut-off are never extrapolated forward.
+
+## Web interface
+
+`/` is the fleet health dashboard; `/fleet/[id]` is the pack page; `/fleet`, `/research` and `/assistant` keep their content inside the shared shell (`components/Shell.tsx`). Server components fetch the API on the private Compose network: the dashboard needs one request (`/api/fleet/health-summary`, which carries per-pack points, regime shares and versions), the pack page two (passport readiness with health, and daily history). Charts are hand-built SVG components (`components/`) using pure helpers in `lib/geometry.ts` (Vitest); one client `Tooltip` serves every `data-tip` element on hover and focus. Visual decisions are recorded in `DESIGN.md`; product context in `PRODUCT.md`.
