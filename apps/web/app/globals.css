@@ -88,3 +88,77 @@ figure { margin: var(--s3) 0 }
   .bar nav ul { flex-wrap: nowrap }
   .bar nav a { white-space: nowrap; padding: 12px 0 10px }
 }
+
+/* Dashboard */
+.dash { display: grid; gap: var(--s6) }
+.dash > .page-head { margin-bottom: 0 }
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink) }
+.kpi { padding: var(--s3) var(--s3) var(--s3) 0; border-right: 1px solid var(--rule); display: grid; align-content: start; gap: 2px }
+.kpi + .kpi { padding-left: var(--s3) }
+.kpi:last-child { border-right: 0 }
+.kpi dt { font-size: var(--t-xs); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2) }
+.kpi dd { margin: 0 }
+.kpi-num { font: 600 var(--t-num)/1.05 var(--num); letter-spacing: -0.01em }
+.kpi-unit { font-size: var(--t-sm); margin-left: 6px; color: var(--ink-2) }
+.kpi-detail { font-size: var(--t-xs); color: var(--ink-2) }
+.dash-main { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--s6); align-items: start }
+.dash-pair { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--s6); align-items: start }
+.dash h2 { margin-bottom: var(--s3) }
+.dash h2 small, .dash h3 small { font-weight: 400; margin-left: var(--s2) }
+.review .reasons { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px }
+.review th[scope="row"] { font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--ink); font-size: var(--t-sm); border-bottom: 1px solid var(--rule); padding-top: 10px; white-space: nowrap }
+.review td:nth-child(2) { white-space: nowrap }
+.site-tag { display: inline-flex; vertical-align: -2px }
+.block { display: block }
+.more summary { padding: var(--s2) 0 }
+.note { margin-top: var(--s3); font-size: var(--t-xs); color: var(--ink-2); padding-left: var(--s2); border-left: 2px solid var(--ink) }
+.floor-grid { display: grid; gap: var(--s2) }
+.floor-col { min-width: 0 }
+.site-tab { display: flex; align-items: center; gap: var(--s2); color: #fff; padding: 10px 12px; font-size: var(--t-sm); margin-bottom: var(--s2) }
+.site-tab span { margin-left: auto; font: 600 var(--t-lg)/1 var(--num) }
+.tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(30px, 1fr)); gap: 4px }
+.tile { position: relative; display: block; aspect-ratio: 1; background: var(--surface); box-shadow: inset 0 0 0 1px var(--rule); overflow: hidden }
+.tile-fill { position: absolute; left: 0; right: 0; bottom: 0 }
+.tile-hatch { position: absolute; inset: 0; background: var(--hatch) }
+.tile.unknown { background: var(--neutral) }
+.tile.review::after { content: ""; position: absolute; top: 0; right: 0; border-style: solid; border-width: 0 12px 12px 0; border-color: transparent var(--ink) transparent transparent }
+.tile:hover, .tile:focus-visible { box-shadow: inset 0 0 0 2px var(--ink) }
+.legend { list-style: none; padding: 0; margin: var(--s3) 0 0; display: flex; flex-wrap: wrap; gap: var(--s2) var(--s4); font-size: var(--t-xs) }
+.legend li { display: flex; align-items: center; gap: 6px }
+.swatch { width: 14px; height: 14px; display: inline-block; box-shadow: inset 0 0 0 1px var(--rule) }
+.swatch.hatch, .hatched { background-image: var(--hatch) !important }
+.swatch.corner { background: linear-gradient(225deg, var(--ink) 50%, var(--surface) 50%) }
+.bands, .regimes, .chart { margin: var(--s5) 0 0 }
+.chart { margin: 0 }
+.band-bar { display: flex; gap: 2px; height: 28px; margin-top: var(--s2) }
+.band-bar span { min-width: 3px }
+.regimes p { color: var(--ink-2); margin-bottom: var(--s3) }
+.chart svg { width: 100%; height: auto; display: block; background: var(--surface) }
+.chart .grid { stroke: var(--rule) }
+.chart .axis { font: 400 12px var(--ui); fill: var(--ink-2) }
+.chart .axis-note { font: 500 12px var(--ui); fill: var(--ink) }
+.chart a:focus-visible circle:first-child { stroke: var(--focus); stroke-width: 3 }
+.chart details { margin-top: var(--s3) }
+.chart details table { margin-top: var(--s2); max-width: 640px }
+.provenance { background: var(--surface); padding: var(--s4) }
+.provenance dl { margin: 0 0 var(--s3); display: grid; gap: var(--s3) }
+.provenance dt { font-weight: 600 }
+.provenance dd { margin: 0; color: var(--ink-2) }
+.tip { position: fixed; z-index: 20; transform: translate(-50%, calc(-100% - 8px)); background: var(--ink); color: var(--ground); font-size: var(--t-xs); padding: 6px 10px; max-width: 320px; pointer-events: none }
+.state { padding: var(--s6) 0 }
+@media (max-width: 1100px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)) } .kpi, .kpi + .kpi { padding: var(--s3) var(--s3) var(--s3) 0; border-right: 0 } .dash-main, .dash-pair { grid-template-columns: 1fr } }
+@media (max-width: 720px) {
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .kpi, .kpi + .kpi { padding: var(--s3) var(--s2); border-right: 0; border-bottom: 1px solid var(--rule) }
+  .kpi-num { font-size: 2.25rem }
+  .floor-grid { grid-template-columns: 1fr !important }
+  .review thead { display: none }
+  .review tr { display: grid; grid-template-columns: 1fr auto; border-bottom: 1px solid var(--rule); padding: var(--s2) 0 }
+  .review th[scope="row"], .review td { border: 0; padding: 2px 0 }
+  .review td:nth-child(3) { grid-column: 1 / -1 }
+}
+.legend svg { width: 14px; height: 14px; flex: none }
+.review th[scope="row"], .review td { vertical-align: top }
+.reasons li { cursor: help; text-decoration: underline dotted var(--ink-2); text-underline-offset: 3px; width: fit-content }
+.chart-scroll { overflow-x: auto }
+@media (max-width: 720px) { .chart-scroll svg { min-width: 640px } }

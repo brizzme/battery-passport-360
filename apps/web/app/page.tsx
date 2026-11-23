@@ -1,51 +1,42 @@
-import Link from "next/link";
-import { Suspense } from "react";
+import {read} from "./fleet/api";
+import type {FleetHealth} from "@/lib/types";
+import {KpiStrip} from "@/components/KpiStrip";
+import {ReviewTable, reviewRows} from "@/components/ReviewTable";
+import {FleetFloor} from "@/components/FleetFloor";
+import {BandBar} from "@/components/BandBar";
+import {CapacityScatter} from "@/components/CapacityScatter";
+import {RegimeStrip} from "@/components/RegimeStrip";
+import {ProvenancePanel} from "@/components/ProvenancePanel";
+import {Tooltip} from "@/components/Tooltip";
 
 export const dynamic = "force-dynamic";
+const fmt = (n: number) => n.toLocaleString("en", {maximumFractionDigits: 0});
 
-async function ServiceStatus() {
-  let ready = false;
-  try {
-    const response = await fetch(
-      (process.env.API_BASE_URL ?? "http://127.0.0.1:8000") + "/health",
-      { cache: "no-store", signal: AbortSignal.timeout(4000) }
-    );
-    if (response.ok) {
-      const health = await response.json();
-      ready = health.status === "ok" && health.database === "ready";
-    }
-  } catch {
-    // A stopped service should leave the workspace and diagnostic links usable.
-  }
-  return <div className="status">
-    <h3><span className={ready ? "dot ready" : "dot"} />{ready ? "Services online" : "Connection unavailable"}</h3>
-    <p>{ready ? "The API reached PostgreSQL and verified the vector extension." : "Check the API and database, then reload this page to retry."}</p>
+export default async function FleetHealthPage() {
+  const data = await read<FleetHealth>("/api/fleet/health-summary");
+  if (!data) throw Error("Fleet health unavailable");
+  const meta = await read<{calibration_version: string; generator_version: string}>("/api/batteries/BAT-DEMO-002/health-summary");
+  const ev = data.events_30d;
+  const events = Object.values(ev).reduce((a, b) => a + b, 0);
+  return <div className="dash">
+    <div className="page-head"><h1>Fleet health</h1>
+      <p>Which packs a specialist should look at, and why. Values as of {data.as_of}; every figure is simulated from public LFP measurements.</p></div>
+    <KpiStrip items={[
+      {label: "Packs", value: fmt(data.packs), detail: "fictional, 3 sites"},
+      {label: "Suggested for review", value: String(reviewRows(data).length), unit: "packs", detail: `${data.review.length} reasons`},
+      {label: "Below 80 % capacity", value: String(data.capacity_bands["below 80"] ?? 0), unit: "packs", detail: "extrapolated values"},
+      {label: "Events, last 30 days", value: fmt(events), detail: `over-temperature ${ev.over_temperature ?? 0} · BMS comm loss ${ev.bms_comm_loss ?? 0} · deep discharge ${ev.deep_discharge ?? 0}`},
+      {label: "Cumulative cycles", value: fmt(data.efc_total), unit: "EFC", detail: "equivalent full cycles, all packs"},
+    ]}/>
+    <div className="dash-main">
+      <ReviewTable data={data}/>
+      <div><FleetFloor points={data.pack_points}/><BandBar bands={data.capacity_bands}/></div>
+    </div>
+    <CapacityScatter points={data.pack_points}/>
+    <div className="dash-pair">
+      <RegimeStrip share={data.regime_share}/>
+      <ProvenancePanel calibration={meta?.calibration_version ?? "unavailable"} generator={meta?.generator_version ?? "unavailable"} cutoff={data.data_cutoff}/>
+    </div>
+    <Tooltip/>
   </div>;
-}
-
-export default function Workspace() {
-  const api = "http://127.0.0.1:" + (process.env.PUBLIC_API_PORT ?? "8000");
-  return <>
-    <a className="skip" href="#main">Skip to workspace</a>
-    <header><div className="bar"><b><i aria-hidden="true">▥</i> Battery Passport 360</b><span>Local workspace</span></div></header>
-    <main id="main">
-      <div className="hero">
-        <div><small>LOCAL DEMO</small><h1>Battery workspace</h1>
-        <p>Inspect synthetic pack records and explore measured cell research.</p></div>
-        <div className="cell-art" aria-hidden="true">{Array.from({length: 12}, (_, i) => <i key={i}/>)}</div>
-      </div>
-      <section className="entry"><h2>Passport inspector</h2><p><Link href="/fleet">Browse synthetic fleet</Link> · <Link href="/fleet/BAT-DEMO-024?as_of=2027-02-18">Inspect BAT-DEMO-024</Link></p></section>
-      <section className="entry"><h2>Laboratory measurements</h2><Link href="/research">Explore CALCE cell research</Link></section>
-      <section aria-labelledby="services"><h2 id="services">Service health</h2>
-        <Suspense fallback={<p role="status">Checking the API and database…</p>}><ServiceStatus/></Suspense>
-      </section>
-      <section aria-labelledby="tools"><h2 id="tools">Developer tools</h2>
-        <div className="links">{[
-          ["API reference", "/docs", "Explore endpoints and response schemas."],
-          ["Health response", "/health", "View the current service check as JSON."],
-        ].map(([title, path, description]) => <a key={path} href={api + path}><small>{path}</small><h3>{title} <span aria-hidden="true">↗</span></h3><p>{description}</p></a>)}</div>
-      </section>
-      <footer>Battery Passport 360 · Independent industrial battery research prototype</footer>
-    </main>
-  </>;
 }
