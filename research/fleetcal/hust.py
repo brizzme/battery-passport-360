@@ -48,3 +48,12 @@ def life_distribution(lives: list[int], n_excluded: int = 0) -> dict:
         "n": len(lives),
         "n_excluded": n_excluded,
     }
+
+
+def read_qv(path: Path) -> dict:
+    """Remaining-capacity curves written by the isolated extractor (None -> NaN)."""
+    import json
+    raw = json.loads(Path(path).read_text())
+    to_arr = lambda xs: np.array([np.nan if x is None else x for x in xs], dtype=float)
+    return {"grid": to_arr(raw["grid"]), "q10": to_arr(raw["q10"]), "q100": to_arr(raw["q100"]),
+            "start_v10": raw["start_v10"], "start_v100": raw["start_v100"]}
