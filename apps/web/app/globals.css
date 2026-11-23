@@ -342,24 +342,11 @@ ul.plain, ol.plain { margin: 0; padding-left: 1.1em; display: grid; gap: var(--s
 .summary .stage-list li:nth-child(2) { animation-delay: .08s } .summary .stage-list li:nth-child(3) { animation-delay: .16s }
 @media (max-width: 900px) { .stages { grid-template-columns: 1fr } }
 
-/* Navigation icons; left sidebar on wide screens, top bar below 1100px. */
+/* Navigation icons in the top bar. */
 .bar nav a { display: flex; align-items: center; gap: 8px }
 .nav-icon { flex: none; opacity: .85 }
-@media (min-width: 1100px) {
-  .app { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh }
-  .bar { position: sticky; top: 0; height: 100vh; flex-direction: column; align-items: stretch; flex-wrap: nowrap; gap: var(--s5); padding: var(--s4) var(--s3); overflow-y: auto }
-  .wordmark { padding: 0 var(--s2) }
-  .bar nav ul { flex-direction: column; gap: 2px; flex-wrap: nowrap }
-  .bar nav a { padding: 10px var(--s2); border-bottom: 0; border-left: 3px solid transparent; border-radius: 0 4px 4px 0 }
-  .bar nav a:hover { background: rgba(255, 255, 255, .06) }
-  .bar nav a[aria-current="page"] { border-left-color: var(--ground); background: rgba(255, 255, 255, .1) }
-  .synthetic-label { margin: auto 0 0; line-height: 1.4 }
-  .app-main { min-width: 0 }
-}
-/* With the 248px sidebar, two-column dashboard panels need a wider viewport. */
-@media (min-width: 1100px) and (max-width: 1439px) { .dash-main, .dash-pair { grid-template-columns: 1fr } }
 
-/* Polish pass: light sidebar, sentence-case labels, app-scale title and figures, lighter panel edges. */
+/* Polish pass: sentence-case labels, app-scale title and figures, lighter panel edges. */
 h1 { font-size: 2rem }
 .kpi-num { font-size: 2.5rem }
 .kpi dt, .furniture dt, th, .lane-h { text-transform: none; letter-spacing: 0; font-size: var(--t-xs) }
@@ -367,12 +354,3 @@ h1 { font-size: 2rem }
 .arch-node.dashed { border-color: #b7bfb9 }
 .badge { border-color: var(--rule) }
 .stages { align-items: start }
-@media (min-width: 1100px) {
-  .bar { background: #fafbf8; color: var(--ink); border-right: 1px solid #e3e6e1 }
-  .bar nav a { color: var(--ink-2) }
-  .bar nav a:hover { color: var(--ink); background: #eef0ec }
-  .bar nav a[aria-current="page"] { color: #1f5f99; background: #e6f0f9; border-left-color: transparent; font-weight: 600 }
-  .bar nav a[aria-current="page"] .nav-icon { color: var(--cold); opacity: 1 }
-  .bar nav a { border-radius: 8px; border-left: 0 }
-  .synthetic-label { border-color: #d3d8d3; color: var(--ink-2) }
-}
