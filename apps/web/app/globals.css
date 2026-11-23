@@ -1,0 +1,46 @@
+* { box-sizing: border-box }
+body { margin: 0; color: #182b2b; background: #f6f7f2; font-family: "Geist Variable", system-ui, sans-serif }
+header { background: #fff; border-bottom: 1px solid #cdd4c9 }
+.bar, main { max-width: 1100px; margin: auto; padding-inline: clamp(18px,5vw,58px) }
+.bar { min-height: 70px; display: flex; gap: 12px; align-items:center; justify-content: space-between }
+.bar b { display: flex; align-items: center; gap: 10px }
+.bar i { font-style: normal; color: #d6f576; background:#173b33; padding: 3px 7px; border-radius: 4px }
+.bar span, footer { font-size: .85rem; color: #4d6158 }
+.hero { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 30px; margin-top: 36px; padding: clamp(24px,5vw,54px); background: #143a32; color: #fff; border-radius: 12px }
+.hero small { color: #d6ef84; letter-spacing: .12em }
+h1 { font-size: clamp(2.5rem,6vw,4.5rem); line-height: 1.03; letter-spacing: -.055em; margin: .3em 0 }
+p { margin: 0; line-height: 1.55 }
+.hero p { max-width: 410px; color: #dfebe0 }
+.cell-art { flex: none; display: grid; grid-template-columns: repeat(4, 26px); gap: 4px; transform: skewY(-12deg) }
+.cell-art i { height: 36px; border: 1px solid #85ac7e; background: #43694b; border-radius: 4px }
+.cell-art i:nth-child(4n+1) { background: #c8e285 }
+section { margin-top: 32px }
+h2 { font-size: 1.25rem; margin: 0 0 12px }
+h3 { font-size: 1.12rem; margin: 0 0 7px }
+.status, .links a { background: white; padding: 22px; border: 1px solid #cbd4c9; border-radius: 8px }
+.status p, .links p { color: #506159 }
+.dot { display:inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 10px; background: #965820 }
+.ready { background: #427434 }
+.links { display: grid; grid-template-columns: 1fr 1fr; gap: 14px }
+.links a { color: inherit; text-decoration: none }
+.links a:hover { border-color: #477048 }
+.links small { display: block; font-family: monospace; margin-bottom: 16px; color: #4b6556 }
+.links h3 span { float: right }
+footer { margin-top: 38px; border-top: 1px solid #ccd4c9; padding: 18px 0 30px }
+:focus-visible { outline: 3px solid #266ec2; outline-offset: 3px }
+.skip { position: absolute; left: 8px; top: -4rem; z-index: 1; padding: 10px; background: white }
+.skip:focus { top: 5px }
+@media (max-width: 640px) { .links { grid-template-columns: 1fr } .cell-art { display: none } .hero { margin-top: 22px } }
+.desk { padding-block: 26px 60px; overflow-wrap:anywhere }
+.desk a, .entry a { color:#155947; text-underline-offset:3px }
+.entry,.desk article,.filters,.records li {background:white;border:1px solid #ccd4c9;border-radius:8px;padding:18px}
+.desk article {margin:12px 0}
+.desk article h3 {margin-top:8px}
+.filters, .records li,.desk nav {display:flex;gap:16px;align-items:end;flex-wrap:wrap; margin:16px 0}
+.filters label {display:grid;gap:6px}
+input,select,button {font:inherit;padding:9px;border-radius:5px;border:1px solid #718878;max-width:100%}
+button {background:#214d3b;color:white;cursor:pointer}
+.records {list-style:none;padding:0}
+.records li {justify-content:space-between;margin:6px 0}
+.meta, .badge {font-size:.86rem;color:#475e51;margin-top:8px}
+.badge {display:inline-block;margin-left:6px;background:#edf3e4;border-radius:4px;padding:3px 7px}

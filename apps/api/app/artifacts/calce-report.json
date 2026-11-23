@@ -1,0 +1,63 @@
+{
+  "model_run_id": "calce-index-ols-v1-3b0d3ac7e4ba",
+  "dataset_digest": "3b0d3ac7e4ba8087f8a80b9c09a2c95c26a0184799b127574ff5024ffa8609a3",
+  "source_type": "derived",
+  "trained_at": "2026-11-23T01:38:35.132100+00:00",
+  "target": "Step-7 discharge capacity (Ah)",
+  "feature": "Ordinal of retained discharge in each cell",
+  "train_cells": [
+    "CS2_35",
+    "CS2_36",
+    "CS2_37"
+  ],
+  "test_cells": [
+    "CS2_38"
+  ],
+  "train_cycles": 2886,
+  "test_cycles": 1025,
+  "intercept_ah": 1.2109027118012803,
+  "slope_ah_per_cycle": -0.0007583910974981057,
+  "baseline_mean_ah": 0.8441260143608421,
+  "linear": {
+    "mae_ah": 0.09726132346279334,
+    "rmse_ah": 0.11336700451754836
+  },
+  "baseline": {
+    "mae_ah": 0.16252411114585325,
+    "rmse_ah": 0.20039260512981102
+  },
+  "sources": {
+    "CS2_35": {
+      "url": "https://web.calce.umd.edu/batteries/data/CS2_35.zip",
+      "bytes": 37056519,
+      "sha256": "84d88cb98a43c02049f16c78806a78ec19084776ea5df8a4b7c2f8f7ba4589e5",
+      "cycles": 880,
+      "first": "2010-08-16T17:22:57",
+      "last": "2011-02-03T18:09:46"
+    },
+    "CS2_36": {
+      "url": "https://web.calce.umd.edu/batteries/data/CS2_36.zip",
+      "bytes": 37881685,
+      "sha256": "2e674f58bb6dc005c73bef10e87edbbd97afd041dde77a1d461a3c4ecac1b027",
+      "cycles": 970,
+      "first": "2010-08-16T17:23:21",
+      "last": "2011-02-02T13:28:55"
+    },
+    "CS2_37": {
+      "url": "https://web.calce.umd.edu/batteries/data/CS2_37.zip",
+      "bytes": 41513048,
+      "sha256": "8ed8aecbcbea2bcb17f455923a974be01ea21d7389210e1912d177de5b6af4a5",
+      "cycles": 1036,
+      "first": "2010-08-16T17:22:47",
+      "last": "2011-02-02T16:39:35"
+    },
+    "CS2_38": {
+      "url": "https://web.calce.umd.edu/batteries/data/CS2_38.zip",
+      "bytes": 42811100,
+      "sha256": "98787427c10478425efd4f54d823805724daff1d2fcbd822b3a2d7006a1051d8",
+      "cycles": 1025,
+      "first": "2010-08-16T17:25:03",
+      "last": "2011-02-03T17:59:09"
+    }
+  }
+}
