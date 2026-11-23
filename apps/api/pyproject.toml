@@ -10,6 +10,7 @@ research = [
     "numpy>=2.5.5",
     "pypdf>=5",
     "python-calamine>=0.9.1",
+    "scikit-learn>=1.9.1",
 ]
 
 [tool.pytest.ini_options]
