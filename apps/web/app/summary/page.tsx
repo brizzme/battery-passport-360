@@ -17,7 +17,7 @@ const CONTENTS = [
 ];
 
 const NEXT = [
-  {item: "Connect the Claude API to the evidence assistant", detail: "Replace the generic chat-completions adapter with the official Anthropic SDK (Claude Opus 5.5) to order and phrase already-verified findings. Needs a server-side API key and a decision on cost; only synthetic IDs and statuses would be sent.", state: "Decision pending"},
+  {item: "Claude briefing in the evidence assistant", detail: "Integrated with the official Anthropic SDK (Claude Sonnet 5.5): a cited summary and prioritised checks over verified gaps, validated server-side, with a visible offline fallback. Activate by setting ANTHROPIC_API_KEY on the server; then evaluate usefulness with specialists.", state: "Integrated, needs key"},
   {item: "Broaden the assistant beyond fixed questions", detail: "Today it accepts six question templates and keyword retrieval. A bounded intent step and semantic retrieval would make it a genuine copilot while keeping citations mandatory.", state: "Open"},
   {item: "Access control before any hosting", detail: "Authentication, HTTPS, rate limits, logging and privacy review; restricted-access passport fields must be gated by role.", state: "Required before hosting"},
   {item: "Automated checks", detail: "CI with committed browser tests; today every check is run by hand.", state: "Deferred"},

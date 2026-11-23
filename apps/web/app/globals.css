@@ -286,3 +286,5 @@ ul.plain { margin: 0; padding-left: 1.1em; display: grid; gap: var(--s2) }
 @media (max-width: 720px) { .arch-row, .arch-tech { grid-template-columns: 1fr } .summary-table th[scope="row"] { width: auto } }
 .arch-stack { display: grid; gap: var(--s5) }
 .arch-stack .arch:first-child .arch-flow { max-width: 920px; margin: 0 auto }
+.claude-brief { border-left: 0; background: var(--surface); padding: var(--s4); margin: var(--s3) 0 }
+.claude-brief ol { margin: var(--s2) 0 0; padding-left: 1.2em; display: grid; gap: var(--s1) }

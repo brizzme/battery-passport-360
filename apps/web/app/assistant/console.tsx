@@ -2,7 +2,8 @@
 import {FormEvent,useState} from "react";
 type Answer={mode:string;battery_id:string;as_of:string;supported:boolean;message:string;next_step:string|null;tools:string[];
  findings:{field:string;status:string;observation:string;evidence:string|null;citation_ids:string[]}[];
- passages:{chunk_id:string;source_url:string;section:string;passage:string;version:string}[]};
+ passages:{chunk_id:string;source_url:string;section:string;passage:string;version:string}[];
+ explanation?:{summary:string;model:string|null;priorities:{field:string;why:string;citation_ids:string[]}[]}|null};
 export default function Console({id,date}:{id:string;date:string}){
  const [answer,setAnswer]=useState<Answer|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState("");
  async function submit(e:FormEvent<HTMLFormElement>){
@@ -15,6 +16,7 @@ export default function Console({id,date}:{id:string;date:string}){
  return <><form className="filters" onSubmit={submit}><label>Synthetic battery<input name="battery_id" defaultValue={id} pattern="BAT-DEMO-[0-9]{3}" required/></label>
  <label>Assessment date<input type="date" name="as_of" defaultValue={date} required/></label><label>Question<input name="question" defaultValue="What is missing?" maxLength={500} required/></label><button disabled={busy}>Review evidence</button></form>
  <p role="status">{busy?"Retrieving records and passages…":error}</p>{answer&&<section aria-live="polite"><small>{answer.mode}</small><h2>{answer.message}</h2><p>{answer.battery_id} · {answer.as_of}</p>
+ {answer.explanation&&<article className="claude-brief"><p className="meta">Claude briefing · {answer.explanation.model ?? "Claude"} · grounded in the findings and passages below; every citation is checked by the server</p><p>{answer.explanation.summary}</p><ol>{answer.explanation.priorities.map(p=><li key={p.field}><b>{p.field}</b>: {p.why} {p.citation_ids.map(c=><a key={c} href={"#"+c}>[{c}]</a>)}</li>)}</ol></article>}
  {answer.findings.map(f=><article key={f.field}><h3>{f.field} · {f.status.replaceAll("_"," ")}</h3><p>{f.observation}</p><p className="meta">Synthetic evidence · {f.evidence??"No recorded entry"}</p>{f.citation_ids.map(c=><a key={c} href={"#"+c}> [{c}] </a>)}</article>)}
  {answer.next_step&&<p><b>Suggested expert check.</b> {answer.next_step}</p>}
  {answer.passages.map(p=><article id={p.chunk_id} key={p.chunk_id}><small>REFERENCE DOCUMENT · {p.chunk_id}</small><blockquote>{p.passage}</blockquote><a href={p.source_url}>{p.section} · {p.version}</a></article>)}

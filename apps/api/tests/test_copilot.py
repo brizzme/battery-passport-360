@@ -36,24 +36,12 @@ def test_documents_cannot_select_tools(monkeypatch):
         access_class="public",source_url="https://example.org",passage=note) for i in ("EU-77","GUID-DP-1")])
     monkeypatch.setattr(copilot,"fetch",lambda ids:[p for p in copilot.retrieve("") if p.chunk_id in ids])
     monkeypatch.setattr(copilot,"Provider",lambda:copilot.BaseSettings())
-    monkeypatch.setattr(copilot,"prioritize",lambda *_:None)
+    monkeypatch.setattr(copilot,"explain",lambda *_:None)
     result=copilot.query(copilot.Question(battery_id=b.battery_id,question="What is missing?"))
     assert result.supported and result.passages[0].passage == note
     assert note not in result.message and note not in result.tools
 
 
-def test_optional_provider_accepts_only_known_fields(monkeypatch):
-    from io import BytesIO
-    from pydantic import SecretStr
-    config = copilot.Provider(llm_url="https://example.org/chat",llm_model="test",llm_api_key=SecretStr("test"))
-    result = copilot.Answer(battery_id="BAT-DEMO-024", as_of=None, message="test", findings=[
-        copilot.Finding(field=f,status="invalid",observation="",evidence=None,citation_ids=[]) for f in ["chemistry","rated_ah"]])
-    for choice, mode in [("rated_ah","LLM-assisted"),("invented-field","offline")]:
-        monkeypatch.setattr(copilot,"urlopen",lambda *_,**kw:BytesIO(copilot.json.dumps(
-            {"choices":[{"message":{"content":choice}}]}).encode()))
-        copilot.prioritize(result,config)
-        assert result.mode.startswith(mode)
-        assert result.findings[0].field == "rated_ah"
 
 
 
@@ -73,7 +61,7 @@ def _fixture_024(monkeypatch, passages):
         access_class="public", source_url="https://example.org", passage=i) for i in passages])
     if not getattr(copilot.fetch, "_spy", False):
         monkeypatch.setattr(copilot, "fetch", lambda ids: [p for p in copilot.retrieve("") if p.chunk_id in ids])
-    monkeypatch.setattr(copilot, "prioritize", lambda *_: None)
+    monkeypatch.setattr(copilot, "explain", lambda *_: None)
     return copilot.query(copilot.Question(battery_id=b.battery_id, question="What is missing?"))
 
 

@@ -49,8 +49,8 @@ export function TechnicalView() {
         <Node title="Migrations 001–007 and API artifacts" items={["loaded at boot", "fresh clone needs no downloads"]}/>
       </section>
       <section className="lane narrow" aria-label="Optional">
-        <h4 className="lane-h">Optional, not connected</h4>
-        <Node tone="dashed" title="Claude API (proposed)" items={["server-side key only", "only synthetic IDs and statuses sent", "orders or phrases verified findings", "visible offline fallback"]}/>
+        <h4 className="lane-h">Optional (needs API key)</h4>
+        <Node tone="dashed" title="Claude API · Sonnet 5.5" items={["server-side key only", "synthetic findings and public passages sent", "cited briefing, validated by the API", "visible offline fallback"]}/>
       </section>
     </div>
   </figure>;
