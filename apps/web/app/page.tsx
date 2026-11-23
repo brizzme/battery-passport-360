@@ -15,14 +15,23 @@ const CONTENTS = [
   {href: "/fleet/BAT-DEMO-024?as_of=2027-02-18", name: "Investigation draft", what: "Downloadable Markdown draft per pack: coverage counts, every gap with references, health summary, synthetic provenance and the expert-review reminder."},
 ];
 
-const NEXT = [
-  {item: "LLM chat in the evidence assistant", detail: "Integrated: a cited summary and prioritised checks over verified gaps, validated server-side (known fields, retrieved citations only, no certifying words), with a visible offline fallback. Switch on with a server-side API key; then evaluate usefulness with specialists.", state: "Integrated, needs key"},
-  {item: "RAG: open chat over guidance and the operator's documents", detail: "Today: six question templates and keyword retrieval over guidance and regulation excerpts. Next: ingest supplier declarations, datasheets, test reports and service logs; embed passages in pgvector (already in the stack) with keyword search; filter retrieval by pack, date and access class; answer open questions with mandatory citations; suggest which document holds a missing data point for a person to confirm. Documents stay untrusted data; statuses stay rule-based; release only after a question test set passes.", state: "Roadmap"},
-  {item: "Access control before any hosting", detail: "Authentication, HTTPS, rate limits, logging and privacy review; restricted-access passport fields must be gated by role.", state: "Required before hosting"},
-  {item: "Automated checks", detail: "CI with committed browser tests; today every check is run by hand.", state: "Deferred"},
-  {item: "Verify two legal dates", detail: "Article 8 recycled-content timetable for LMT batteries (shown as unknown) and the exact responsible-sourcing start day (18 Aug 2027 used).", state: "Open"},
-  {item: "Data-to-Value Explorer", detail: "Stretch goal from the specification: profile an unfamiliar CSV and suggest AI use cases with required fields and KPIs.", state: "Not started"},
+type Stage = "done" | "next" | "later";
+const NEXT: {stage: Stage; item: string; detail: string; note?: string}[] = [
+  {stage: "done", item: "Core PoC", detail: "Passport readiness for 72 data points, fleet health and review list, cell research, evidence assistant and downloadable draft."},
+  {stage: "done", item: "LLM chat in the evidence assistant", detail: "Cited briefing over verified gaps, validated by the server, with a visible offline fallback and a cap on calls per minute.", note: "Switched on by an API key on the server"},
+  {stage: "done", item: "Shared demo link", detail: "Hosted with HTTPS, kept out of search engines; an optional sign-in can be switched on."},
+  {stage: "next", item: "RAG: open chat over documents", detail: "Semantic and keyword retrieval in pgvector over guidance and sample supplier documents, filtered by pack, date and access class; every answer cited; checked against a test set of questions."},
+  {stage: "next", item: "Verify two legal dates", detail: "Article 8 recycled-content timetable for LMT batteries (shown as unknown) and the exact responsible-sourcing start day (18 Aug 2027 used)."},
+  {stage: "later", item: "Automated checks", detail: "Continuous integration with browser tests; today the checks are run by hand."},
+  {stage: "later", item: "If taken further", detail: "Per-user accounts and role-based access to restricted fields; operator data to recalibrate battery health."},
+  {stage: "later", item: "Data-to-value explorer", detail: "Profile an unfamiliar CSV and suggest AI use cases with the fields and KPIs they need."},
 ];
+const STAGES: {key: Stage; label: string}[] = [{key: "done", label: "Done"}, {key: "next", label: "Next"}, {key: "later", label: "Later"}];
+const StageIcon = ({stage}: {stage: Stage}) => <svg className={`stage-icon ${stage}`} width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+  {stage === "done" && <><circle cx="11" cy="11" r="10"/><path d="M6.5 11.5l3 3 6-6.5" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></>}
+  {stage === "next" && <><circle cx="11" cy="11" r="9" fill="none" strokeWidth="2"/><path d="M8 11h6m-2.5-3l3 3-3 3" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></>}
+  {stage === "later" && <><circle cx="11" cy="11" r="9" fill="none" strokeWidth="2" strokeDasharray="3 3"/><path d="M11 6.5V11l3 2" fill="none" strokeWidth="2" strokeLinecap="round"/></>}
+</svg>;
 
 export default async function Summary() {
   // Contact details come from server-side settings, never from the repository.
@@ -124,8 +133,16 @@ export default async function Summary() {
     </section>
 
     <section aria-labelledby="next-h"><h2 id="next-h">Open points and next actions</h2>
-      <table className="summary-table"><thead><tr><th scope="col">Item</th><th scope="col">Detail</th><th scope="col">Status</th></tr></thead>
-        <tbody>{NEXT.map(n => <tr key={n.item}><th scope="row">{n.item}</th><td>{n.detail}</td><td><span className="badge">{n.state}</span></td></tr>)}</tbody></table>
+      <div className="stages">{STAGES.map(st => {
+        const items = NEXT.filter(n => n.stage === st.key);
+        return <div key={st.key} className={`stage ${st.key}`}>
+          <h3 className="stage-h"><StageIcon stage={st.key}/>{st.label} <small>{items.length}</small></h3>
+          <ul className="stage-list">{items.map(n => <li key={n.item}>
+            <StageIcon stage={st.key}/>
+            <div><b>{n.item}</b><p>{n.detail}</p>{n.note && <p className="stage-note">{n.note}</p>}</div>
+          </li>)}</ul>
+        </div>;
+      })}</div>
       {contact.name && <div className="panel contact" aria-labelledby="contact-h">
         <h2 id="contact-h">Contact</h2>
         <p><b>{contact.name}</b>{contact.email && <> · <a href={"mailto:" + contact.email}>{contact.email}</a></>}{contact.phone && <> · <a href={"tel:" + contact.phone.replace(/\s/g, "")}>{contact.phone}</a></>}</p>
