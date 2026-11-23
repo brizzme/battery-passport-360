@@ -22,13 +22,15 @@ Local Docker Compose stack (Next.js web, FastAPI API, PostgreSQL/pgvector). Revi
 
 ## Capabilities and Constraints
 - 100 fictional packs (80 LFP, 20 lead-acid), 3 fictional sites, 24 months of daily synthetic history; planted cases BAT-DEMO-007, -013, -024, -042.
-- API: fleet health summary with review flags, per-pack health summary and daily history, passport readiness, CALCE research report, evidence assistant, Markdown draft.
+- Web: fleet health dashboard at `/` (headline figures, review table, fleet floor by site, capacity bands, capacity-vs-cycles scatter, temperature-regime share, provenance); pack pages with capacity history, temperature and SoC histograms, idle/event timeline and passport evidence; fleet register, cell research and evidence assistant inside one shell.
+- API: fleet health summary (review flags, per-pack points, temperature-regime shares, calibration and generator versions), per-pack health summary and daily history, passport readiness, CALCE research report, evidence assistant, Markdown draft.
+- Values at the generator's 60 % capacity floor are reported as bounds ("≤ 60 % (model floor)"), never as measurements.
 - Labels required on every displayed fact: source type, source ID, timestamp, interpretation. Synthetic data must be labelled synthetic in UI, charts and exports.
 - Banned wording: "EU compliant", "certified", "safe to operate", "approved", "replace now", "end of life reached".
 - Not an official EU passport issuer and no affiliation with any battery manufacturer.
 
 ## Brand Commitments
-Name: Battery Passport 360. No logo or brand palette is committed.
+Name: Battery Passport 360. No logo or brand palette is committed by the user; the visual system chosen for the product (Ulm signage program) is recorded in DESIGN.md.
 
 ## Evidence on Hand
 Real: HUST and Aalborg LFP datasets (CC BY 4.0) used for calibration; CALCE CS2 cell measurements; seven public EUR-Lex excerpts; Commission guidance v3.2. Absent and never to be fabricated: customers, testimonials, accuracy or savings claims, real pack telemetry.

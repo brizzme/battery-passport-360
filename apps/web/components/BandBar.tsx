@@ -2,9 +2,9 @@ import {bandCounts} from "@/lib/geometry";
 
 const STYLE: Record<string, {bg: string; hatch?: boolean; label: string}> = {
   "95-100": {bg: "var(--ink)", label: "95–100 %"},
-  "90-95": {bg: "#4a5961", label: "90–95 %"},
-  "80-90": {bg: "#8a979c", label: "80–90 %"},
-  "below 80": {bg: "#c9cec9", hatch: true, label: "below 80 % (extrapolated)"},
+  "90-95": {bg: "var(--ink-2)", label: "90–95 %"},
+  "80-90": {bg: "var(--slate-mid)", label: "80–90 %"},
+  "below 80": {bg: "var(--rule)", hatch: true, label: "below 80 % (extrapolated)"},
   "unknown": {bg: "var(--ground)", hatch: true, label: "unknown (lead-acid)"},
 };
 

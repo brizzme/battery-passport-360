@@ -1,8 +1,8 @@
 const R = [
   {key: "calibrated", label: "Calibrated 35–45 °C", bg: "var(--ink)"},
-  {key: "extrapolated_below_calibrated_range", label: "Extrapolated 20–35 °C", bg: "#8a979c", hatch: true},
-  {key: "clamped_low", label: "Clamped below 20 °C", bg: "#c9cec9", hatch: true},
-  {key: "clamped_high", label: "Clamped above 45 °C", bg: "#4a5961", hatch: true},
+  {key: "extrapolated_below_calibrated_range", label: "Extrapolated 20–35 °C", bg: "var(--slate-mid)", hatch: true},
+  {key: "clamped_low", label: "Clamped below 20 °C", bg: "var(--rule)", hatch: true},
+  {key: "clamped_high", label: "Clamped above 45 °C", bg: "var(--ink-2)", hatch: true},
 ];
 const pct = (v: number) => `${(100 * v).toFixed(v < 0.01 ? 1 : 0)} %`;
 export function RegimeStrip({share}: {share: Record<string, number>}) {

@@ -9,8 +9,12 @@
   --ambient: #256b3a;
   --hot: #f0a030;
   --neutral: #b9c0c2;
+  --slate-mid: #8a979c;
+  --nav-muted: #cfd6d8;
+  --bar-rule: #8fa0a6;
+  --ink-hover: #33454f;
   --focus: #2f7fc1;
-  --hatch: repeating-linear-gradient(135deg, rgb(29 43 51 / .38) 0 1.5px, transparent 1.5px 6px);
+  --hatch: repeating-linear-gradient(135deg, rgb(29 43 51 / .4) 0 1.5px, transparent 1.5px 6px);
   --ui: "Barlow", system-ui, sans-serif;
   --num: "Barlow Condensed", "Barlow", system-ui, sans-serif;
   --s1: 4px; --s2: 8px; --s3: 16px; --s4: 24px; --s5: 32px; --s6: 48px; --s7: 64px;
@@ -39,10 +43,10 @@ small, .meta { font-size: var(--t-xs); color: var(--ink-2) }
 .bar a { color: inherit; text-decoration: none }
 .wordmark { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: var(--t-md) }
 .bar nav ul { display: flex; gap: var(--s4); list-style: none; margin: 0; padding: 0; flex-wrap: wrap }
-.bar nav a { display: block; padding: 17px 0 15px; border-bottom: 3px solid transparent; color: #cfd6d8 }
+.bar nav a { display: block; padding: 17px 0 15px; border-bottom: 3px solid transparent; color: var(--nav-muted) }
 .bar nav a:hover { color: var(--ground) }
 .bar nav a[aria-current="page"] { color: var(--ground); border-bottom-color: var(--ground) }
-.synthetic-label { margin-left: auto; font-size: var(--t-xs); font-weight: 600; border: 1px solid #8fa0a6; padding: 3px 10px }
+.synthetic-label { margin-left: auto; font-size: var(--t-xs); font-weight: 600; border: 1px solid var(--bar-rule); padding: 3px 10px }
 main { padding: var(--s5) var(--gutter) var(--s7); max-width: 1480px; margin: 0 auto }
 main:focus { outline: none }
 .foot { border-top: 1px solid var(--rule); margin: 0 var(--gutter); padding: var(--s4) 0 var(--s6); display: flex; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; font-size: var(--t-xs); color: var(--ink-2) }
@@ -55,7 +59,7 @@ main:focus { outline: none }
 /* Controls */
 input, select, button { font: inherit; color: var(--ink); padding: 8px 12px; border: 1px solid var(--ink); border-radius: 0; background: var(--surface); max-width: 100% }
 button { background: var(--ink); color: var(--ground); font-weight: 600; cursor: pointer }
-button:hover { background: #33454f }
+button:hover { background: var(--ink-hover) }
 button:disabled { opacity: .5; cursor: not-allowed }
 .filters { display: flex; gap: var(--s3); align-items: end; flex-wrap: wrap; margin: var(--s3) 0; background: var(--surface); padding: var(--s3) }
 .filters label { display: grid; gap: 6px; font-size: var(--t-xs); font-weight: 500 }
@@ -190,7 +194,7 @@ figure.chart, .dash-main > *, .dash-pair > *, .pack-grid > * { min-width: 0 }
 .page-head.compact { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s2) var(--s4) }
 .page-head.compact p { font-size: var(--t-xs) }
 .chart.small svg { max-height: 220px }
-.bar nav { scrollbar-width: thin; scrollbar-color: #8fa0a6 transparent }
+.bar nav { scrollbar-width: thin; scrollbar-color: var(--bar-rule) transparent }
 @media (max-width: 720px) {
   .chart-scroll svg { min-width: 560px }
   .bar nav ul::after { content: ""; flex: 0 0 var(--s4) }
