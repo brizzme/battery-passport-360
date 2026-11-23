@@ -82,7 +82,7 @@ def search(query: str = Query("", max_length=100), status: Status | None = None,
         if status:
             fields = fields_for(cursor, [row.battery_id for row in rows])
             rows = [row for row in rows if any(result.status == status for result in
-                    assess(row.category, row.rated_kwh, when, fields.get(row.battery_id, {})))]
+                    assess(row.category, row.rated_kwh, row.chemistry, when, fields.get(row.battery_id, {})))]
     offset = (page - 1) * 12
     return FleetPage(items=rows[offset:offset + 12], total=len(rows), page=page, as_of=when)
 
@@ -108,7 +108,7 @@ def inspect(battery_id: str, as_of: date | None = None) -> Inspection:
         battery = identity(cursor, battery_id)
         fields = fields_for(cursor, [battery_id]).get(battery_id, {})
     return Inspection(battery=battery, as_of=when, health=load_summary(battery_id, effective_date(when, when)),
-                      results=assess(battery.category, battery.rated_kwh, when, fields))
+                      results=assess(battery.category, battery.rated_kwh, battery.chemistry, when, fields))
 
 
 def load_summary(battery_id: str, as_of: date) -> HealthSummary:

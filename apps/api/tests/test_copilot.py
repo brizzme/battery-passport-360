@@ -19,7 +19,7 @@ def test_missing_citations_abstain(monkeypatch):
     battery=DemoBattery(battery_id="BAT-DEMO-024",category="industrial",chemistry="LFP",rated_kwh=16,
                         source_type="synthetic",source_id="test",observed_at="2026-01-01T00:00:00Z",explanation="fixture")
     monkeypatch.setattr(copilot,"inspect",lambda *_:Inspection(battery=battery,as_of=day,
-                        results=assess("industrial",16,day,{}),health=None))
+                        results=assess("industrial",16,"LFP",day,{}),health=None))
     monkeypatch.setattr(copilot,"retrieve",lambda *_:[])
     answer=copilot.query(copilot.Question(battery_id=battery.battery_id,question="What is missing?"))
     assert not answer.supported and not answer.passages
@@ -31,7 +31,7 @@ def test_documents_cannot_select_tools(monkeypatch):
     day=date(2027,2,18)
     b=DemoBattery(battery_id="BAT-DEMO-024",category="industrial",chemistry="LFP",rated_kwh=16,
                   source_type="synthetic",source_id="test",observed_at="2026-01-01T00:00:00Z",explanation="fixture")
-    monkeypatch.setattr(copilot,"inspect",lambda *_:Inspection(battery=b,as_of=day,results=assess("industrial",16,day,{})[:1],health=None))
+    monkeypatch.setattr(copilot,"inspect",lambda *_:Inspection(battery=b,as_of=day,results=assess("industrial",16,"LFP",day,{})[:1],health=None))
     monkeypatch.setattr(copilot,"retrieve",lambda *_:[copilot.Passage(chunk_id=i,title="fixture",section="test",version="1",
         access_class="public",source_url="https://example.org",passage=note) for i in ("EU-77","EU-XIII-B")])
     monkeypatch.setattr(copilot,"Provider",lambda:copilot.BaseSettings())
