@@ -38,7 +38,7 @@ def draft_inspection_summary(request: SummaryRequest) -> PlainTextResponse:
                          f"Source: {e.source_id}, {e.observed_at.isoformat()}.")
     unresolved = [r.rule_id for r in data.results if r.status.value == "unknown"]
     lines.extend(["", f"Unresolved, not gaps ({len(unresolved)}): {', '.join(unresolved) or 'none'}. "
-                  "Restricted-access or design-dependent data points; evidence is not modelled in this prototype.", ""])
+                  "Reasons vary per row (restricted access, design-dependent applicability, deferred acts); see the pack page.", ""])
     if data.health:
         h = data.health
         lines.extend(["## Synthetic pack health (simulated, calibrated)", "",

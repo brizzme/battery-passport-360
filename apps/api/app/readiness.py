@@ -134,6 +134,8 @@ def classify(row: dict, category: str, kwh: float | None, chemistry: str | None,
                 return Status.not_yet_effective, "Responsible sourcing is required from 18 August 2027 (guidance).", SOURCING_FROM
             return Status.unknown, "Required from 18 August 2027 per guidance; sourcing evidence is not modelled in this prototype.", SOURCING_FROM
         if row["legal_ref"] == "Annex XIII 1 (e)":
+            if category == "lmt":
+                return Status.unknown, "The LMT recycled-content timetable is outside this rule subset (Article 8 dates for LMT batteries not verified here).", None
             if when < ART8_FROM:
                 return Status.not_yet_effective, "Recycled content applies as envisaged by Article 8; earliest 18 August 2028.", ART8_FROM
             return Status.unknown, "Article 8(1) also depends on a delegated act. Applicability needs review.", ART8_FROM

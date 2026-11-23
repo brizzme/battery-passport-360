@@ -34,6 +34,7 @@ def test_documents_cannot_select_tools(monkeypatch):
     monkeypatch.setattr(copilot,"inspect",lambda *_:Inspection(battery=b,as_of=day,results=assess("industrial",16,"LFP",day,{})[:1],health=None))
     monkeypatch.setattr(copilot,"retrieve",lambda *_:[copilot.Passage(chunk_id=i,title="fixture",section="test",version="1",
         access_class="public",source_url="https://example.org",passage=note) for i in ("EU-77","GUID-DP-1")])
+    monkeypatch.setattr(copilot,"fetch",lambda ids:[p for p in copilot.retrieve("") if p.chunk_id in ids])
     monkeypatch.setattr(copilot,"Provider",lambda:copilot.BaseSettings())
     monkeypatch.setattr(copilot,"prioritize",lambda *_:None)
     result=copilot.query(copilot.Question(battery_id=b.battery_id,question="What is missing?"))
@@ -70,6 +71,8 @@ def _fixture_024(monkeypatch, passages):
     monkeypatch.setattr(copilot, "inspect", lambda *_: Inspection(battery=b, as_of=day, results=assess("industrial", 16, "LFP", day, fields), health=None))
     monkeypatch.setattr(copilot, "retrieve", lambda *_: [copilot.Passage(chunk_id=i, title="fixture", section="s", version="1",
         access_class="public", source_url="https://example.org", passage=i) for i in passages])
+    if not getattr(copilot.fetch, "_spy", False):
+        monkeypatch.setattr(copilot, "fetch", lambda ids: [p for p in copilot.retrieve("") if p.chunk_id in ids])
     monkeypatch.setattr(copilot, "prioritize", lambda *_: None)
     return copilot.query(copilot.Question(battery_id=b.battery_id, question="What is missing?"))
 
@@ -85,3 +88,15 @@ def test_gaps_are_only_missing_or_invalid_with_guidance_citations(monkeypatch):
 def test_missing_guidance_passage_abstains(monkeypatch):
     answer = _fixture_024(monkeypatch, ["EU-77", "GUID-DP-11"])
     assert not answer.supported and not answer.findings
+
+
+def test_guidance_rows_fetched_by_id(monkeypatch):
+    calls = []
+    def spy(ids):
+        calls.append(sorted(ids))
+        return [copilot.Passage(chunk_id=i, title="t", section="s", version="1", access_class="public",
+                                source_url="https://example.org", passage=i) for i in ids]
+    spy._spy = True
+    monkeypatch.setattr(copilot, "fetch", spy)
+    answer = _fixture_024(monkeypatch, ["EU-77"])
+    assert answer.supported and calls == [["GUID-DP-11", "GUID-DP-12"]]

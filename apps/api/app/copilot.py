@@ -44,6 +44,14 @@ def sources() -> list[Passage]:
         return [Passage(**r) for r in cursor]
 
 
+def fetch(chunk_ids: list[str]) -> list[Passage]:
+    """Retrieve indexed guidance rows by id (each catalogue data point has exactly one passage)."""
+    with fleet_cursor() as cursor:
+        cursor.execute(f"SELECT {COLUMNS} FROM document_chunks WHERE access_class='public' AND chunk_id = ANY(%s) ORDER BY chunk_id",
+                       (chunk_ids,))
+        return [Passage(**row) for row in cursor]
+
+
 def retrieve(terms: str) -> list[Passage]:
     with fleet_cursor() as cursor:
         cursor.execute(f"""SELECT {COLUMNS} FROM document_chunks
@@ -123,8 +131,11 @@ def query(request: Question) -> Answer:
     unresolved = sum(1 for r in report.results if r.status == "unknown")
     selected = gaps
     hits = retrieve("industrial passport date prospective scope")
-    for result in selected:
-        hits.extend(retrieve(f"{result.label} data point {result.dp} {result.rule_id} {result.section}"))
+    if "EU-77" not in {p.chunk_id for p in hits}:
+        answer.message = "Insufficient retrieved public reference evidence."
+        return answer
+    if selected:
+        hits.extend(fetch(sorted(citation(r.rule_id) for r in selected)))
     allowed = {"EU-77", *(citation(r.rule_id) for r in selected)}
     passages = list({p.chunk_id: p for p in hits if p.chunk_id in allowed}.values())
     found = {p.chunk_id for p in passages}
@@ -147,7 +158,7 @@ def query(request: Question) -> Answer:
     answer.passages = passages
     answer.message = ((f"{len(gaps)} data point(s) have missing or invalid evidence." if gaps else
                        "No missing or invalid evidence for the guidance data points on this date.")
-                      + f" {unresolved} data point(s) are unresolved (restricted or design-dependent), not gaps.")
+                      + f" {unresolved} data point(s) are unresolved, not gaps; see each row's reason.")
     answer.next_step = ("Request the referenced model sheet and verify the flagged entries and units."
                         if gaps else "Review the applicability dates and retain supporting model sheets.")
     prioritize(answer, Provider())

@@ -52,7 +52,7 @@ def value(dp: str, p: dict) -> tuple[str, str | None] | None:
         "DP-10": (str(p["kwh"] * (30 if lead else 12)), "kg"),
         "DP-11": (str(p["ah"]), "Ah"),
         "DP-12": (p["chem"], None),
-        "DP-13": ("Lead; sulfuric acid electrolyte (synthetic entry)" if lead else
+        "DP-13": ("Sulfuric acid electrolyte (synthetic entry)" if lead else
                   "Lithium hexafluorophosphate in organic carbonate electrolyte (synthetic entry)", None),
         "DP-14": (f"Recorded in fictional model sheet {sheet}, section 5 (synthetic entry)", None),
         "DP-15": ("Antimony" if lead else "Lithium; natural graphite; phosphate rock", None),
@@ -62,7 +62,7 @@ def value(dp: str, p: dict) -> tuple[str, str | None] | None:
         "DP-28": ("57.6" if lead else "58.4", "V"),
         "DP-29": (str(p["kwh"] * 500), "W"),
         "DP-30": (str(p["kwh"] * 750), "W"),
-        "DP-34": ("-20 °C … 50 °C (storage, reference test in fictional model sheet)", "°C"),
+        "DP-34": ("-20 °C … 50 °C (storage, reference test in fictional model sheet)", None),
         "DP-38a": ("1.0" if lead else "0.6", "mΩ"),
         "DP-38b": ("25" if lead else "12", "mΩ"),
         "DP-41": ("Yes", None),

@@ -3,7 +3,7 @@ import type {Result} from "@/app/fleet/api";
 const GROUPS = [
   {key: "gaps", label: "Gaps: missing or invalid evidence", statuses: ["missing_evidence", "invalid"], open: true, bg: "var(--ink)"},
   {key: "present", label: "Present", statuses: ["present"], open: false, bg: "var(--slate-mid)"},
-  {key: "unknown", label: "Unresolved: restricted or design-dependent", statuses: ["unknown"], open: false, bg: "var(--neutral)", hatch: true},
+  {key: "unknown", label: "Unresolved (not gaps)", statuses: ["unknown"], open: false, bg: "var(--neutral)", hatch: true},
   {key: "nye", label: "Not yet effective", statuses: ["not_yet_effective"], open: false, bg: "var(--rule)"},
   {key: "na", label: "Not applicable", statuses: ["not_applicable"], open: false, bg: "var(--surface)"},
 ];

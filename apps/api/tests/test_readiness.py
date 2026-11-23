@@ -148,3 +148,8 @@ def test_complete_seed_evidence_has_no_gaps():
     from guidance_fixture import full_evidence
     assert not [r.rule_id for r in assess("industrial", 24, "LFP", ON, full_evidence()) if r.status in GAPS]
     assert not [r.rule_id for r in assess("industrial", 20, "lead-acid", ON, full_evidence("BAT-DEMO-005")) if r.status in GAPS]
+
+
+def test_lmt_recycled_content_timetable_unresolved():
+    r = status("DP-20", category="lmt", when=date(2027, 3, 1))
+    assert r.status == Status.unknown and "LMT" in r.reason
