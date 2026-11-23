@@ -79,7 +79,7 @@ Design: docs/superpowers/specs/2026-11-23-calibrated-fleet-design.md · Plan: do
 - [x] Health summary, history and fleet triage API; draft summary and pack page show labelled health.
 - [x] Part 2: fleet health dashboard (see below).
 - [x] Part 3: passport data-point catalogue from Commission guidance v3.2 (see below).
-- [ ] Part 4: HUST-based research model.
+- [x] Part 4: HUST early-cycle life model (see below).
 
 ## Expansion part 2 — Fleet health dashboard
 Design: docs/superpowers/specs/2026-11-23-fleet-dashboard-design.md · Plan: docs/superpowers/plans/2026-11-23-fleet-dashboard.md · Direction: Ulm signage program (.impeccable/surfaces/apps-web-app-page-tsx.md)
@@ -93,6 +93,12 @@ Design: docs/superpowers/specs/2026-11-23-passport-catalogue-design.md · Plan: 
 - [x] Engine evaluates every row with a fixed precedence; typed evidence validation; gaps = missing or invalid.
 - [x] Migration 006: typed synthetic evidence for all packs, four planted gap packs, 72 guidance passages.
 - [x] Copilot cites guidance rows; draft lists counts and gaps; pack page coverage strip and grouped table.
+
+## Expansion part 4 — HUST early-cycle life model
+Design: docs/superpowers/specs/2026-11-23-hust-life-model-design.md · Plan: docs/superpowers/plans/2026-11-23-hust-life-model.md
+- [x] Isolated extractor writes ΔQ(V) source curves; capacity CSVs unchanged.
+- [x] Features from cycles ≤ 100; nested leave-one-batch-out evaluation; split-conformal intervals; verifier.
+- [x] Research API and page; model card with real results (capacity features MAE 200 vs baseline 272 cycles; voltage feature null).
 
 ## Follow-up decisions
 - Expand rule coverage after verifying additional sources and amendments.
@@ -112,3 +118,4 @@ Design: docs/superpowers/specs/2026-11-23-passport-catalogue-design.md · Plan: 
 | 2026-11-23 | Expansion part 1 | Calibrated synthetic fleet: HUST (77 cells, median life 1,706 cycles) and Aalborg (3 cells, Arrhenius Ea/R 2,581 K) calibration; 100 packs × 24 months seed; migration runner and 005; health, history and fleet triage API; labelled health on pack page and draft. | Research tests 51 passed; API pytest 40 passed (1 test-client deprecation warning); web lint, typecheck, build passed; existing volume applied 005 once then skipped; fresh clone with no downloads applied 001–005 and passed check-fleet.sh and check-demo.sh; pack pages checked at 375 and 1280 px. | Dashboard visuals are part 2. Most simulated days lie below the calibrated temperature range (labelled). |
 | 2026-11-23 | Expansion part 2 | Ulm-signage fleet health dashboard and charted pack page; API adds pack points, regime share and versions to fleet health. | API pytest 46 passed; web Vitest 22 passed; lint, typecheck, build passed; palette validator pass after re-step; impeccable detect no findings; screenshots at 1440/768/390; finish reviewer rounds 1–2 resolved all 8 material fixes, round-3 regressions fixed and verified by screenshot; code review: 4 important fixed, 10 minor deferred. | Footer API links assume localhost; minor a11y items deferred. |
 | 2026-11-23 | Expansion part 3 | Commission guidance v3.2 catalogue (72 rows) drives readiness; migration 006 typed evidence and guidance passages; copilot and draft cite guidance rows; pack page coverage view. | Research 87 passed; API 70 passed; web 22 passed; lint, typecheck, build; check-fleet and check-demo pass; live copilot answer for BAT-DEMO-024 cites GUID-DP-11/12 and EU-77; dashboard flags exactly the four planted gap packs. | Guidance is non-binding; restricted and design-dependent rows unresolved by design. |
+| 2026-11-23 | Expansion part 4 | HUST early-cycle life comparison (77 cells, 10 batches, leave-one-batch-out); research page rebuilt; CALCE kept as legacy. | Research tests pass; API 77 passed; web 22 passed; lint, typecheck, build; verify_life.py reproduces all metrics; screenshots 1440/390 without overflow. Results: baseline MAE 272, capacity 200, full 205 cycles; 80 % interval coverage 81–83 %. | One laboratory, one temperature; voltage feature adds no skill. |
