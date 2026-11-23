@@ -9,7 +9,7 @@ from pydantic import BaseModel
 
 from .db import connect
 from .health import DATA_CUTOFF, HealthSummary, effective_date
-from .readiness import Evidence, Result, Status, assess
+from .readiness import Evidence, Result, Status, assess, coverage
 
 router = APIRouter(prefix="/api/batteries", tags=["Synthetic fleet"])
 
@@ -99,6 +99,7 @@ class Inspection(BaseModel):
     scenario: str = "Prospective first EU market placement on the assessment date."
     results: list[Result]
     health: HealthSummary | None
+    coverage: dict[str, int] = {}
 
 
 @router.get("/{battery_id}/passport-readiness")
@@ -107,8 +108,9 @@ def inspect(battery_id: str, as_of: date | None = None) -> Inspection:
     with fleet_cursor() as cursor:
         battery = identity(cursor, battery_id)
         fields = fields_for(cursor, [battery_id]).get(battery_id, {})
+    results = assess(battery.category, battery.rated_kwh, battery.chemistry, when, fields)
     return Inspection(battery=battery, as_of=when, health=load_summary(battery_id, effective_date(when, when)),
-                      results=assess(battery.category, battery.rated_kwh, battery.chemistry, when, fields))
+                      results=results, coverage=coverage(results))
 
 
 def load_summary(battery_id: str, as_of: date) -> HealthSummary:

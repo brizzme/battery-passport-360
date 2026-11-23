@@ -141,3 +141,10 @@ def test_results_cite_guidance_and_regulation():
     r = status("DP-12")
     assert r.guidance_ref == "Guidance v3.2, data point 12" and r.section == "Annex VI A (7)"
     assert r.source_url.startswith("https://single-market-economy.ec.europa.eu/") and "eur-lex" in r.eurlex_url
+
+
+def test_complete_seed_evidence_has_no_gaps():
+    import sys, pathlib; sys.path.insert(0, str(pathlib.Path(__file__).parent))
+    from guidance_fixture import full_evidence
+    assert not [r.rule_id for r in assess("industrial", 24, "LFP", ON, full_evidence()) if r.status in GAPS]
+    assert not [r.rule_id for r in assess("industrial", 20, "lead-acid", ON, full_evidence("BAT-DEMO-005")) if r.status in GAPS]

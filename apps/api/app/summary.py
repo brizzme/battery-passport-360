@@ -5,6 +5,7 @@ from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel, Field
 
 from .fleet import inspect
+from .readiness import GAPS
 
 router = APIRouter(prefix="/api", tags=["Draft investigation"])
 
@@ -23,19 +24,21 @@ def draft_inspection_summary(request: SummaryRequest) -> PlainTextResponse:
         f"Synthetic industrial fleet · assessment {data.as_of} · generated {datetime.now(timezone.utc).isoformat()}",
         data.scenario, "",
         f"Identity: {b.chemistry}, {b.rated_kwh} kWh. Source: {b.source_id}, {b.observed_at.isoformat()}. {b.explanation}",
-        "", "## Derived passport checks", "",
+        "", "## Passport data points (Commission guidance v3.2, non-binding)", "",
+        "Counts: " + ", ".join(f"{k.replace('_', ' ')} {v}" for k, v in data.coverage.items()) + ".", "",
     ]
-    for r in data.results:
-        lines.extend([f"### {r.label} — {r.status.value}", r.reason,
-                      f"Derived: {r.rule_id} v{r.version}, assessed {r.as_of}, earliest date {r.effective_from}.",
-                      f"Reference: Regulation (EU) 2023/1542, {r.section}, {r.source_url}"])
+    gaps = [r for r in data.results if r.status in GAPS]
+    lines.append("### Gaps (missing or invalid evidence)" if gaps else "### No missing or invalid evidence on this date")
+    for r in gaps:
+        lines.extend(["", f"**{r.rule_id} {r.label}** — {r.status.value}", r.reason,
+                      f"Reference: {r.guidance_ref} ({r.source_url}); Regulation (EU) 2023/1542, {r.section} ({r.eurlex_url})."])
         if r.evidence:
             e = r.evidence
-            lines.append(f"Synthetic entry: {e.value_text}. Evidence: {e.evidence_ref or 'unlinked'}. "
-                         f"Source: {e.source_id}, {e.observed_at.isoformat()}. {e.explanation}")
-        else:
-            lines.append("Evidence: no recorded field entry for this date.")
-        lines.append("")
+            lines.append(f"Synthetic entry: {e.value_text}{' ' + e.unit if e.unit else ''}. Evidence: {e.evidence_ref or 'unlinked'}. "
+                         f"Source: {e.source_id}, {e.observed_at.isoformat()}.")
+    unresolved = [r.rule_id for r in data.results if r.status.value == "unknown"]
+    lines.extend(["", f"Unresolved, not gaps ({len(unresolved)}): {', '.join(unresolved) or 'none'}. "
+                  "Restricted-access or design-dependent data points; evidence is not modelled in this prototype.", ""])
     if data.health:
         h = data.health
         lines.extend(["## Synthetic pack health (simulated, calibrated)", "",
