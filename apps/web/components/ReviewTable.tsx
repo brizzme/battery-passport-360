@@ -5,9 +5,9 @@ import {Pictogram} from "./Pictogram";
 import {capacityText} from "@/lib/geometry";
 
 const SHORT: Record<string, string> = {
-  capacity_below_80: "Capacity below 80 %",
-  over_temperature_30d: "Repeated over-temperature (30 days)",
-  fade_rate_p90: "Fast fade, top 10 % of fleet (90 days)",
+  capacity_below_80: "Capacity below 80\u00a0%",
+  over_temperature_30d: "Repeated over-temperature (30\u00a0days)",
+  fade_rate_p90: "Fast fade, top 10\u00a0% of fleet (90\u00a0days)",
   passport_gaps_at_milestone: "Passport evidence gaps at 18 Feb 2027",
 };
 const ORDER = ["capacity_below_80", "over_temperature_30d", "fade_rate_p90", "passport_gaps_at_milestone"];
