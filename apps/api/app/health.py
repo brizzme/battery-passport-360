@@ -95,6 +95,8 @@ class FleetHealth(BaseModel):
     events_30d: dict[str, int]
     review: list[ReviewFlag]
     pack_points: list[PackPoint] = []
+    calibration_version: str | None = None
+    generator_version: str | None = None
     regime_share: dict[str, float] = {}
 
 
@@ -275,4 +277,6 @@ def fleet_summary(summaries: list[HealthSummary], flags: list[ReviewFlag], as_of
     share = {k: (days.get(k, 0) / total if total else 0.0) for k in REGIMES}
     return FleetHealth(as_of=as_of, packs=len(summaries), capacity_bands=bands, efc_total=round(efc, 1),
                        events_30d=dict(sorted(events.items())), review=flags, pack_points=points,
-                       regime_share=share)
+                       regime_share=share,
+                       calibration_version=summaries[0].calibration_version if summaries else None,
+                       generator_version=summaries[0].generator_version if summaries else None)

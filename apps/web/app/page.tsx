@@ -15,12 +15,11 @@ const fmt = (n: number) => n.toLocaleString("en", {maximumFractionDigits: 0});
 export default async function FleetHealthPage() {
   const data = await read<FleetHealth>("/api/fleet/health-summary");
   if (!data) throw Error("Fleet health unavailable");
-  const meta = await read<{calibration_version: string; generator_version: string}>("/api/batteries/BAT-DEMO-002/health-summary");
   const ev = data.events_30d;
   const events = Object.values(ev).reduce((a, b) => a + b, 0);
   return <div className="dash">
     <div className="page-head"><h1>Fleet health</h1>
-      <p>Which packs a specialist should look at, and why. Values as of {data.as_of}; every figure is simulated from public LFP measurements.</p></div>
+      <p>Which packs a specialist should look at, and why. Values as of {data.as_of}. Every figure is simulated; LFP fade is calibrated on public cell measurements, lead-acid values are generator assumptions.</p></div>
     <KpiStrip items={[
       {label: "Packs", value: fmt(data.packs), detail: "fictional, 3 sites"},
       {label: "Suggested for review", value: String(reviewRows(data).length), unit: "packs", detail: `${data.review.length} reasons`},
@@ -35,7 +34,7 @@ export default async function FleetHealthPage() {
     <CapacityScatter points={data.pack_points}/>
     <div className="dash-pair">
       <RegimeStrip share={data.regime_share}/>
-      <ProvenancePanel calibration={meta?.calibration_version ?? "unavailable"} generator={meta?.generator_version ?? "unavailable"} cutoff={data.data_cutoff}/>
+      <ProvenancePanel calibration={data.calibration_version ?? "unavailable"} generator={data.generator_version ?? "unavailable"} cutoff={data.data_cutoff}/>
     </div>
     <Tooltip/>
   </div>;

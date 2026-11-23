@@ -80,3 +80,10 @@ def test_fleet_summary_packs_and_regime_share():
     assert result.regime_share == {"calibrated": 0.25, "extrapolated_below_calibrated_range": 0.0,
                                    "clamped_low": 0.75, "clamped_high": 0.0}
     assert set(fleet_summary([s], [], date(2026, 10, 31)).regime_share.values()) == {0.0}
+
+
+def test_fleet_route_carries_versions(monkeypatch):
+    summaries = [summarize(profile("BAT-DEMO-002"), daily("BAT-DEMO-002"), HIST, EVENTS, META, date(2026, 10, 31))]
+    monkeypatch.setattr(fleet_health, "load_fleet", lambda d: (summaries, set(), {}))
+    body = client.get("/api/fleet/health-summary").json()
+    assert body["calibration_version"] == "fleet-calib-v1-test" and body["generator_version"] == "fleet-gen-v1"

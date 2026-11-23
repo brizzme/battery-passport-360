@@ -15,11 +15,12 @@ export function Tooltip() {
     const esc = (e: KeyboardEvent) => { if (e.key === "Escape") setTip(null); };
     document.addEventListener("pointerover", show); document.addEventListener("focusin", show);
     document.addEventListener("pointerout", hide); document.addEventListener("focusout", hide);
-    document.addEventListener("keydown", esc); window.addEventListener("scroll", () => setTip(null), {passive: true});
+    const onScroll = () => setTip(null);
+    document.addEventListener("keydown", esc); window.addEventListener("scroll", onScroll, {passive: true});
     return () => {
       document.removeEventListener("pointerover", show); document.removeEventListener("focusin", show);
       document.removeEventListener("pointerout", hide); document.removeEventListener("focusout", hide);
-      document.removeEventListener("keydown", esc);
+      document.removeEventListener("keydown", esc); window.removeEventListener("scroll", onScroll);
     };
   }, []);
   if (!tip) return null;
