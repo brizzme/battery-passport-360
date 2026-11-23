@@ -120,3 +120,25 @@ def test_no_certifying_language():
     text = json.dumps([lfp().model_dump(mode="json")]).lower()
     for word in ("compliant", "certified", "safe to operate", "replace"):
         assert word not in text
+
+
+def test_capacity_below_measured_curve_is_labelled_extrapolated():
+    worn = summarize(profile("BAT-DEMO-007"), [dict(r, capacity_pct=75.0) for r in daily("BAT-DEMO-007")],
+                     HIST, [], META, date(2026, 10, 31))
+    assert "extrapolated_beyond_measured_curve" in ind(worn, "capacity_fade_pct").labels
+    assert "extrapolated_beyond_measured_curve" not in ind(lfp(), "capacity_fade_pct").labels
+    flag = next(f for f in triage([worn], set(), date(2026, 10, 31)) if f.rule == "capacity_below_80")
+    assert "extrapolated" in flag.reason
+
+
+def test_lead_acid_cites_no_lfp_calibration():
+    s = summarize(profile("BAT-DEMO-005", "lead-acid"), daily("BAT-DEMO-005", "lead-acid"), HIST, EVENTS, META,
+                  date(2026, 10, 31))
+    for i in s.indicators:
+        assert not {"aalborg-forklift-v2", "hust-lfp-v2"} & set(i.calibration_refs), i.key
+
+
+def test_battery_status_not_asserted():
+    status = ind(lfp(), "status")
+    assert status.status == "unknown" and status.value is None
+    assert status.reason == "Status changes (repurposed, re-used, remanufactured, waste) are not modelled"

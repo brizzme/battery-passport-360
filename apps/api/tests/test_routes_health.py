@@ -60,3 +60,8 @@ def test_fleet_summary_bands():
     assert isinstance(result, FleetHealth)
     assert result.capacity_bands == {"95-100": 0, "90-95": 1, "80-90": 0, "below 80": 0, "unknown": 1}
     assert result.events_30d == {"deep_discharge": 2, "over_temperature": 2}
+
+
+def test_history_payload_reports_fixed_cutoff():
+    body = fleet_health.history_payload("BAT-DEMO-024", date(2025, 1, 1), date(2025, 2, 1), [], META)
+    assert body["data_cutoff"] == date(2026, 10, 31)

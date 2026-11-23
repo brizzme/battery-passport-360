@@ -17,6 +17,7 @@ CALIBRATED = ["aalborg-forklift-v2", "hust-lfp-v2"]
 ASSUMED = ["generator_assumption"]
 NO_HISTORY = "No synthetic history on or before this date"
 NO_LEAD_ACID = "No calibration source for lead-acid"
+EXTRAPOLATED = "extrapolated_beyond_measured_curve"
 
 
 class Indicator(BaseModel):
@@ -143,6 +144,10 @@ def summarize(profile: dict, daily: list[dict], hist: list[dict], events: list[d
 
     history = {} if rows else _unknown(NO_HISTORY)
     labels = _regime_labels(rows) if rows and not lead_acid else []
+    if last and last["capacity_pct"] is not None and last["capacity_pct"] < 80:
+        labels.append(EXTRAPOLATED)
+    fade_refs = ["not_calibrated"] if lead_acid else CALIBRATED
+    efc_refs = ASSUMED if lead_acid else ["aalborg-forklift-v2", "generator_assumption"]
     efc_total = float(profile.get("efc_before_window", 0) or 0) + sum(r["efc"] for r in rows)
     r90, r30 = recent(90), recent(30)
 
@@ -152,29 +157,27 @@ def summarize(profile: dict, daily: list[dict], hist: list[dict], events: list[d
     sessions = sum(r["charge_sessions"] for r in r90)
 
     indicators = [
-        _passport("capacity_fade_pct", "Capacity fade", REF_4A, "%", labels=labels,
+        _passport("capacity_fade_pct", "Capacity fade", REF_4A, "%", labels=labels, refs=fade_refs,
                   **fade_value("capacity_pct", lambda v: 100 - v, "Capacity not available")),
         _passport("power_fade_pct", "Power fade", REF_4A, "%", refs=["not_modelled"],
                   **_unknown("Power capability is not modelled in this prototype")),
-        _passport("resistance_increase_pct", "Internal resistance increase", REF_4A, "%", labels=labels,
+        _passport("resistance_increase_pct", "Internal resistance increase", REF_4A, "%", labels=labels, refs=fade_refs,
                   **fade_value("resistance_pct", lambda v: v - 100,
                                "Resistance growth was not derivable from the calibration data")),
         _passport("expected_lifetime", "Expected lifetime (cycles, years)", REF_4A, refs=["not_modelled"],
                   **_unknown("Not modelled in this prototype")),
         _passport("cycle_count_efc", "Charge-discharge cycles (equivalent full)", REF_4C, "EFC",
-                  refs=["aalborg-forklift-v2", "generator_assumption"],
-                  **(history or {"value": _rounded(efc_total, 1)})),
+                  refs=efc_refs, **(history or {"value": _rounded(efc_total, 1)})),
         _passport("negative_events", "Negative events recorded", REF_4C, "count", refs=ASSUMED,
                   **(history or {"value": len(past)})),
-        _passport("status", "Battery status", REF_4C, refs=ASSUMED, **(history or {"value": "original"})),
+        _passport("status", "Battery status", REF_4C, refs=ASSUMED,
+                  **(history or _unknown("Status changes (repurposed, re-used, remanufactured, waste) are not modelled"))),
         _operational("throughput_kwh_total", "Energy throughput in data window", "kWh",
                      **(history or {"value": _rounded(sum(r["throughput_kwh"] for r in rows), 1)})),
         _operational("efc_30d", "Equivalent full cycles, last 30 days", "EFC",
-                     refs=["aalborg-forklift-v2", "generator_assumption"],
-                     **(history or {"value": _rounded(sum(r["efc"] for r in r30), 1)})),
+                     refs=efc_refs, **(history or {"value": _rounded(sum(r["efc"] for r in r30), 1)})),
         _operational("efc_90d", "Equivalent full cycles, last 90 days", "EFC",
-                     refs=["aalborg-forklift-v2", "generator_assumption"],
-                     **(history or {"value": _rounded(sum(r["efc"] for r in r90), 1)})),
+                     refs=efc_refs, **(history or {"value": _rounded(sum(r["efc"] for r in r90), 1)})),
         _operational("opportunity_charge_share", "Opportunity charges, share of sessions (90 days)", "%",
                      **(history or {"value": _rounded(100 * sum(r["opportunity_charges"] for r in r90) / sessions)
                                     if sessions else 0.0})),
@@ -184,7 +187,7 @@ def summarize(profile: dict, daily: list[dict], hist: list[dict], events: list[d
         _operational("temp_max_30d_c", "Maximum pack temperature, last 30 days", "°C",
                      **(history or {"value": _rounded(max(r["temp_max_c"] for r in r30), 1) if r30 else None})),
         _operational("fade_rate_90d_pct", "Capacity fade, last 90 days", "percentage points",
-                     refs=CALIBRATED, labels=labels, **fade_rate),
+                     refs=fade_refs, labels=labels, **fade_rate),
     ]
     na = [_passport("state_of_health_annex_vii_a", "State of health (Annex VII Part A)",
                     f"Annex XIII 4(b) per {GUIDANCE}", refs=["not_applicable"], status="not_applicable",
@@ -211,7 +214,8 @@ def triage(summaries: list[HealthSummary], readiness_gap_ids: set[str], as_of: d
         fade = _value(s, "capacity_fade_pct")
         if fade is not None and fade > 20:
             flags.append(ReviewFlag(battery_id=s.battery_id, rule="capacity_below_80",
-                                    reason=f"Synthetic capacity {100 - fade:.1f} % of initial (demo threshold 80 %)"))
+                                    reason=f"Synthetic capacity {100 - fade:.1f} % of initial (demo threshold 80 %); "
+                                           "below the measured HUST curve, so the value is extrapolated"))
         rate = _value(s, "fade_rate_90d_pct")
         if p90 is not None and rate is not None and rate > p90:
             flags.append(ReviewFlag(battery_id=s.battery_id, rule="fade_rate_p90",

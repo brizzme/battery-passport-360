@@ -5,7 +5,7 @@ from datetime import date, datetime, timezone
 from fastapi import APIRouter
 
 from .fleet import fields_for, fleet_cursor, identity
-from .health import MILESTONE, FleetHealth, HealthSummary, effective_date, fleet_summary, summarize, triage
+from .health import DATA_CUTOFF, MILESTONE, FleetHealth, HealthSummary, effective_date, fleet_summary, summarize, triage
 from .readiness import Status, assess
 
 router = APIRouter(prefix="/api/fleet", tags=["Synthetic fleet health"])
@@ -49,9 +49,13 @@ def history_for(battery_id: str, start: date, end: date) -> dict:
                        (battery_id, start, end))
         points = cursor.fetchall()
         meta = _meta(cursor)
+    return history_payload(battery_id, start, end, points, meta)
+
+
+def history_payload(battery_id: str, start: date, end: date, points: list[dict], meta: dict) -> dict:
     return {"battery_id": battery_id, "source_type": "synthetic", "source_id": meta["source_id"],
             "generator_version": meta["generator_version"], "calibration_version": meta["calibration_version"],
-            "data_cutoff": effective_date(None, end), "from": start, "to": end, "points": points}
+            "data_cutoff": DATA_CUTOFF, "from": start, "to": end, "points": points}
 
 
 def load_fleet(as_of: date) -> tuple[list[HealthSummary], set[str]]:
