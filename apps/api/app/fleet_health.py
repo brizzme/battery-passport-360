@@ -78,7 +78,7 @@ def load_fleet(as_of: date) -> tuple[list[HealthSummary], set[str], dict[str, in
         regime_days = {row["temp_regime"]: row["n"] for row in cursor}
     summaries = [summarize(p, daily[p["battery_id"]], [], events[p["battery_id"]], meta, as_of) for p in profiles]
     gaps = {p["battery_id"] for p in profiles
-            if any(r.status in GAPS for r in assess(p["category"], p["rated_kwh"], MILESTONE,
+            if any(r.status in GAPS for r in assess(p["category"], p["rated_kwh"], p["chemistry"], MILESTONE,
                                                     fields.get(p["battery_id"], {})))}
     return summaries, gaps, regime_days
 

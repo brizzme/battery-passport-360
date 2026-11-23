@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field, SecretStr
 from pydantic_settings import BaseSettings
 
 from .fleet import fleet_cursor, inspect
+from .readiness import GAPS
 
 router = APIRouter(prefix="/api", tags=["Local evidence assistant"])
 
@@ -31,11 +32,9 @@ class Passage(BaseModel):
 
 
 COLUMNS = "chunk_id,title,section,version,source_url,access_class,passage"
-CITATIONS = {
-    "chemistry": ("EU-XIII-B",), "rated_ah": ("EU-XIII-G",),
-    "nominal_v": ("EU-XIII-H",), "ev_threshold": ("EU-XIII-K",),
-    "recycled_share": ("EU-XIII-E", "EU-8")
-}
+def citation(rule_id: str) -> str:
+    """Each catalogue data point is cited by its indexed guidance row."""
+    return "GUID-" + rule_id
 
 
 @router.get("/reference-sources")
@@ -43,6 +42,14 @@ def sources() -> list[Passage]:
     with fleet_cursor() as cursor:
         cursor.execute(f"SELECT {COLUMNS} FROM document_chunks WHERE access_class='public' ORDER BY chunk_id")
         return [Passage(**r) for r in cursor]
+
+
+def fetch(chunk_ids: list[str]) -> list[Passage]:
+    """Retrieve indexed guidance rows by id (each catalogue data point has exactly one passage)."""
+    with fleet_cursor() as cursor:
+        cursor.execute(f"SELECT {COLUMNS} FROM document_chunks WHERE access_class='public' AND chunk_id = ANY(%s) ORDER BY chunk_id",
+                       (chunk_ids,))
+        return [Passage(**row) for row in cursor]
 
 
 def retrieve(terms: str) -> list[Passage]:
@@ -120,32 +127,38 @@ def query(request: Question) -> Answer:
     report = inspect(request.battery_id, request.as_of)
     answer.as_of = report.as_of
     answer.tools = ["get_battery", "check_passport_readiness", "search_reference_documents"]
-    gaps = [r for r in report.results if r.status in ("missing_evidence","invalid","unknown")]
-    selected = gaps or report.results
+    gaps = [r for r in report.results if r.status in GAPS]
+    unresolved = sum(1 for r in report.results if r.status == "unknown")
+    selected = gaps
     hits = retrieve("industrial passport date prospective scope")
-    for result in selected:
-        hits.extend(retrieve(result.field.replace("_", " ") + " " + result.label))
-    allowed = {"EU-77", *(cid for r in selected for cid in CITATIONS[r.field])}
+    if "EU-77" not in {p.chunk_id for p in hits}:
+        answer.message = "Insufficient retrieved public reference evidence."
+        return answer
+    if selected:
+        hits.extend(fetch(sorted(citation(r.rule_id) for r in selected)))
+    allowed = {"EU-77", *(citation(r.rule_id) for r in selected)}
     passages = list({p.chunk_id: p for p in hits if p.chunk_id in allowed}.values())
     found = {p.chunk_id for p in passages}
     if "EU-77" not in found:
         answer.message = "Insufficient retrieved public reference evidence."
         return answer
     for r in selected:
-        ids = list(CITATIONS[r.field])
+        ids = [citation(r.rule_id)]
         if not set(ids) <= found:
             answer.message = "Reference coverage is incomplete for this question."
             answer.findings.clear()
             return answer
         evidence = None
         if r.evidence:
-            evidence = f"{r.evidence.source_id} · {r.evidence.observed_at.isoformat()} · {r.evidence.value_text} · {r.evidence.evidence_ref or 'unlinked'}"
+            unit = f" {r.evidence.unit}" if r.evidence.unit else ""
+            evidence = f"{r.evidence.source_id} · {r.evidence.observed_at.isoformat()} · {r.evidence.value_text}{unit} · {r.evidence.evidence_ref or 'unlinked'}"
         answer.findings.append(Finding(field=r.field,status=r.status,observation=r.reason,
                                        evidence=evidence,citation_ids=["EU-77",*ids]))
     answer.supported = True
     answer.passages = passages
-    answer.message = (f"{len(gaps)} field(s) need evidence review." if gaps else
-                      "No missing, invalid or unresolved evidence under the selected rules on this date.")
+    answer.message = ((f"{len(gaps)} data point(s) have missing or invalid evidence." if gaps else
+                       "No missing or invalid evidence for the guidance data points on this date.")
+                      + f" {unresolved} data point(s) are unresolved, not gaps; see each row's reason.")
     answer.next_step = ("Request the referenced model sheet and verify the flagged entries and units."
                         if gaps else "Review the applicability dates and retain supporting model sheets.")
     prioritize(answer, Provider())

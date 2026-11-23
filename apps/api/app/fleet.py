@@ -9,7 +9,7 @@ from pydantic import BaseModel
 
 from .db import connect
 from .health import DATA_CUTOFF, HealthSummary, effective_date
-from .readiness import Evidence, Result, Status, assess
+from .readiness import Evidence, Result, Status, assess, coverage
 
 router = APIRouter(prefix="/api/batteries", tags=["Synthetic fleet"])
 
@@ -32,7 +32,7 @@ FROM batteries b JOIN source_records s USING (source_id)
 WHERE s.source_type = 'synthetic'
 """
 FIELDS = """
-SELECT f.battery_id, f.field_code, f.value_text, f.evidence_ref, s.*
+SELECT f.battery_id, f.field_code, f.value_text, f.unit, f.evidence_ref, s.*
 FROM passport_fields f JOIN source_records s USING(source_id)
 WHERE s.source_type = 'synthetic' AND f.battery_id = ANY(%s)
 """
@@ -82,7 +82,7 @@ def search(query: str = Query("", max_length=100), status: Status | None = None,
         if status:
             fields = fields_for(cursor, [row.battery_id for row in rows])
             rows = [row for row in rows if any(result.status == status for result in
-                    assess(row.category, row.rated_kwh, when, fields.get(row.battery_id, {})))]
+                    assess(row.category, row.rated_kwh, row.chemistry, when, fields.get(row.battery_id, {})))]
     offset = (page - 1) * 12
     return FleetPage(items=rows[offset:offset + 12], total=len(rows), page=page, as_of=when)
 
@@ -99,6 +99,7 @@ class Inspection(BaseModel):
     scenario: str = "Prospective first EU market placement on the assessment date."
     results: list[Result]
     health: HealthSummary | None
+    coverage: dict[str, int] = {}
 
 
 @router.get("/{battery_id}/passport-readiness")
@@ -107,8 +108,9 @@ def inspect(battery_id: str, as_of: date | None = None) -> Inspection:
     with fleet_cursor() as cursor:
         battery = identity(cursor, battery_id)
         fields = fields_for(cursor, [battery_id]).get(battery_id, {})
+    results = assess(battery.category, battery.rated_kwh, battery.chemistry, when, fields)
     return Inspection(battery=battery, as_of=when, health=load_summary(battery_id, effective_date(when, when)),
-                      results=assess(battery.category, battery.rated_kwh, when, fields))
+                      results=results, coverage=coverage(results))
 
 
 def load_summary(battery_id: str, as_of: date) -> HealthSummary:

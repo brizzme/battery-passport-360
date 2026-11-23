@@ -8,6 +8,7 @@ dependencies = ["fastapi", "uvicorn", "pydantic-settings", "psycopg[binary]"]
 dev = ["pytest", "httpx"]
 research = [
     "numpy>=2.5.5",
+    "pypdf>=5",
     "python-calamine>=0.9.1",
 ]
 

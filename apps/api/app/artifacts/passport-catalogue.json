@@ -1,0 +1,1456 @@
+{
+ "version": "catalogue-v3.2-1",
+ "source": {
+  "title": "Guidance Document: Digital Batteries Passport - data points by category",
+  "version": "3.2",
+  "date": "2026-10-19",
+  "url": "https://single-market-economy.ec.europa.eu/document/download/cd1e5e6c-4a4a-4b99-995a-49eb6916187e_en?filename=Digital%20Batteries%20Passport%20-%20data%20point%20by%20category.pdf",
+  "sha256": "9113b49f608461efc7327e423b81a2bfa4e13a9f9c1a823bf1ccaa299b9017c7",
+  "accessed": "2026-11-23",
+  "licence": "CC BY 4.0",
+  "publisher": "European Commission, DG GROW",
+  "status": "non-binding guidance; not an authoritative interpretation"
+ },
+ "rows": [
+  {
+   "dp": 1,
+   "sub": null,
+   "name": "Unique identifier",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Article 77 (3)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-1"
+  },
+  {
+   "dp": 2,
+   "sub": null,
+   "name": "Identity of who is registering and/or is responsible for the battery passport",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Article 77 (3)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-2"
+  },
+  {
+   "dp": 3,
+   "sub": null,
+   "name": "Manufacturer name, registered trade name or registered trademark",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex VI A (1)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-3"
+  },
+  {
+   "dp": 4,
+   "sub": null,
+   "name": "Manufacturer single contact postal address",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex VI A (1)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-4"
+  },
+  {
+   "dp": 5,
+   "sub": null,
+   "name": "If available, manufacturer web and email address",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex VI A (1)",
+   "access": "public",
+   "guidance": {
+    "ev": "Optional, to be filled if such data is available",
+    "lmt": "Optional, to be filled if such data is available",
+    "industrial": "Optional, to be filled if such data is available"
+   },
+   "kind": {
+    "ev": "optional",
+    "lmt": "optional",
+    "industrial": "optional"
+   },
+   "id": "DP-5"
+  },
+  {
+   "dp": 6,
+   "sub": null,
+   "name": "Battery category",
+   "unit": null,
+   "value_type": "code_list",
+   "legal_ref": "Annex VI A (2)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-6"
+  },
+  {
+   "dp": 7,
+   "sub": null,
+   "name": "Model identification and batch or serial number, or product number or another element allowing their identification",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex VI A (2)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-7"
+  },
+  {
+   "dp": 8,
+   "sub": null,
+   "name": "The place of manufacture (geographical location of a battery manufacturing plant)",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex VI A (3)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-8"
+  },
+  {
+   "dp": 9,
+   "sub": null,
+   "name": "The date of manufacturing",
+   "unit": null,
+   "value_type": "month_year",
+   "legal_ref": "Annex VI A (4)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-9"
+  },
+  {
+   "dp": 10,
+   "sub": null,
+   "name": "The weight",
+   "unit": "kg",
+   "value_type": "number",
+   "legal_ref": "Annex VI A (5)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-10"
+  },
+  {
+   "dp": 11,
+   "sub": null,
+   "name": "The capacity",
+   "unit": "Ah",
+   "value_type": "number",
+   "legal_ref": "Annex VI A (6)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-11"
+  },
+  {
+   "dp": 12,
+   "sub": null,
+   "name": "The chemistry",
+   "unit": null,
+   "value_type": "code_list",
+   "legal_ref": "Annex VI A (7)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-12"
+  },
+  {
+   "dp": 13,
+   "sub": null,
+   "name": "The hazardous substances present in the battery, other than mercury, cadmium or lead",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex VI A (8)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-13"
+  },
+  {
+   "dp": 14,
+   "sub": null,
+   "name": "Usable extinguishing agent",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex VI A (9)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-14"
+  },
+  {
+   "dp": 15,
+   "sub": null,
+   "name": "Critical raw materials present in the battery in a concentration of more than 0,1 % weight by weight",
+   "unit": null,
+   "value_type": "code_list",
+   "legal_ref": "Annex VI A (10)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-15"
+  },
+  {
+   "dp": 16,
+   "sub": null,
+   "name": "The material composition of the battery, including its chemistry, hazardous substances present in the battery, other than mercury, cadmium or lead, and critical raw materials present in the battery",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex XIII 1 (b)",
+   "access": "public",
+   "guidance": {
+    "ev": "Not to be filled/displayed - repetition, same data already required under previous data points",
+    "lmt": "Not to be filled/displayed - repetition, same data already required under previous data points",
+    "industrial": "Not to be filled/displayed - repetition, same data already required under previous data points"
+   },
+   "kind": {
+    "ev": "not_filled_repetition",
+    "lmt": "not_filled_repetition",
+    "industrial": "not_filled_repetition"
+   },
+   "id": "DP-16"
+  },
+  {
+   "dp": 17,
+   "sub": null,
+   "name": "The carbon footprint declaration",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex XIII 1 (c)",
+   "access": "public",
+   "guidance": {
+    "ev": "Not to be filled/displayed as of February 2027- format still to be specified in the upcoming implementing act",
+    "lmt": "Not to be filled/displayed as of February 2027- format still to be specified in the upcoming implementing act",
+    "industrial": "Not to be filled/displayed as of February 2027- format still to be specified in the upcoming implementing act"
+   },
+   "kind": {
+    "ev": "not_filled_until_act",
+    "lmt": "not_filled_until_act",
+    "industrial": "not_filled_until_act"
+   },
+   "id": "DP-17"
+  },
+  {
+   "dp": 18,
+   "sub": null,
+   "name": "The carbon footprint label",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex XIII 1 (c)",
+   "access": "public",
+   "guidance": {
+    "ev": "Not to be filled/displayed as of February 2027- format still to be specified in the upcoming implementing act",
+    "lmt": "Not to be filled/displayed as of February 2027- format still to be specified in the upcoming implementing act",
+    "industrial": "Not to be filled/displayed as of February 2027- format still to be specified in the upcoming implementing act"
+   },
+   "kind": {
+    "ev": "not_filled_until_act",
+    "lmt": "not_filled_until_act",
+    "industrial": "not_filled_until_act"
+   },
+   "id": "DP-18"
+  },
+  {
+   "dp": 19,
+   "sub": null,
+   "name": "Information on responsible sourcing as indicated in the report on battery due diligence policy referred to in Article 52(3)",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex XIII 1 (d)",
+   "access": "public",
+   "guidance": {
+    "ev": "Not to be filled/displayed as of February 2027- as envisaged by Article 48(1), required from August 2027",
+    "lmt": "Not to be filled/displayed as of February 2027- as envisaged by Article 48(1), required from August 2027",
+    "industrial": "Not to be filled/displayed as of February 2027- as envisaged by Article 48(1), required from August 2027"
+   },
+   "kind": {
+    "ev": "not_filled_until_act",
+    "lmt": "not_filled_until_act",
+    "industrial": "not_filled_until_act"
+   },
+   "id": "DP-19"
+  },
+  {
+   "dp": 20,
+   "sub": null,
+   "name": "Percentage share of cobalt that is present in active materials and that has been recovered from battery manufacturing waste or post- consumer waste",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (e)",
+   "access": "public",
+   "guidance": {
+    "ev": "Not to be filled/displayed as of February 2027- to be applied as envisaged by Article 8",
+    "lmt": "Not to be filled/displayed as of February 2027- to be applied as envisaged by Article 8",
+    "industrial": "Not to be filled/displayed as of February 2027- to be applied as envisaged by Article 8"
+   },
+   "kind": {
+    "ev": "not_filled_until_act",
+    "lmt": "not_filled_until_act",
+    "industrial": "not_filled_until_act"
+   },
+   "id": "DP-20"
+  },
+  {
+   "dp": 21,
+   "sub": null,
+   "name": "Percentage share of lithium that is present in active materials and that has been recovered from battery manufacturing waste or post- consumer waste",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (e)",
+   "access": "public",
+   "guidance": {
+    "ev": "Not to be filled/displayed as of February 2027 - to be applied as envisaged by Article 8",
+    "lmt": "Not to be filled/displayed as of February 2027- to be applied as envisaged by Article 8",
+    "industrial": "Not to be filled/displayed as of February 2027- to be applied as envisaged by Article 8"
+   },
+   "kind": {
+    "ev": "not_filled_until_act",
+    "lmt": "not_filled_until_act",
+    "industrial": "not_filled_until_act"
+   },
+   "id": "DP-21"
+  },
+  {
+   "dp": 22,
+   "sub": null,
+   "name": "Percentage share of nickel that is present in active materials and that has been recovered from battery manufacturing waste or post- consumer waste",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (e)",
+   "access": "public",
+   "guidance": {
+    "ev": "Not to be filled/displayed as of February 2027 - to be applied as envisaged by Article 8",
+    "lmt": "Not to be filled/displayed as of February 2027 - to be applied as envisaged by Article 8",
+    "industrial": "Not to be filled/displayed as of February 2027 - to be applied as envisaged by Article 8"
+   },
+   "kind": {
+    "ev": "not_filled_until_act",
+    "lmt": "not_filled_until_act",
+    "industrial": "not_filled_until_act"
+   },
+   "id": "DP-22"
+  },
+  {
+   "dp": 23,
+   "sub": null,
+   "name": "The percentage share of lead that is present in the battery and that has been recovered from waste",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (e)",
+   "access": "public",
+   "guidance": {
+    "ev": "Not to be filled/displayed as of February 2027 - to be applied as envisaged by Article 8",
+    "lmt": "Not to be filled/displayed as of February 2027 - to be applied as envisaged by Article 8",
+    "industrial": "Not to be filled/displayed as of February 2027 - to be applied as envisaged by Article 8"
+   },
+   "kind": {
+    "ev": "not_filled_until_act",
+    "lmt": "not_filled_until_act",
+    "industrial": "not_filled_until_act"
+   },
+   "id": "DP-23"
+  },
+  {
+   "dp": 24,
+   "sub": null,
+   "name": "The share of renewable content",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (f)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-24"
+  },
+  {
+   "dp": 25,
+   "sub": null,
+   "name": "Rated capacity",
+   "unit": "Ah",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (g)",
+   "access": "public",
+   "guidance": {
+    "ev": "Not to be filled/displayed - repetition, same data required under data point 11",
+    "lmt": "Not to be filled/displayed - repetition, same data required under data point 11",
+    "industrial": "Not to be filled/displayed - repetition, same data required under data point 11"
+   },
+   "kind": {
+    "ev": "not_filled_repetition",
+    "lmt": "not_filled_repetition",
+    "industrial": "not_filled_repetition"
+   },
+   "id": "DP-25"
+  },
+  {
+   "dp": 26,
+   "sub": null,
+   "name": "Minimal voltage, with temperature range when relevant",
+   "unit": "V",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (h)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-26"
+  },
+  {
+   "dp": 27,
+   "sub": null,
+   "name": "Nominal voltage, with temperature range when relevant",
+   "unit": "V",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (h)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-27"
+  },
+  {
+   "dp": 28,
+   "sub": null,
+   "name": "Maximum voltage, with temperature range when relevant",
+   "unit": "V",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (h)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-28"
+  },
+  {
+   "dp": 29,
+   "sub": null,
+   "name": "Original power capability",
+   "unit": "W",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (i)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-29"
+  },
+  {
+   "dp": 30,
+   "sub": null,
+   "name": "Power limits, with temperature range when relevant",
+   "unit": "W",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (i)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-30"
+  },
+  {
+   "dp": 31,
+   "sub": null,
+   "name": "Expected battery lifetime expressed in cycles",
+   "unit": null,
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (j)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Only applicable for some industrial batteries where lifetime can be expressed in cycles"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "some_industrial"
+   },
+   "id": "DP-31"
+  },
+  {
+   "dp": 32,
+   "sub": null,
+   "name": "Reference test used for expected battery lifetime expressed in cycles",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex XIII 1 (j)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Only applicable for some industrial batteries where lifetime can be expressed in cycles"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "some_industrial"
+   },
+   "id": "DP-32"
+  },
+  {
+   "dp": 33,
+   "sub": null,
+   "name": "Capacity threshold for exhaustion",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (k)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Not to be filled/displayed",
+    "industrial": "Not to be filled/displayed"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "not_filled",
+    "industrial": "not_filled"
+   },
+   "id": "DP-33"
+  },
+  {
+   "dp": 34,
+   "sub": null,
+   "name": "Temperature range the battery can withstand when not in use (reference test)",
+   "unit": "°C",
+   "value_type": "free_text",
+   "legal_ref": "Annex XIII 1 (l)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-34"
+  },
+  {
+   "dp": 35,
+   "sub": null,
+   "name": "Period for which the commercial warranty for the calendar life applies",
+   "unit": "months",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (m)",
+   "access": "public",
+   "guidance": {
+    "ev": "If applicable (if commercial warranty envisaged)",
+    "lmt": "If applicable (if commercial warranty envisaged)",
+    "industrial": "If applicable (if commercial warranty envisaged)"
+   },
+   "kind": {
+    "ev": "if_applicable",
+    "lmt": "if_applicable",
+    "industrial": "if_applicable"
+   },
+   "id": "DP-35"
+  },
+  {
+   "dp": 36,
+   "sub": null,
+   "name": "Initial round trip energy efficiency",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (n)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Only applicable for some industrial batteries"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "some_industrial"
+   },
+   "id": "DP-36"
+  },
+  {
+   "dp": 37,
+   "sub": null,
+   "name": "Round trip energy efficiency at 50 % of cycle-life",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (n)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Only applicable for some industrial batteries"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "some_industrial"
+   },
+   "id": "DP-37"
+  },
+  {
+   "dp": 38,
+   "sub": "a",
+   "name": "Internal battery cell resistance",
+   "unit": "Ω",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (o)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-38a"
+  },
+  {
+   "dp": 38,
+   "sub": "b",
+   "name": "Internal battery pack resistance",
+   "unit": "Ω",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (o)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-38b"
+  },
+  {
+   "dp": 39,
+   "sub": null,
+   "name": "Charge C-rate of relevant cycle-life test",
+   "unit": null,
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (p)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Only applicable for some industrial batteries"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "some_industrial"
+   },
+   "id": "DP-39"
+  },
+  {
+   "dp": 40,
+   "sub": null,
+   "name": "Discharge C-rate of relevant cycle-life test",
+   "unit": null,
+   "value_type": "number",
+   "legal_ref": "Annex XIII 1 (p)",
+   "access": "public",
+   "guidance": {
+    "ev": "Optional",
+    "lmt": "Optional",
+    "industrial": "Optional"
+   },
+   "kind": {
+    "ev": "optional",
+    "lmt": "optional",
+    "industrial": "optional"
+   },
+   "id": "DP-40"
+  },
+  {
+   "dp": 41,
+   "sub": null,
+   "name": "The marking requirements laid down in Article 13(4)",
+   "unit": null,
+   "value_type": "yes_no",
+   "legal_ref": "Annex XIII 1 (q)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-41"
+  },
+  {
+   "dp": 42,
+   "sub": null,
+   "name": "The marking requirements laid down in Article 13(5)",
+   "unit": null,
+   "value_type": "code_list",
+   "legal_ref": "Annex XIII 1 (q)",
+   "access": "public",
+   "guidance": {
+    "ev": "Cadmium or lead symbol if applicable",
+    "lmt": "Cadmium or lead symbol if applicable",
+    "industrial": "Cadmium or lead symbol if applicable"
+   },
+   "kind": {
+    "ev": "chemistry_conditional",
+    "lmt": "chemistry_conditional",
+    "industrial": "chemistry_conditional"
+   },
+   "id": "DP-42"
+  },
+  {
+   "dp": 43,
+   "sub": null,
+   "name": "The EU declaration of conformity referred to in Article 18",
+   "unit": null,
+   "value_type": "link",
+   "legal_ref": "Annex XIII 1 (r)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-43"
+  },
+  {
+   "dp": 44,
+   "sub": null,
+   "name": "The information regarding the prevention and management of waste batteries laid down in Article 74(1), points (a) to (f)",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex XIII 1 (s)",
+   "access": "public",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-44"
+  },
+  {
+   "dp": 45,
+   "sub": null,
+   "name": "Clear, understandable and readable instructions for use in a format that makes it possible to print, download and save them on an electronic device so that the user can access them at all times, in particular during a breakdown of the battery",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex XIII 1 (t)",
+   "access": "public",
+   "guidance": {
+    "ev": "Not to be filled/displayed as of February 2027 - application provisions on hold pending Omnibus adoption",
+    "lmt": "Not to be filled/displayed as of February 2027 - application provisions on hold pending Omnibus adoption",
+    "industrial": "Not to be filled/displayed as of February 2027 - application provisions on hold pending Omnibus adoption"
+   },
+   "kind": {
+    "ev": "not_filled_until_act",
+    "lmt": "not_filled_until_act",
+    "industrial": "not_filled_until_act"
+   },
+   "id": "DP-45"
+  },
+  {
+   "dp": 46,
+   "sub": null,
+   "name": "Detailed composition, including materials used in the cathode, anode and electrolyte",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex XIII 2 (a)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-46"
+  },
+  {
+   "dp": 47,
+   "sub": null,
+   "name": "Part numbers for components and contact details of sources for replacement spares",
+   "unit": null,
+   "value_type": "link",
+   "legal_ref": "Annex XIII 2 (b)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-47"
+  },
+  {
+   "dp": 48,
+   "sub": null,
+   "name": "Dismantling information, including at least: - exploded diagrams of the battery system/pack showing the location of battery cells, - disassembly sequences, - type and number of fastening techniques to be unlocked, - tools required for disassembly, - warnings if risk of damaging parts exist, - amount of cells used and layout",
+   "unit": null,
+   "value_type": "link",
+   "legal_ref": "Annex XIII 2 (c)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-48"
+  },
+  {
+   "dp": 49,
+   "sub": null,
+   "name": "Safety measures",
+   "unit": null,
+   "value_type": "link",
+   "legal_ref": "Annex XIII 2 (d)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-49"
+  },
+  {
+   "dp": 50,
+   "sub": null,
+   "name": "Results of test reports proving compliance with the requirements laid down in this Regulation or any delegated or implementing act adopted pursuant to this Regulation",
+   "unit": null,
+   "value_type": "link",
+   "legal_ref": "Annex XIII 3",
+   "access": "restricted_authorities",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-50"
+  },
+  {
+   "dp": 51,
+   "sub": null,
+   "name": "Rated capacity",
+   "unit": "Ah",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (a)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Same as data point 11 (capacity)",
+    "lmt": "Same as data point 11 (capacity)",
+    "industrial": "Same as data point 11 (capacity); only for rechargeable batteries"
+   },
+   "kind": {
+    "ev": "not_filled_repetition",
+    "lmt": "not_filled_repetition",
+    "industrial": "not_filled_repetition"
+   },
+   "id": "DP-51"
+  },
+  {
+   "dp": 52,
+   "sub": null,
+   "name": "Capacity fade",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (a)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Only for rechargeable batteries"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "rechargeable_only"
+   },
+   "id": "DP-52"
+  },
+  {
+   "dp": 53,
+   "sub": null,
+   "name": "Power",
+   "unit": "W",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (a)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Only for rechargeable batteries"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "rechargeable_only"
+   },
+   "id": "DP-53"
+  },
+  {
+   "dp": 54,
+   "sub": null,
+   "name": "Power fade",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (a)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Only for rechargeable batteries"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "rechargeable_only"
+   },
+   "id": "DP-54"
+  },
+  {
+   "dp": 55,
+   "sub": null,
+   "name": "Internal resistance",
+   "unit": "Ω",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (a)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Only for rechargeable batteries"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "rechargeable_only"
+   },
+   "id": "DP-55"
+  },
+  {
+   "dp": 56,
+   "sub": null,
+   "name": "Internal resistance increase",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (a)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Only for rechargeable batteries"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "rechargeable_only"
+   },
+   "id": "DP-56"
+  },
+  {
+   "dp": 57,
+   "sub": null,
+   "name": "Where applicable, energy round trip efficiency",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (a)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "If applicable",
+    "lmt": "If applicable",
+    "industrial": "Only for rechargeable batteries, if applicable"
+   },
+   "kind": {
+    "ev": "if_applicable",
+    "lmt": "if_applicable",
+    "industrial": "rechargeable_only"
+   },
+   "id": "DP-57"
+  },
+  {
+   "dp": 58,
+   "sub": null,
+   "name": "Where applicable, energy round trip efficiency fade",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (a)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "If applicable",
+    "lmt": "If applicable",
+    "industrial": "Only for rechargeable batteries, if applicable"
+   },
+   "kind": {
+    "ev": "if_applicable",
+    "lmt": "if_applicable",
+    "industrial": "rechargeable_only"
+   },
+   "id": "DP-58"
+  },
+  {
+   "dp": 59,
+   "sub": null,
+   "name": "The expected lifetime of the battery under the reference conditions for which it has been designed, in terms of cycles, except for non-cycle applications",
+   "unit": null,
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (a)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Only for rechargeable batteries and except for non- cycle applications"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "rechargeable_only"
+   },
+   "id": "DP-59"
+  },
+  {
+   "dp": 60,
+   "sub": null,
+   "name": "The expected lifetime of the battery under the reference conditions for which it has been designed",
+   "unit": "years",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (a)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Only for rechargeable batteries"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "rechargeable_only"
+   },
+   "id": "DP-60"
+  },
+  {
+   "dp": 61,
+   "sub": null,
+   "name": "Information on the state of health of the battery pursuant to Article 14: state of certified energy (SOCE)",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (b)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Not to be filled/displayed",
+    "industrial": "Not to be filled/displayed"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "not_filled",
+    "industrial": "not_filled"
+   },
+   "id": "DP-61"
+  },
+  {
+   "dp": 62,
+   "sub": null,
+   "name": "Information on the state of health of the battery pursuant to Article 14: remaining capacity",
+   "unit": "Ah",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (b)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Not to be filled/displayed",
+    "lmt": "Mandatory",
+    "industrial": "Only for stationary battery energy storage systems and if they have a  battery management system"
+   },
+   "kind": {
+    "ev": "not_filled",
+    "lmt": "mandatory",
+    "industrial": "stationary_only"
+   },
+   "id": "DP-62"
+  },
+  {
+   "dp": 63,
+   "sub": null,
+   "name": "Information on the state of health of the battery pursuant to Article 14: where possible, the remaining power capability",
+   "unit": "W",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (b)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Not to be filled/displayed",
+    "lmt": "Mandatory",
+    "industrial": "Only for stationary battery energy storage systems and if they have a battery management system"
+   },
+   "kind": {
+    "ev": "not_filled",
+    "lmt": "mandatory",
+    "industrial": "stationary_only"
+   },
+   "id": "DP-63"
+  },
+  {
+   "dp": 64,
+   "sub": null,
+   "name": "Information on the state of health of the battery pursuant to Article 14: where possible, the remaining round-trip efficiency",
+   "unit": "%",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (b)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Not to be filled/displayed",
+    "lmt": "Mandatory",
+    "industrial": "Only for stationary battery energy storage systems and if they have a battery management system"
+   },
+   "kind": {
+    "ev": "not_filled",
+    "lmt": "mandatory",
+    "industrial": "stationary_only"
+   },
+   "id": "DP-64"
+  },
+  {
+   "dp": 65,
+   "sub": null,
+   "name": "Information on the state of health of the battery pursuant to Article 14: where possible, the evolution of self- discharging rates",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex XIII 4 (b)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Not to be filled/displayed",
+    "lmt": "Mandatory",
+    "industrial": "Only for stationary battery energy storage systems and if they have a battery management system"
+   },
+   "kind": {
+    "ev": "not_filled",
+    "lmt": "mandatory",
+    "industrial": "stationary_only"
+   },
+   "id": "DP-65"
+  },
+  {
+   "dp": 66,
+   "sub": null,
+   "name": "Information on the state of health of the battery pursuant to Article 14: where possible, the ohmic resistance",
+   "unit": "Ω",
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (b)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Not to be filled/displayed",
+    "lmt": "Mandatory",
+    "industrial": "Only for stationary battery energy storage systems and if they have a battery management  system"
+   },
+   "kind": {
+    "ev": "not_filled",
+    "lmt": "mandatory",
+    "industrial": "stationary_only"
+   },
+   "id": "DP-66"
+  },
+  {
+   "dp": 67,
+   "sub": null,
+   "name": "Information on the status of the battery, defined as ‘original’, ‘repurposed’, ‘re- used’, ‘remanufactured’ or ‘waste’",
+   "unit": null,
+   "value_type": "code_list",
+   "legal_ref": "Annex XIII 4 (c)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Mandatory",
+    "lmt": "Mandatory",
+    "industrial": "Mandatory"
+   },
+   "kind": {
+    "ev": "mandatory",
+    "lmt": "mandatory",
+    "industrial": "mandatory"
+   },
+   "id": "DP-67"
+  },
+  {
+   "dp": 68,
+   "sub": null,
+   "name": "The number of charging and discharging cycles",
+   "unit": null,
+   "value_type": "number",
+   "legal_ref": "Annex XIII 4 (d)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Applicable as soon as the battery starts to be used",
+    "lmt": "Applicable as soon as the battery starts to be used",
+    "industrial": "Applicable as soon as the battery starts to be used"
+   },
+   "kind": {
+    "ev": "in_use",
+    "lmt": "in_use",
+    "industrial": "in_use"
+   },
+   "id": "DP-68"
+  },
+  {
+   "dp": 69,
+   "sub": null,
+   "name": "Negative events, such as accidents",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex XIII 4 (d)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Applicable as soon as the battery starts to be used",
+    "lmt": "Applicable as soon as the battery starts to be used",
+    "industrial": "Applicable as soon as the battery starts to be used"
+   },
+   "kind": {
+    "ev": "in_use",
+    "lmt": "in_use",
+    "industrial": "in_use"
+   },
+   "id": "DP-69"
+  },
+  {
+   "dp": 70,
+   "sub": null,
+   "name": "Periodically recorded information on the operating environmental conditions, including temperature",
+   "unit": null,
+   "value_type": "code_list",
+   "legal_ref": "Annex XIII 4 (d)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Applicable as soon as the battery starts to be used",
+    "lmt": "Applicable as soon as the battery starts to be used",
+    "industrial": "Applicable as soon as the battery starts to be used"
+   },
+   "kind": {
+    "ev": "in_use",
+    "lmt": "in_use",
+    "industrial": "in_use"
+   },
+   "id": "DP-70"
+  },
+  {
+   "dp": 71,
+   "sub": null,
+   "name": "Periodically recorded information on the state of charge",
+   "unit": null,
+   "value_type": "free_text",
+   "legal_ref": "Annex XIII 4 (d)",
+   "access": "restricted_legitimate_interest",
+   "guidance": {
+    "ev": "Applicable as soon as the battery starts to be used",
+    "lmt": "Applicable as soon as the battery starts to be used",
+    "industrial": "Applicable as soon as the battery starts to be used"
+   },
+   "kind": {
+    "ev": "in_use",
+    "lmt": "in_use",
+    "industrial": "in_use"
+   },
+   "id": "DP-71"
+  }
+ ]
+}

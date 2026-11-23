@@ -8,6 +8,7 @@ import {CapacityHistory} from "@/components/CapacityHistory";
 import {Histogram} from "@/components/Histogram";
 import {EventTimeline} from "@/components/EventTimeline";
 import {Tooltip} from "@/components/Tooltip";
+import {PassportCoverage} from "@/components/PassportCoverage";
 
 type Ind = {key: string; status: string; value: number | string | null; unit: string | null; reason: string | null};
 const num = (v: number) => v.toLocaleString("en", {maximumFractionDigits: Math.abs(v) >= 100 ? 0 : 1});
@@ -73,11 +74,9 @@ export default async function Detail({params, searchParams}: {params: Promise<{i
 
     <section aria-labelledby="passport-h">
       <h2 id="passport-h">Passport evidence</h2>
-      <p>{data.scenario} Illustrative data readiness; missing evidence calls for review.</p>
+      <p>{data.scenario} Illustrative data readiness against every data point in the Commission guidance; missing evidence calls for review, not a finding.</p>
       <form className="filters"><label>Assessment date<input type="date" name="as_of" defaultValue={data.as_of} required/></label><button>Apply date</button><Link href={path}>Today</Link><Link href={path + "?as_of=" + preset}>18 Feb 2027 preset</Link></form>
-      {data.results.map(r => <article key={r.rule_id}><h3>{r.label} <span className="badge">{r.status.replaceAll("_", " ")}</span></h3><p>{r.reason}</p>
-        <p className="meta">Derived · {r.rule_id} v{r.version} · As of {data.as_of} · Earliest date {r.effective_from} · Public model field · <a href={r.source_url}>{r.section}</a></p>
-        {r.evidence && <p className="meta">Synthetic entry “{r.evidence.value_text}” · {r.evidence.evidence_ref ?? "No evidence reference"} · {r.evidence.source_id} · {r.evidence.observed_at} · {r.evidence.explanation}</p>}</article>)}
+      <PassportCoverage results={data.results} coverage={data.coverage}/>
       <p><Link href={"/assistant?id=" + id + "&as_of=" + data.as_of}>Ask the evidence assistant</Link> · <a download href={"/api/draft?id=" + id + "&as_of=" + data.as_of}>Download draft summary</a></p>
     </section>
     <Tooltip/>

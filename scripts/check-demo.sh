@@ -16,7 +16,7 @@ def get(path):
 ref = {p["chunk_id"]:p for p in get("/reference-sources")}
 sample = {"battery_id":"BAT-DEMO-024","as_of":"2027-02-18"}
 answer = json.load(post("/copilot/query",{**sample,"question":"What is missing?"}))
-assert answer["supported"] and {f["field"] for f in answer["findings"]} == {"chemistry","rated_ah"}
+assert answer["supported"] and {f["field"] for f in answer["findings"]} == {"DP-11","DP-12"}
 assert all(ref[p["chunk_id"]]==p for p in answer["passages"])
 cited = {p["chunk_id"] for p in answer["passages"]}
 assert all(set(f["citation_ids"]) <= cited for f in answer["findings"])
@@ -30,7 +30,7 @@ else:
 with post("/inspection-summaries",sample) as response:
     assert "attachment" in response.headers["Content-Disposition"]
     body = response.read().decode()
-    assert all(s in body for s in ("Draft investigation","Synthetic","missing_evidence","Annex XIII","demo-inspection-v1","2027-02-18","Expert review","HUST","Aalborg"))
+    assert all(s in body for s in ("Draft investigation","Synthetic","missing_evidence","DP-11","DP-12","Guidance v3.2","Annex VI A (6)","2027-02-18","Expert review","HUST","Aalborg"))
 report = get("/research/model-report")
 assert report["status"] == "trained" and set(report["train_cells"]).isdisjoint(report["test_cells"])
 for cell in get("/research/cells"):

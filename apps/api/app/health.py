@@ -12,7 +12,9 @@ GUIDANCE = "Commission guidance v3.2 (non-binding)"
 REF_4A = f"Annex XIII 4(a) per {GUIDANCE}"
 REF_4C = f"Annex XIII 4(c) per {GUIDANCE}"
 REF_4D = f"Annex XIII 4(d) per {GUIDANCE}"
-MAPPING = "provisional — rule integration in part 3"
+DP_FOR = {"capacity_fade_pct": "DP-52", "power_fade_pct": "DP-54", "resistance_increase_pct": "DP-56",
+          "expected_lifetime": "DP-59, DP-60", "cycle_count_efc": "DP-68", "negative_events": "DP-69", "status": "DP-67",
+          "state_of_health_annex_vii_a": "DP-61 to DP-66"}
 CALIBRATED = ["aalborg-forklift-v2", "hust-lfp-v2"]
 ASSUMED = ["generator_assumption"]
 NO_HISTORY = "No synthetic history on or before this date"
@@ -106,7 +108,8 @@ def effective_date(as_of: date | None, today: date) -> date:
 
 def _passport(key, label, ref, unit=None, refs=CALIBRATED, **kw) -> Indicator:
     return Indicator(key=key, label=label, unit=unit, passport_field=True, passport_ref=ref,
-                     access_class="restricted_legitimate_interest", mapping_status=MAPPING,
+                     access_class="restricted_legitimate_interest",
+                     mapping_status=f"catalogue-v3.2-1, {DP_FOR.get(key, 'unmapped')}; in-use view, outside the first-placement readiness check",
                      calibration_refs=refs, **kw)
 
 
@@ -182,9 +185,9 @@ def summarize(profile: dict, daily: list[dict], hist: list[dict], events: list[d
                                "Resistance growth was not derivable from the calibration data")),
         _passport("expected_lifetime", "Expected lifetime (cycles, years)", REF_4A, refs=["not_modelled"],
                   **_unknown("Not modelled in this prototype")),
-        _passport("cycle_count_efc", "Charge-discharge cycles (equivalent full)", REF_4C, "EFC",
+        _passport("cycle_count_efc", "Charge-discharge cycles (equivalent full)", REF_4D, "EFC",
                   refs=efc_refs, **(history or {"value": _rounded(efc_total, 1)})),
-        _passport("negative_events", "Negative events recorded", REF_4C, "count", refs=ASSUMED,
+        _passport("negative_events", "Negative events recorded", REF_4D, "count", refs=ASSUMED,
                   **(history or {"value": len(past)})),
         _passport("status", "Battery status", REF_4C, refs=ASSUMED,
                   **(history or _unknown("Status changes (repurposed, re-used, remanufactured, waste) are not modelled"))),

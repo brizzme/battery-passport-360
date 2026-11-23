@@ -87,7 +87,7 @@ def test_passport_mapping_and_labels():
     fade = ind(s, "capacity_fade_pct")
     assert fade.passport_field and fade.access_class == "restricted_legitimate_interest"
     assert fade.passport_ref == "Annex XIII 4(a) per Commission guidance v3.2 (non-binding)"
-    assert fade.mapping_status == "provisional — rule integration in part 3"
+    assert fade.mapping_status.startswith("catalogue-v3.2-1, DP-52")
     assert fade.calibration_refs == ["aalborg-forklift-v2", "hust-lfp-v2"]
     assert fade.labels == ["extrapolated_below_calibrated_range 100%"]
     ops = ind(s, "efc_30d")
@@ -142,3 +142,10 @@ def test_battery_status_not_asserted():
     status = ind(lfp(), "status")
     assert status.status == "unknown" and status.value is None
     assert status.reason == "Status changes (repurposed, re-used, remanufactured, waste) are not modelled"
+
+
+def test_in_use_fields_cite_catalogue_rows():
+    s = lfp()
+    assert "4(d)" in ind(s, "cycle_count_efc").passport_ref and "DP-68" in ind(s, "cycle_count_efc").mapping_status
+    assert "4(d)" in ind(s, "negative_events").passport_ref and "DP-69" in ind(s, "negative_events").mapping_status
+    assert "part 3" not in json.dumps(s.model_dump(mode="json"))
