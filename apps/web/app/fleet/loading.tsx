@@ -1,1 +1,1 @@
-export default function Loading(){return <main><p role="status">Loading synthetic records…</p></main>}
+export default function Loading(){return <div className="desk"><p role="status">Loading synthetic records…</p></div>}
