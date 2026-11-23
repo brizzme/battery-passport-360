@@ -36,7 +36,6 @@ Name the services exactly `db`, `api` and `web`: the variables below refer to th
 2. Settings → **Root Directory**: `/apps/api`. Settings → **Healthcheck Path**: `/health`.
 3. Variables:
    ```
-   HOST=::
    PORT=8000
    PGHOST=${{db.RAILWAY_PRIVATE_DOMAIN}}
    PGUSER=passport
@@ -45,8 +44,8 @@ Name the services exactly `db`, `api` and `web`: the variables below refer to th
    LLM_CALLS_PER_MINUTE=20
    ANTHROPIC_API_KEY=          # optional: switches on the LLM chat; leave out for offline mode
    ```
-   `HOST=::` matters: Railway's private network uses IPv6.
-4. Do **not** generate a public domain. Deploy; the logs end with `Uvicorn running on http://[::]:8000`.
+   Leave `HOST` unset (defaults to `0.0.0.0`). Set `HOST=::` only in an older Railway environment whose private network is IPv6-only; it then listens on IPv6 only, which can also fail Railway's health check.
+4. Do **not** generate a public domain. Deploy; the logs end with `Uvicorn running on http://0.0.0.0:8000`.
 
 ## 3. Web (`web`)
 1. **+ New** → **GitHub Repo** → same repository. Rename to `web`.
@@ -69,7 +68,8 @@ Name the services exactly `db`, `api` and `web`: the variables below refer to th
 ## Troubleshooting
 | Symptom | Likely cause |
 |---|---|
-| Pages load but figures show "–" | The web app cannot reach the API: check `API_BASE_URL`, that `api` has `HOST=::` and is running. |
+| Pages load but figures show "–" | The web app cannot reach the API: check `API_BASE_URL` and that `api` is running. |
+| `api` health check fails ("service unavailable") | `HOST=::` set (remove it), or `/health` returns 503 because the database is unreachable: check that `PGHOST`/`PGPASSWORD` resolve (service must be named `db`). |
 | `api` logs show connection errors | `PGHOST` / `PGPASSWORD` references, or `db` not yet ready. Redeploy `api` after `db` is up. |
 | `db` fails with "directory not empty" | The image sets `PGDATA` to a subfolder; make sure `RAILWAY_DOCKERFILE_PATH=railway.Dockerfile` is set so that image is used. |
 | No sign-in prompt | `DEMO_USER` or `DEMO_PASSWORD` missing on `web`. |
