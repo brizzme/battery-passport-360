@@ -221,3 +221,20 @@ figure.chart, .dash-main > *, .dash-pair > *, .pack-grid > * { min-width: 0 }
   .chart-scroll { mask-image: linear-gradient(90deg, transparent, #000 12%); -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%) }
 }
 .site-tab { font-size: 1.2rem }
+
+/* Passport coverage */
+.coverage { display: grid; gap: var(--s3) }
+.band-bar .outlined { box-shadow: inset 0 0 0 1px var(--rule) }
+.dp-group { background: var(--surface); padding: var(--s3) var(--s4) }
+.dp-group > summary { font-size: var(--t-md); font-weight: 600; padding: var(--s1) 0 }
+.dp-group > summary small { font-weight: 400; margin-left: var(--s2); color: var(--ink-2) }
+.dp-table { margin-top: var(--s3) }
+.dp-table th[scope="row"] { text-transform: none; letter-spacing: 0; font-size: var(--t-sm); font-weight: 500; color: var(--ink); border-bottom: 1px solid var(--rule); padding-top: 10px; vertical-align: top; max-width: 34ch }
+.dp-table td { font-size: var(--t-sm) }
+.dp-id { font-weight: 600; white-space: nowrap }
+@media (max-width: 720px) {
+  .dp-table thead { display: none }
+  .dp-table tr { display: grid; grid-template-columns: 1fr auto; padding: var(--s2) 0; border-bottom: 1px solid var(--rule) }
+  .dp-table th[scope="row"], .dp-table td { border: 0; padding: 2px 0; max-width: none }
+  .dp-table td:nth-child(3), .dp-table td:nth-child(4), .dp-table td:nth-child(5) { grid-column: 1 / -1 }
+}
