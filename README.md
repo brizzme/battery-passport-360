@@ -42,6 +42,18 @@ docker compose up --build -d
 
 The preparation step verifies four archive hashes, writes cycle records to downloads/research and regenerates the model report. The API reads the cycle files from a read-only mount. Details and limitations are in [the model card](docs/MODEL_CARD.md).
 
+## Calibrated synthetic fleet
+
+The fleet history in db/seed/fleet_v2 is committed, so no download is needed to run it. To re-derive it (about 2 GB of public LFP data; Docker is required for the isolated HUST extraction):
+
+```sh
+(cd apps/api && uv run --locked --group research python ../../research/calibrate.py)
+(cd apps/api && uv run --locked --group research python ../../research/generate_fleet.py)
+(cd apps/api && uv run --locked --group research pytest ../../research/tests -q)
+```
+
+Shipping a regenerated seed needs a new migration. The API serves [fleet health](http://127.0.0.1:8000/api/fleet/health-summary), per-pack health summaries and daily history. Sources and limitations are in [data sources](docs/DATA_SOURCES.md) and [limitations](docs/LIMITATIONS.md).
+
 ## Five-minute local demo
 
 Start at the [workspace](http://127.0.0.1:3000). The [demo runbook](docs/DEMO_RUNBOOK.md) covers the fleet, the evidence inspector, measured cell research, the evidence assistant and a downloadable Markdown draft. The research preparation command above enables the measured chart. All other demo steps work from a fresh Compose boot.

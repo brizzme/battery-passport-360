@@ -70,6 +70,15 @@
 
 **M4 exit gate:** Product demonstration is usable, honest, traceable and repeatable.
 
+## Expansion part 1 — Calibrated synthetic fleet and health summary
+Design: docs/superpowers/specs/2026-11-23-calibrated-fleet-design.md · Plan: docs/superpowers/plans/2026-11-23-calibrated-fleet.md
+- [x] Migration runner skips applied files.
+- [x] Calibration from pinned HUST and Aalborg LFP data (CC BY 4.0), HUST pickles opened only in an isolated container.
+- [x] Deterministic 24-month synthetic fleet seed with planted cases; byte-identical regeneration tested.
+- [x] Migration 005: identities v2, history tables, seed load.
+- [x] Health summary, history and fleet triage API; draft summary and pack page show labelled health.
+- [ ] Part 2: dashboard redesign. Part 3: rule refresh against Commission guidance v3.2. Part 4: HUST-based research model.
+
 ## Follow-up decisions
 - Expand rule coverage after verifying additional sources and amendments.
 - Validate research results on more cells and independent batches.

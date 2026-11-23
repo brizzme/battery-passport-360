@@ -14,7 +14,7 @@ The measured-data manifest below applies to CALCE only. MATR has not been ingest
 
 ## Synthetic identity seed
 
-Migration 002 generates BAT-DEMO-001 through BAT-DEMO-100 in order, using a fixed fictional snapshot date (2026-01-01 UTC) and source ID demo-identities-v1. Even indices receive LFP chemistry, odd indices lead-acid. Rated energy is 16 + 4 × (index modulo 8) kWh. All 100 identities reference the same versioned synthetic source. These values are assigned fixtures, with no measured cell or vehicle linkage.
+Migration 002 generates BAT-DEMO-001 through BAT-DEMO-100 in order, using a fixed fictional snapshot date (2026-01-01 UTC) and source ID demo-identities-v1. Migration 005 moves them to demo-identities-v2 (2026-11-23): lead-acid when the index is divisible by 5, otherwise LFP (80 LFP, 20 lead-acid). The 50 chemistry model-sheet entries that changed are recorded under demo-inspection-v2; BAT-DEMO-024's entries are unchanged. Rated energy is 16 + 4 × (index modulo 8) kWh. All 100 identities reference the same versioned synthetic source. These values are assigned fixtures, with no measured cell or vehicle linkage.
 
 ## CALCE measured data (verified 2026-11-23)
 
@@ -29,3 +29,22 @@ Reviewed the [published EU regulation](https://eur-lex.europa.eu/eli/reg/2023/15
 ## Reference index
 
 Migration 004 embeds short public excerpts of the original 2023 OJ text of Regulation (EU) 2023/1542. Seven chunks carry publication version, exact article or annex point, public access class, and EUR-Lex URL. Typographic whitespace was normalized. The index is limited to the illustrative checks in this demo. Original EU legal documents are available for reuse with acknowledgement of their source; see [EUR-Lex legal notice](https://eur-lex.europa.eu/content/legal-notice/legal-notice.html?locale=en). No third-party technical manual or uploaded customer document is indexed.
+
+## Calibrated synthetic fleet history (accessed 2026-11-23)
+
+All pack history is **synthetic**. Selected parameters are derived from two public LFP datasets, both CC BY 4.0:
+
+| Source ID | Dataset | Used for | Pinned files |
+| --- | --- | --- | --- |
+| hust-lfp-v2 | Ma, G. et al. (2022), Energy Environ. Sci.; [Mendeley Data 10.17632/nsc7hnsg4s.2](https://data.mendeley.com/datasets/nsc7hnsg4s/2). 77 LFP/graphite 1.1 Ah cells, 30 °C, 5C fast charge. | Cell-to-cell spread of cycles to 80 % (median 1,706, n = 77, none excluded) and the median fade-curve shape | our_data.zip, 1,188,136,932 bytes |
+| aalborg-forklift-v2 | Vilsen, S. B. & Stroe, D.-I. (2024), Data in Brief; [Mendeley Data yz4pttm73n v2](https://data.mendeley.com/datasets/yz4pttm73n/2). Three 180 Ah prismatic LFP cells aged on a forklift profile at 45/40/35 °C. | Capacity fade per equivalent full cycle and its temperature dependence (Arrhenius fit), resistance growth per unit fade, duty-cycle shape | 160 RPT.csv and 3 Ageing.csv (Round10) |
+
+Checksums come from the host API and are pinned in [research/calibration.sha256](../research/calibration.sha256). Raw files stay in ignored downloads/. Derived values and fit residuals are in [fleet-calibration.json](../apps/api/app/artifacts/fleet-calibration.json).
+
+Transformations: Aalborg capacity is the Ah of the longest −45 A (C/4) discharge in each reference test, relative to Round00. Resistance is the voltage drop over the third 20 s, 45 A discharge pulse (50 % SOC) divided by 45 A. Equivalent full cycles per round come from one ageing round per cell. HUST discharge Ah per cycle is integrated from current inside the isolated extractor; life is the first cycle whose centred 5-cycle median falls below 80 % of the median of cycles 2–6.
+
+Generator: [research/generate_fleet.py](../research/generate_fleet.py), version fleet-gen-v1, seed 20261123, daily rows 2024-11-01 to 2026-10-31. Hand-set assumptions (pack temperature rise per shift, event thresholds, state-of-charge model, opportunity charging, weekend activity) are listed in db/seed/fleet_v2/manifest.json and labelled `generator_assumption` in the API. Planted cases: BAT-DEMO-007 fast fader (hot dock, 3 shifts, 5th-percentile life), BAT-DEMO-013 fictional cooling fault in October 2026, BAT-DEMO-042 idle August–September 2026, BAT-DEMO-024 ordinary health with its passport evidence gaps.
+
+## Passport health-field mapping
+
+Health indicators are mapped to Annex XIII point 4 using the European Commission's [Guidance Document: Digital Batteries Passport – data points by category](https://single-market-economy.ec.europa.eu/document/download/cd1e5e6c-4a4a-4b99-995a-49eb6916187e_en), v3.2, 19 October 2026, CC BY 4.0, accessed 2026-11-23. The guidance states that it is non-binding. The mapping is marked provisional and restricted access (legitimate interest); Annex VII Part A state of health is reported as not applicable to these non-stationary packs.
