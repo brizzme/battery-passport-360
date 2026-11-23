@@ -37,6 +37,17 @@ export default async function Summary() {
     <div className="page-head"><h1>Battery Passport 360: proof of concept</h1>
       <p>An independent prototype showing how EU battery-passport readiness, battery-health analytics and evidence-based review support can work together for industrial battery fleets. Not an official passport service, and not affiliated with any battery manufacturer.</p></div>
 
+    <section aria-labelledby="prob-h" className="panel">
+      <h2 id="prob-h">Problem statement</h2>
+      <p>From 18 February 2027 the EU battery passport (Regulation (EU) 2023/1542, Article 77) applies to industrial batteries above 2 kWh, subject to detailed applicability, phased requirements and access rules. Fleet operators and service teams then need to show, per battery, which passport data exists and where it comes from.</p>
+      <ul className="plain">
+        <li><b>Evidence is scattered.</b> Passport data sits in documents, ERP records, BMS exports and supplier files, with no single view per pack.</li>
+        <li><b>Requirements are dated and restricted.</b> The Commission guidance lists 72 data points; some apply only later, some only to certain designs, some only to authorised readers.</li>
+        <li><b>Health is not linked to the passport.</b> State of health and expected life depend on operating data (temperature, cycles, idle time) that is rarely joined to passport fields.</li>
+        <li><b>Specialists lack a worklist.</b> Without ranked reasons, attention goes to the loudest pack, not the one that needs it.</li>
+      </ul>
+    </section>
+
     <section aria-labelledby="obj-h" className="summary-grid">
       <div className="panel"><h2 id="obj-h">Objective</h2>
         <p>Help a fleet manager, service engineer or battery specialist answer three questions with traceable evidence: which packs need a specialist&apos;s attention, what passport evidence is missing ahead of 18 February 2027, and what measured data says about ageing.</p>
@@ -67,6 +78,30 @@ export default async function Summary() {
     <section aria-labelledby="cont-h"><h2 id="cont-h">What the PoC contains</h2>
       <table className="summary-table"><thead><tr><th scope="col">Area</th><th scope="col">What it shows</th></tr></thead>
         <tbody>{CONTENTS.map(c => <tr key={c.name}><th scope="row"><Link href={c.href}>{c.name}</Link></th><td>{c.what}</td></tr>)}</tbody></table>
+    </section>
+
+    <section aria-labelledby="how-h" className="summary-grid">
+      <div className="panel"><h2 id="how-h">How to use it</h2>
+        <ol className="plain">
+          <li><Link href="/">Fleet health</Link>: start with the packs suggested for review and the reason given for each.</li>
+          <li><Link href="/fleet/BAT-DEMO-024?as_of=2027-02-18">Passport inspector</Link>: open a pack, set the date (for example 18 Feb 2027) and read the gaps first; change the date to see requirements phase in.</li>
+          <li><Link href="/assistant?id=BAT-DEMO-024&as_of=2027-02-18">Evidence assistant</Link>: ask what is missing; every answer cites the passages it retrieved.</li>
+          <li>Download the investigation draft from the pack page and hand it to a specialist.</li>
+          <li><Link href="/research">Cell research</Link>: compare the life models with the baseline and open any cell&apos;s curve.</li>
+        </ol></div>
+      <div className="panel"><h2>How to read the results</h2>
+        <dl className="summary-dl">
+          <div><dt>Present</dt><dd>Evidence on file and valid.</dd></div>
+          <div><dt>Missing evidence</dt><dd>Required at the chosen date, nothing on file. A task to close, not a finding of non-compliance.</dd></div>
+          <div><dt>Invalid</dt><dd>Evidence on file fails a check, such as format or date.</dd></div>
+          <div><dt>Not yet effective</dt><dd>Required only after the chosen date.</dd></div>
+          <div><dt>Not applicable</dt><dd>Does not apply to this battery category.</dd></div>
+          <div><dt>Unknown</dt><dd>Restricted-access or design-dependent; the system never fills it in.</dd></div>
+          <div><dt>Source labels</dt><dd>Synthetic (simulated fleet), measured public (lab cells), derived (computed by a model), reference document (regulation or guidance).</dd></div>
+          <div><dt>Hatched areas</dt><dd>Extrapolated beyond measured data, or unknown: a hint, not a measurement.</dd></div>
+          <div><dt>Suggested for review</dt><dd>Demo thresholds that rank attention; not safety, warranty or end-of-life limits.</dd></div>
+          <div><dt>80 % interval</dt><dd>About 8 in 10 measured cells fall inside overall; fewer in some batches.</dd></div>
+        </dl></div>
     </section>
 
     <section aria-labelledby="src-h" className="summary-grid">

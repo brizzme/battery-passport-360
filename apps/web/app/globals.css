@@ -262,7 +262,7 @@ figure.chart, .dash-main > *, .dash-pair > *, .pack-grid > * { min-width: 0 }
 .summary h2 small { font-weight: 400; font-size: var(--t-xs); color: var(--ink-2); margin-left: var(--s2) }
 .summary-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5); align-items: start }
 .panel p + p, .panel ul + p { margin-top: var(--s3) }
-ul.plain { margin: 0; padding-left: 1.1em; display: grid; gap: var(--s2) }
+ul.plain, ol.plain { margin: 0; padding-left: 1.1em; display: grid; gap: var(--s2) }
 .summary-table th[scope="row"] { text-transform: none; letter-spacing: 0; font-size: var(--t-sm); font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--rule); padding-top: 10px; vertical-align: top; width: 24% }
 .arch { margin: 0; background: var(--surface); padding: var(--s4) }
 .arch h3 { margin-bottom: var(--s3) }
@@ -288,3 +288,9 @@ ul.plain { margin: 0; padding-left: 1.1em; display: grid; gap: var(--s2) }
 .arch-stack .arch:first-child .arch-flow { max-width: 920px; margin: 0 auto }
 .claude-brief { border-left: 0; background: var(--surface); padding: var(--s4); margin: var(--s3) 0 }
 .claude-brief ol { margin: var(--s2) 0 0; padding-left: 1.2em; display: grid; gap: var(--s1) }
+
+.summary-dl{display:grid;gap:.6rem;margin:0}
+.summary-dl>div{display:grid;grid-template-columns:minmax(9rem,11rem) 1fr;gap:.75rem;align-items:baseline}
+.summary-dl dt{font-weight:600}
+.summary-dl dd{margin:0}
+@media (max-width:600px){.summary-dl>div{grid-template-columns:1fr;gap:.1rem}}
